@@ -1,0 +1,21 @@
+name: Feature request
+description: Suggest a capability (check docs/GAP_ANALYSIS.md first - it may already be planned)
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / use case
+      description: What are you trying to do (ML pipeline, agent, training, serving...)?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+  - type: checkboxes
+    id: plugin
+    attributes:
+      label: Could this be a plugin?
+      options:
+        - label: This could live in a separate package via clmkit entry points

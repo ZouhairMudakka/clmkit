@@ -1,0 +1,54 @@
+# Fine-tune Qwen3-Embedding-8B with LoRA + GradCache on a single 24-48 GB GPU.
+#
+#   pip install "clmkit[train,yaml]"
+#   clmkit train --config configs/qwen3-embedding-8b-lora.yaml
+#
+# Memory notes (bf16, max_length 512): the frozen 8B base is ~16 GB. GradCache
+# (mini_batch_size) keeps activation memory proportional to 8 sequences while the
+# contrastive loss still sees all 64 queries x (1 positive + 7 negatives).
+# Swap the model for Qwen/Qwen3-Embedding-0.6B to iterate quickly.
+
+encoder:
+  type: hf
+  model: Qwen/Qwen3-Embedding-8B
+  # revision: <commit sha>        # pin for reproducibility / supply-chain safety
+  dtype: bfloat16
+  max_length: 512
+  device: auto
+  # Qwen3 settings (last-token pooling, left padding, instruction prompts, <|endoftext|>)
+  # are applied automatically from the built-in preset.
+
+data:
+  train: data/train.jsonl          # {"query", "positive", "negatives": [...], "instruction"?}
+  eval: data/eval.jsonl            # optional; or use eval_fraction
+  # eval_fraction: 0.02
+
+train:
+  output_dir: runs/qwen3-embedding-8b-lora
+  epochs: 1
+  batch_size: 64                   # contrastive batch (in-batch negatives)
+  mini_batch_size: 8               # GradCache chunk
+  max_negatives: 7
+  learning_rate: 1.0e-4            # LoRA tolerates higher LRs than full fine-tuning
+  warmup_ratio: 0.05
+  weight_decay: 0.0
+  loss: infonce
+  loss_kwargs:
+    temperature: 0.02
+    false_negative_margin: 0.1     # mask in-batch candidates that look like unlabelled positives
+  matryoshka_dims: [4096, 1024, 256]
+  precision: bf16
+  gradient_checkpointing: true
+  lora:
+    r: 16
+    alpha: 32
+    dropout: 0.05
+    target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  merge_lora_on_save: true         # final/ loads as a plain checkpoint
+  log_every: 10
+  eval_every: 200
+  save_every: 1000
+  metric_for_best: ndcg@10
+
+eval:
+  ks: [1, 5, 10]

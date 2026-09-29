@@ -1,0 +1,30 @@
+# Full fine-tune of Qwen3-Embedding-0.6B (fits a 16-24 GB GPU; runs on CPU for smoke tests).
+#
+#   clmkit train --config configs/qwen3-embedding-0.6b-full.yaml
+#   clmkit train --config configs/qwen3-embedding-0.6b-full.yaml --set train.max_steps=20 --set encoder.device=cpu
+
+encoder:
+  type: hf
+  model: Qwen/Qwen3-Embedding-0.6B
+  dtype: auto
+  max_length: 256
+
+data:
+  train: examples/data/sample_train.jsonl
+  eval_fraction: 0.2
+
+train:
+  output_dir: runs/qwen3-0.6b-full
+  epochs: 3
+  batch_size: 32
+  mini_batch_size: 16
+  learning_rate: 2.0e-5
+  loss_kwargs: {temperature: 0.05}
+  matryoshka_dims: [1024, 512, 128]
+  precision: auto
+  log_every: 5
+  eval_every: 50
+  metric_for_best: ndcg@10
+
+eval:
+  ks: [1, 5, 10]

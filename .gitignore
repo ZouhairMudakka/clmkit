@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv*/
+venv/
+env/
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Models, data and experiment outputs (never commit weights or private data)
+.hf-cache/
+runs/
+outputs/
+checkpoints/
+wandb/
+mlruns/
+*.safetensors
+*.bin
+*.pt
+*.npy
+my_index/
+examples/**/index/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

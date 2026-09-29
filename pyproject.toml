@@ -1,0 +1,138 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "clmkit"
+dynamic = ["version"]
+description = "A lightweight, pluggable skeleton framework for Contrastive Language Models (text-embedding bi-encoders): encode, fine-tune, index, retrieve, rerank, evaluate, serve, and plug into ML pipelines and AI agents."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "Zouhair Mudakka" }]
+keywords = [
+  "contrastive-learning",
+  "embeddings",
+  "sentence-embeddings",
+  "retrieval",
+  "rag",
+  "reranking",
+  "qwen3",
+  "infonce",
+  "ai-agents",
+  "semantic-search",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Typing :: Typed",
+]
+# The core is intentionally numpy-only. Heavy backends are opt-in extras.
+dependencies = ["numpy>=1.24"]
+
+[project.optional-dependencies]
+hf = ["torch>=2.1", "transformers>=4.51"]
+train = ["torch>=2.1", "transformers>=4.51", "peft>=0.10"]
+# Lower bounds exclude releases with known CVEs (pip-audit, 2026-09); see docs/AUDIT.md.
+serve = ["fastapi>=0.115", "starlette>=1.3.1", "uvicorn>=0.30", "h11>=0.16"]
+mcp = ["mcp>=1.28.1"]
+faiss = ["faiss-cpu>=1.7.4"]
+yaml = ["pyyaml>=6"]
+sklearn = ["scikit-learn>=1.3"]
+all = [
+  "torch>=2.1",
+  "transformers>=4.51",
+  "peft>=0.10",
+  "fastapi>=0.115",
+  "starlette>=1.3.1",
+  "uvicorn>=0.30",
+  "h11>=0.16",
+  "mcp>=1.28.1",
+  "pyyaml>=6",
+  "scikit-learn>=1.3",
+]
+dev = [
+  "pytest>=8",
+  "pytest-cov>=5",
+  "httpx>=0.27",
+  "pyyaml>=6",
+  "ruff>=0.6",
+  "mypy>=1.10",
+]
+
+[project.scripts]
+clmkit = "clmkit.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ZouhairMudakka/clmkit"
+Documentation = "https://github.com/ZouhairMudakka/clmkit/tree/main/docs"
+Issues = "https://github.com/ZouhairMudakka/clmkit/issues"
+Changelog = "https://github.com/ZouhairMudakka/clmkit/blob/main/CHANGELOG.md"
+
+[tool.hatch.version]
+path = "src/clmkit/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/clmkit"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/clmkit", "tests", "README.md", "LICENSE", "CHANGELOG.md"]
+
+# ---------------------------------------------------------------- tooling ---
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+  "torch: requires torch",
+  "hf: requires torch + transformers",
+  "slow: downloads a real model; opt-in via CLMKIT_TEST_MODEL",
+]
+filterwarnings = ["ignore::DeprecationWarning:transformers.*"]
+
+[tool.coverage.run]
+source = ["clmkit"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:", "raise NotImplementedError", "@overload"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "C4", "RUF", "S", "PT", "RET", "PIE"]
+ignore = [
+  "S101",   # asserts are fine in tests
+  "RUF001", # ambiguous unicode in strings (docs use typographic chars)
+  "RUF002",
+  "RUF003",
+  "SIM108", # explicit if/else is sometimes clearer than a ternary
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "B", "PT011", "PT018", "C408"]
+"examples/**" = ["S", "T20"]
+
+[tool.mypy]
+python_version = "3.10"
+packages = ["clmkit"]
+mypy_path = "src"
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+check_untyped_defs = true
+no_implicit_optional = true
