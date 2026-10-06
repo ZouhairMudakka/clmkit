@@ -23,7 +23,7 @@ jobs:
       MODEL_KIND: ${{ matrix.kind }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - run: python -m pip install -U pip setuptools wheel
@@ -59,7 +59,7 @@ jobs:
       HF_HOME: ${{ github.workspace }}/.hf-cache
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - run: python -m pip install -U pip setuptools wheel
