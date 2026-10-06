@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="8" skipped="0" tests="14" time="5.838" timestamp="2026-10-06T20:40:23.599310+00:00" hostname="runnervm8df0l"><testcase classname="validation.test_scientific_contracts" name="test_infonce_matches_independent_logsumexp_and_gradcheck" time="0.484" /><testcase classname="validation.test_scientific_contracts" name="test_cosent_matches_explicit_pair_ordering" time="0.002" /><testcase classname="validation.test_scientific_contracts" name="test_gradcache_matches_chunked_autograd_with_rng_replay[False-0.0]" time="0.707" /><testcase classname="validation.test_scientific_contracts" name="test_gradcache_matches_chunked_autograd_with_rng_replay[False-0.25]" time="0.014" /><testcase classname="validation.test_scientific_contracts" name="test_gradcache_matches_chunked_autograd_with_rng_replay[True-0.0]" time="0.014" /><testcase classname="validation.test_scientific_contracts" name="test_gradcache_matches_chunked_autograd_with_rng_replay[True-0.25]" time="0.015" /><testcase classname="validation.test_scientific_contracts" name="test_epoch_processes_all_duplicate_avoiding_batches" time="0.006"><failure message="AssertionError: Expected five singleton batches; got 2&#10;assert 2 == 5&#10; +  where 2 = TrainResult(global_step=2, train_loss=0.0, history=[], eval={}, output_dir='/tmp/pytest-of-runner/pytest-0/test_epoch_processes_all_dupli0', best_metric=None).global_step">tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-0/test_epoch_processes_all_dupli0')
+
+    def test_epoch_processes_all_duplicate_avoiding_batches(tmp_path):
+        examples = [ContrastiveExample('same-query', f'positive-{i}') for i in range(5)]
+        enc = ToyEncoder()
+        trainer = ContrastiveTrainer(enc, TrainConfig(output_dir=str(tmp_path), epochs=1, batch_size=4), examples)
+        result = trainer.train()
+&gt;       assert result.global_step == 5, f'Expected five singleton batches; got {result.global_step}'
+E       AssertionError: Expected five singleton batches; got 2
+E       assert 2 == 5
+E        +  where 2 = TrainResult(global_step=2, train_loss=0.0, history=[], eval={}, output_dir='/tmp/pytest-of-runner/pytest-0/test_epoch_processes_all_dupli0', best_metric=None).global_step
+
+validation/test_scientific_contracts.py:115: AssertionError</failure></testcase><testcase classname="validation.test_scientific_contracts" name="test_nonfinite_loss_does_not_mutate_model" time="0.005"><failure message="AssertionError: Tensor-likes are not equal!&#10;&#10;Mismatched elements: 512 / 512 (100.0%)&#10;Greatest absolute difference: nan at index (0, 0)&#10;Greatest relative difference: nan at index (0, 0)">tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-0/test_nonfinite_loss_does_not_m0')
+
+    def test_nonfinite_loss_does_not_mutate_model(tmp_path):
+        enc = ToyEncoder()
+        initial = copy.deepcopy(enc.model.state_dict())
+        def bad_loss(q,p,n=None,scores=None):
+            return (q.sum() + p.sum()) * torch.tensor(float('nan'))
+        trainer = ContrastiveTrainer(enc, TrainConfig(output_dir=str(tmp_path), max_steps=1), pairs(), loss_fn=bad_loss)
+        with pytest.raises(FloatingPointError):
+            trainer.train()
+        for name,value in enc.model.state_dict().items():
+&gt;           torch.testing.assert_close(value, initial[name], atol=0, rtol=0)
+E           AssertionError: Tensor-likes are not equal!
+E           
+E           Mismatched elements: 512 / 512 (100.0%)
+E           Greatest absolute difference: nan at index (0, 0)
+E           Greatest relative difference: nan at index (0, 0)
+
+validation/test_scientific_contracts.py:128: AssertionError</failure></testcase><testcase classname="validation.test_scientific_contracts" name="test_matryoshka_preserves_dimension_weight_pairing" time="0.002"><failure message="assert 2.5 == 3.5 ± 3.5e-06&#10;  &#10;  comparison failed&#10;  Obtained: 2.5&#10;  Expected: 3.5 ± 3.5e-06">def test_matryoshka_preserves_dimension_weight_pairing():
+        def dimension_loss(q,p,n=None,scores=None):
+            return q.new_tensor(float(q.shape[-1]))
+        q = torch.ones(2, 4)
+        actual = MatryoshkaLoss(dimension_loss, [2,4], weights=[1,3])(q,q)
+&gt;       assert float(actual) == pytest.approx((1*2 + 3*4) / 4)
+E       assert 2.5 == 3.5 ± 3.5e-06
+E         
+E         comparison failed
+E         Obtained: 2.5
+E         Expected: 3.5 ± 3.5e-06
+
+validation/test_scientific_contracts.py:136: AssertionError</failure></testcase><testcase classname="validation.test_scientific_contracts" name="test_matryoshka_rejects_nonpositive_dimensions[dims0]" time="0.001"><failure message="Failed: DID NOT RAISE ValueError">dims = [0]
+
+    @pytest.mark.parametrize('dims', [[0], [-1]])
+    def test_matryoshka_rejects_nonpositive_dimensions(dims):
+        q = torch.tensor([[1.,2.,3.]])
+&gt;       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+validation/test_scientific_contracts.py:142: Failed</failure></testcase><testcase classname="validation.test_scientific_contracts" name="test_matryoshka_rejects_nonpositive_dimensions[dims1]" time="0.001"><failure message="Failed: DID NOT RAISE ValueError">dims = [-1]
+
+    @pytest.mark.parametrize('dims', [[0], [-1]])
+    def test_matryoshka_rejects_nonpositive_dimensions(dims):
+        q = torch.tensor([[1.,2.,3.]])
+&gt;       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+validation/test_scientific_contracts.py:142: Failed</failure></testcase><testcase classname="validation.test_scientific_contracts" name="test_hf_save_reload_preserves_effective_output_dimension" time="3.054"><failure message="AssertionError: Saved dimension 8, reloaded 16&#10;assert 16 == 8&#10; +  where 16 = HFEncoder(name='/tmp/pytest-of-runner/pytest-0/test_hf_save_reload_preserves_0/model', dim=16).dim&#10; +  and   8 = HFEncoder(name='Qwen3Model', dim=8).dim">tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-0/test_hf_save_reload_preserves_0')
+
+    def test_hf_save_reload_preserves_effective_output_dimension(tmp_path):
+        from tokenizers import Tokenizer, models, pre_tokenizers
+        from transformers import Qwen3Config, Qwen3Model, PreTrainedTokenizerFast
+        from clmkit.encoders.hf import HFEncoder
+        tok = Tokenizer(models.WordLevel({'&lt;pad&gt;':0,'&lt;unk&gt;':1,'hello':2}, unk_token='&lt;unk&gt;'))
+        tok.pre_tokenizer = pre_tokenizers.Whitespace()
+        tokenizer = PreTrainedTokenizerFast(tokenizer_object=tok,pad_token='&lt;pad&gt;',unk_token='&lt;unk&gt;')
+        model = Qwen3Model(Qwen3Config(vocab_size=3,hidden_size=16,intermediate_size=32,
+            num_hidden_layers=1,num_attention_heads=2,num_key_value_heads=2,head_dim=8,pad_token_id=0))
+        enc = HFEncoder(model=model,tokenizer=tokenizer,device='cpu',output_dim=8)
+        before = enc.encode('hello')
+        enc.save_pretrained(tmp_path / 'model')
+        loaded = HFEncoder(str(tmp_path / 'model'),device='cpu')
+&gt;       assert loaded.dim == enc.dim, f'Saved dimension {enc.dim}, reloaded {loaded.dim}'
+E       AssertionError: Saved dimension 8, reloaded 16
+E       assert 16 == 8
+E        +  where 16 = HFEncoder(name='/tmp/pytest-of-runner/pytest-0/test_hf_save_reload_preserves_0/model', dim=16).dim
+E        +  and   8 = HFEncoder(name='Qwen3Model', dim=8).dim
+
+validation/test_scientific_contracts.py:159: AssertionError</failure></testcase><testcase classname="validation.test_finite_loss_nonfinite_gradients" name="test_finite_loss_nonfinite_gradient_rejected_before_update[ordinary]" time="0.007"><failure message="AssertionError: {'mini_batch_size': None, 'observed_loss_values': [1.0], 'exception': None, 'global_step': 1, ...}&#10;assert False&#10; +  where False = isinstance(None, FloatingPointError)">tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-0/test_finite_loss_nonfinite_gra0')
+mini_batch_size = None
+
+    @pytest.mark.parametrize('mini_batch_size', [None, 2], ids=['ordinary', 'gradcache'])
+    def test_finite_loss_nonfinite_gradient_rejected_before_update(tmp_path, mini_batch_size):
+        encoder = ToyEncoder()
+        initial = copy.deepcopy(encoder.model.state_dict())
+        observed_losses = []
+    
+        def bad_backward_loss(q, p, n=None, scores=None):
+            value = FiniteValueInfiniteGradient.apply(q.sum() + p.sum())
+            observed_losses.append(float(value.detach()))
+            return value
+    
+        trainer = ContrastiveTrainer(encoder, TrainConfig(output_dir=str(tmp_path), max_steps=1,
+            mini_batch_size=mini_batch_size), pairs(), loss_fn=bad_backward_loss)
+        scheduler_before = copy.deepcopy(trainer.scheduler.state_dict())
+        error = None
+        try:
+            trainer.train()
+        except Exception as exc:
+            error = exc
+        payload = {
+            'mini_batch_size': mini_batch_size, 'observed_loss_values': observed_losses,
+            'exception': None if error is None else repr(error), 'global_step': trainer.global_step,
+            'nonfinite_parameter_names': [name for name, value in encoder.model.state_dict().items()
+                                         if not bool(torch.isfinite(value).all())],
+            'changed_parameter_names': [name for name, value in encoder.model.state_dict().items()
+                                       if not torch.equal(value, initial[name])],
+            'optimizer_state_entries': len(trainer.optimizer.state),
+            'scheduler_changed': trainer.scheduler.state_dict() != scheduler_before,
+        }
+        suffix = 'ordinary' if mini_batch_size is None else 'gradcache'
+        (OUT / f'finite-loss-gradient-{suffix}.json').write_text(json.dumps(payload, indent=2))
+        assert observed_losses == [1.0]
+&gt;       assert isinstance(error, FloatingPointError), payload
+E       AssertionError: {'mini_batch_size': None, 'observed_loss_values': [1.0], 'exception': None, 'global_step': 1, ...}
+E       assert False
+E        +  where False = isinstance(None, FloatingPointError)
+
+validation/test_finite_loss_nonfinite_gradients.py:61: AssertionError</failure></testcase><testcase classname="validation.test_finite_loss_nonfinite_gradients" name="test_finite_loss_nonfinite_gradient_rejected_before_update[gradcache]" time="0.008"><failure message="AssertionError: {'mini_batch_size': 2, 'observed_loss_values': [1.0], 'exception': None, 'global_step': 1, ...}&#10;assert False&#10; +  where False = isinstance(None, FloatingPointError)">tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-0/test_finite_loss_nonfinite_gra1')
+mini_batch_size = 2
+
+    @pytest.mark.parametrize('mini_batch_size', [None, 2], ids=['ordinary', 'gradcache'])
+    def test_finite_loss_nonfinite_gradient_rejected_before_update(tmp_path, mini_batch_size):
+        encoder = ToyEncoder()
+        initial = copy.deepcopy(encoder.model.state_dict())
+        observed_losses = []
+    
+        def bad_backward_loss(q, p, n=None, scores=None):
+            value = FiniteValueInfiniteGradient.apply(q.sum() + p.sum())
+            observed_losses.append(float(value.detach()))
+            return value
+    
+        trainer = ContrastiveTrainer(encoder, TrainConfig(output_dir=str(tmp_path), max_steps=1,
+            mini_batch_size=mini_batch_size), pairs(), loss_fn=bad_backward_loss)
+        scheduler_before = copy.deepcopy(trainer.scheduler.state_dict())
+        error = None
+        try:
+            trainer.train()
+        except Exception as exc:
+            error = exc
+        payload = {
+            'mini_batch_size': mini_batch_size, 'observed_loss_values': observed_losses,
+            'exception': None if error is None else repr(error), 'global_step': trainer.global_step,
+            'nonfinite_parameter_names': [name for name, value in encoder.model.state_dict().items()
+                                         if not bool(torch.isfinite(value).all())],
+            'changed_parameter_names': [name for name, value in encoder.model.state_dict().items()
+                                       if not torch.equal(value, initial[name])],
+            'optimizer_state_entries': len(trainer.optimizer.state),
+            'scheduler_changed': trainer.scheduler.state_dict() != scheduler_before,
+        }
+        suffix = 'ordinary' if mini_batch_size is None else 'gradcache'
+        (OUT / f'finite-loss-gradient-{suffix}.json').write_text(json.dumps(payload, indent=2))
+        assert observed_losses == [1.0]
+&gt;       assert isinstance(error, FloatingPointError), payload
+E       AssertionError: {'mini_batch_size': 2, 'observed_loss_values': [1.0], 'exception': None, 'global_step': 1, ...}
+E       assert False
+E        +  where False = isinstance(None, FloatingPointError)
+
+validation/test_finite_loss_nonfinite_gradients.py:61: AssertionError</failure></testcase></testsuite></testsuites>

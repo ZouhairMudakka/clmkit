@@ -1,0 +1,10 @@
+{
+  "model_kind": "embedding",
+  "required_test": "test_reproduces_model_card_scores",
+  "observed_tests": [
+    "test_reproduces_model_card_scores",
+    "test_llm_reranker_matches_reference_implementation"
+  ],
+  "passed": true,
+  "problems": []
+}

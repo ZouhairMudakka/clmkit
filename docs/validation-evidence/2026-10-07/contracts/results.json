@@ -1,0 +1,329 @@
+{
+  "started_utc": "2026-10-06T20:40:32.793594+00:00",
+  "command": "/opt/hostedtoolcache/Python/3.13.15/x64/bin/python /home/runner/work/clmkit/clmkit/validation/run_protocol.py",
+  "python": "3.13.15 (main, Aug  6 2026, 02:15:18) [GCC 13.3.0]",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "environment": "fresh GitHub-hosted dependency resolution",
+  "versions": {
+    "openai": "3.25.0",
+    "httpx": "0.28.1",
+    "fastapi": "0.142.2",
+    "starlette": "1.7.0",
+    "uvicorn": "0.54.0",
+    "mcp": "2.3.0",
+    "numpy": "2.5.3",
+    "anyio": "4.15.1"
+  },
+  "loaded_openai": {
+    "version": "3.25.0",
+    "path": "/opt/hostedtoolcache/Python/3.13.15/x64/lib/python3.13/site-packages/openai/__init__.py"
+  },
+  "finished_utc": "2026-10-06T20:40:48.803767+00:00",
+  "results": [
+    {
+      "name": "sdk_default_constructor_and_embeddings",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.03414959099998782
+    },
+    {
+      "name": "sdk_explicit_client_encoding_None",
+      "status": "passed",
+      "detail": {
+        "encoding": null,
+        "dimension": 8
+      },
+      "seconds": 0.03654736400000047
+    },
+    {
+      "name": "sdk_explicit_client_encoding_float",
+      "status": "passed",
+      "detail": {
+        "encoding": "float",
+        "dimension": 8
+      },
+      "seconds": 0.02330492199999412
+    },
+    {
+      "name": "sdk_explicit_client_encoding_base64",
+      "status": "passed",
+      "detail": {
+        "encoding": "base64",
+        "dimension": 8
+      },
+      "seconds": 0.022757588000004603
+    },
+    {
+      "name": "auth_models",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.04368530100001067
+    },
+    {
+      "name": "auth_embeddings",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.08396713999999861
+    },
+    {
+      "name": "auth_search",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.0849603500000029
+    },
+    {
+      "name": "auth_add",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.08497000900000273
+    },
+    {
+      "name": "auth_delete",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.08698653099999376
+    },
+    {
+      "name": "auth_rerank",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.08492321100000311
+    },
+    {
+      "name": "writes_disabled_POST",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.042973398000000884
+    },
+    {
+      "name": "writes_disabled_DELETE",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.04293263200000297
+    },
+    {
+      "name": "rest_empty_list",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.04293176900000617
+    },
+    {
+      "name": "rest_numeric_input",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.042974489000002336
+    },
+    {
+      "name": "rest_null_input",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.04288632799999448
+    },
+    {
+      "name": "rest_dimension_zero",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.04297897699998998
+    },
+    {
+      "name": "rest_dimension_negative",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.04288133400000049
+    },
+    {
+      "name": "rest_dimension_exceeds_native",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.04282932800001049
+    },
+    {
+      "name": "rest_dimension_fraction",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.04199626000000478
+    },
+    {
+      "name": "rest_encoding_invalid",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.041961592999996356
+    },
+    {
+      "name": "rest_batch_limit",
+      "status": "passed",
+      "detail": 413,
+      "seconds": 0.0420664319999986
+    },
+    {
+      "name": "rest_text_limit",
+      "status": "passed",
+      "detail": 413,
+      "seconds": 0.042958450000000425
+    },
+    {
+      "name": "writes_enabled_roundtrip",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.08940085099999351
+    },
+    {
+      "name": "remote_reorders_indexed_response",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5035984619999994
+    },
+    {
+      "name": "remote_retry_408",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.503229429000001
+    },
+    {
+      "name": "remote_retry_409",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5032414229999915
+    },
+    {
+      "name": "remote_retry_429",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5031337739999913
+    },
+    {
+      "name": "remote_retry_500",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5029874970000066
+    },
+    {
+      "name": "remote_retry_502",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5029932170000109
+    },
+    {
+      "name": "remote_retry_503",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5031214069999947
+    },
+    {
+      "name": "remote_retry_504",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5030226439999979
+    },
+    {
+      "name": "remote_error_bound_401",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5021381180000049
+    },
+    {
+      "name": "remote_error_bound_429",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5038635899999946
+    },
+    {
+      "name": "remote_error_bound_503",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5037312380000003
+    },
+    {
+      "name": "remote_redirects_refused_no_key_forward",
+      "status": "passed",
+      "detail": null,
+      "seconds": 3.003901128999999
+    },
+    {
+      "name": "remote_rejects_invalid_json",
+      "status": "failed",
+      "error": "JSONDecodeError('Expecting value: line 1 column 1 (char 0)')",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 29, in case\n    result = dict(name=name, status=\"passed\", detail=fn())\n                                                     ~~^^\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 211, in invalid\n    out = enc.encode([\"a\", \"b\"])\n  File \"/home/runner/work/clmkit/clmkit/src/clmkit/encoders/base.py\", line 107, in encode\n    emb = np.asarray(self._encode(formatted, batch_size), dtype=np.float32)\n                     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/clmkit/clmkit/src/clmkit/encoders/openai_compat.py\", line 158, in _encode\n    parts = [self._request(texts[i : i + size]) for i in range(0, len(texts), size)]\n             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/clmkit/clmkit/src/clmkit/encoders/openai_compat.py\", line 146, in _request\n    body = self._post(payload)\n  File \"/home/runner/work/clmkit/clmkit/src/clmkit/encoders/openai_compat.py\", line 123, in _post\n    return json.loads(resp.read().decode(\"utf-8\"))\n           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.13.15/x64/lib/python3.13/json/__init__.py\", line 352, in loads\n    return _default_decoder.decode(s)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^\n  File \"/opt/hostedtoolcache/Python/3.13.15/x64/lib/python3.13/json/decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.13.15/x64/lib/python3.13/json/decoder.py\", line 363, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n",
+      "seconds": 0.5539851359999943
+    },
+    {
+      "name": "remote_rejects_null_json",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5019788780000027
+    },
+    {
+      "name": "remote_rejects_missing_data",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.502183438000003
+    },
+    {
+      "name": "remote_rejects_duplicate_indices",
+      "status": "failed",
+      "error": "AssertionError('malformed remote output accepted: [[1.0, 0.0], [0.0, 1.0]]')",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 29, in case\n    result = dict(name=name, status=\"passed\", detail=fn())\n                                                     ~~^^\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 215, in invalid\n    raise AssertionError(f\"malformed remote output accepted: {out.tolist()}\")\nAssertionError: malformed remote output accepted: [[1.0, 0.0], [0.0, 1.0]]\n",
+      "seconds": 0.5027357719999941
+    },
+    {
+      "name": "remote_rejects_out_of_range_indices",
+      "status": "failed",
+      "error": "AssertionError('malformed remote output accepted: [[1.0, 0.0], [0.0, 1.0]]')",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 29, in case\n    result = dict(name=name, status=\"passed\", detail=fn())\n                                                     ~~^^\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 215, in invalid\n    raise AssertionError(f\"malformed remote output accepted: {out.tolist()}\")\nAssertionError: malformed remote output accepted: [[1.0, 0.0], [0.0, 1.0]]\n",
+      "seconds": 0.5028082460000007
+    },
+    {
+      "name": "remote_rejects_nan_vector",
+      "status": "failed",
+      "error": "AssertionError('malformed remote output accepted: [[nan, nan], [0.0, 1.0]]')",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 29, in case\n    result = dict(name=name, status=\"passed\", detail=fn())\n                                                     ~~^^\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 215, in invalid\n    raise AssertionError(f\"malformed remote output accepted: {out.tolist()}\")\nAssertionError: malformed remote output accepted: [[nan, nan], [0.0, 1.0]]\n",
+      "seconds": 0.5027780300000018
+    },
+    {
+      "name": "remote_rejects_infinity_vector",
+      "status": "failed",
+      "error": "AssertionError('malformed remote output accepted: [[nan, 0.0], [0.0, 1.0]]')",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 29, in case\n    result = dict(name=name, status=\"passed\", detail=fn())\n                                                     ~~^^\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 215, in invalid\n    raise AssertionError(f\"malformed remote output accepted: {out.tolist()}\")\nAssertionError: malformed remote output accepted: [[nan, 0.0], [0.0, 1.0]]\n",
+      "seconds": 0.5025898060000031
+    },
+    {
+      "name": "remote_rejects_wrong_dim",
+      "status": "failed",
+      "error": "RuntimeError('OpenAICompatibleEncoder returned shape (2, 1), expected (2, 2)')",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 29, in case\n    result = dict(name=name, status=\"passed\", detail=fn())\n                                                     ~~^^\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 211, in invalid\n    out = enc.encode([\"a\", \"b\"])\n  File \"/home/runner/work/clmkit/clmkit/src/clmkit/encoders/base.py\", line 109, in encode\n    raise RuntimeError(\n        f\"{type(self).__name__} returned shape {emb.shape}, expected {(len(items), self.native_dim)}\"\n    )\nRuntimeError: OpenAICompatibleEncoder returned shape (2, 1), expected (2, 2)\n",
+      "seconds": 0.5027133539999937
+    },
+    {
+      "name": "mcp_actual_stdio_initialize_list_call_errors",
+      "status": "passed",
+      "detail": {
+        "protocol_version": "2025-11-25",
+        "tools": [
+          "knowledge_search"
+        ]
+      },
+      "seconds": 1.4804838339999975
+    }
+  ],
+  "passed": 38,
+  "failed": 6,
+  "torch_imported": false
+}

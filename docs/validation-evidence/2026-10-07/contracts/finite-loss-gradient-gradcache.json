@@ -1,0 +1,20 @@
+{
+  "mini_batch_size": 2,
+  "observed_loss_values": [
+    1.0
+  ],
+  "exception": null,
+  "global_step": 1,
+  "nonfinite_parameter_names": [
+    "0.weight",
+    "2.weight",
+    "2.bias"
+  ],
+  "changed_parameter_names": [
+    "0.weight",
+    "2.weight",
+    "2.bias"
+  ],
+  "optimizer_state_entries": 3,
+  "scheduler_changed": true
+}

@@ -1,0 +1,80 @@
+{
+  "python": "3.13.15 (main, Aug  6 2026, 02:15:18) [GCC 13.3.0]",
+  "versions": {
+    "openai": "3.25.0",
+    "httpx": "0.28.1",
+    "langchain-core": "1.6.7",
+    "mcp": "2.3.0",
+    "numpy": "2.5.3"
+  },
+  "environment": "fresh GitHub-hosted dependency resolution",
+  "results": [
+    {
+      "name": "actual_langchain_base",
+      "status": "passed",
+      "detail": "1.6.7",
+      "seconds": 0.0005349209999963023
+    },
+    {
+      "name": "actual_langchain_vectors",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.008500776000005317
+    },
+    {
+      "name": "actual_langchain_async",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.0019779710000022988
+    },
+    {
+      "name": "actual_langchain_vectorstore",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.00061736500001075
+    },
+    {
+      "name": "timeout_retries_then_succeeds",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.7045285000000092
+    },
+    {
+      "name": "timeout_exhaustion_is_bounded",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.7036727549999853
+    },
+    {
+      "name": "rejects_boolean_indices",
+      "status": "failed",
+      "error": "AssertionError('invalid indices accepted')",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 29, in case\n    result = dict(name=name, status=\"passed\", detail=fn())\n                                                     ~~^^\n  File \"/home/runner/work/clmkit/clmkit/validation/additional_probes.py\", line 128, in <lambda>\n    case(\"rejects_\" + name + \"_indices\", lambda indices=indices: malformed_indices(indices))\n                                                                 ~~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/home/runner/work/clmkit/clmkit/validation/additional_probes.py\", line 119, in malformed_indices\n    raise AssertionError(\"invalid indices accepted\")\nAssertionError: invalid indices accepted\n",
+      "seconds": 0.503337934000001
+    },
+    {
+      "name": "rejects_float_indices",
+      "status": "failed",
+      "error": "AssertionError('invalid indices accepted')",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 29, in case\n    result = dict(name=name, status=\"passed\", detail=fn())\n                                                     ~~^^\n  File \"/home/runner/work/clmkit/clmkit/validation/additional_probes.py\", line 128, in <lambda>\n    case(\"rejects_\" + name + \"_indices\", lambda indices=indices: malformed_indices(indices))\n                                                                 ~~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/home/runner/work/clmkit/clmkit/validation/additional_probes.py\", line 119, in malformed_indices\n    raise AssertionError(\"invalid indices accepted\")\nAssertionError: invalid indices accepted\n",
+      "seconds": 0.5027330889999746
+    },
+    {
+      "name": "rejects_string_indices",
+      "status": "failed",
+      "error": "AssertionError('invalid indices accepted')",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 29, in case\n    result = dict(name=name, status=\"passed\", detail=fn())\n                                                     ~~^^\n  File \"/home/runner/work/clmkit/clmkit/validation/additional_probes.py\", line 128, in <lambda>\n    case(\"rejects_\" + name + \"_indices\", lambda indices=indices: malformed_indices(indices))\n                                                                 ~~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/home/runner/work/clmkit/clmkit/validation/additional_probes.py\", line 119, in malformed_indices\n    raise AssertionError(\"invalid indices accepted\")\nAssertionError: invalid indices accepted\n",
+      "seconds": 0.5027557180000031
+    },
+    {
+      "name": "rejects_negative_indices",
+      "status": "failed",
+      "error": "AssertionError('invalid indices accepted')",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/clmkit/clmkit/validation/run_protocol.py\", line 29, in case\n    result = dict(name=name, status=\"passed\", detail=fn())\n                                                     ~~^^\n  File \"/home/runner/work/clmkit/clmkit/validation/additional_probes.py\", line 128, in <lambda>\n    case(\"rejects_\" + name + \"_indices\", lambda indices=indices: malformed_indices(indices))\n                                                                 ~~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/home/runner/work/clmkit/clmkit/validation/additional_probes.py\", line 119, in malformed_indices\n    raise AssertionError(\"invalid indices accepted\")\nAssertionError: invalid indices accepted\n",
+      "seconds": 0.5027130330000205
+    }
+  ],
+  "passed": 6,
+  "failed": 4,
+  "torch_imported": false
+}
