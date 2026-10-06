@@ -1,0 +1,100 @@
+name: Independent validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validation-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  OMP_NUM_THREADS: "2"
+  MKL_NUM_THREADS: "2"
+  OPENBLAS_NUM_THREADS: "2"
+  TOKENIZERS_PARALLELISM: "false"
+  LANGSMITH_TRACING: "false"
+  LANGCHAIN_TRACING_V2: "false"
+  CLMKIT_VALIDATION_ENV: "fresh GitHub-hosted dependency resolution"
+
+jobs:
+  installed-core:
+    name: Installed NumPy-only wheel / ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python: ["3.10", "3.11", "3.12", "3.13"]
+        include:
+          - os: windows-latest
+            python: "3.13"
+          - os: macos-latest
+            python: "3.13"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install --no-cache-dir build twine
+      - run: python validation/run_installed.py
+      - run: python -m twine check validation-results/*.whl validation-results/*.tar.gz
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: installed-${{ matrix.os }}-${{ matrix.python }}
+          path: validation-results/
+          retention-days: 7
+
+  contracts:
+    name: Independent scientific, core and protocol contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install --no-cache-dir -e '.[dev,all,faiss]' openai langchain-core
+      - run: python -m pip freeze > validation/resolved-requirements.txt
+      # Known baseline failures stay visible; no xfail or continue-on-error.
+      - name: Scientific contracts
+        run: python -m pytest -q validation/test_scientific_contracts.py validation/test_finite_loss_nonfinite_gradients.py --junitxml=validation/scientific-junit.xml
+      - name: Core contracts
+        if: ${{ !cancelled() }}
+        run: python -m pytest -q validation/test_core_independent.py --junitxml=validation/core-junit.xml
+      - name: Protocol contracts
+        if: ${{ !cancelled() }}
+        run: python validation/run_protocol.py
+      - name: Additional integration and transport contracts
+        if: ${{ !cancelled() }}
+        run: python validation/additional_probes.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: independent-contracts
+          path: |
+            validation/*.xml
+            validation/*.json
+            validation/*.log
+            validation/resolved-requirements.txt
+          retention-days: 7
+
+  mcp-v1:
+    name: MCP 1.x actual stdio
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m pip install --no-cache-dir -e '.[serve]' 'mcp>=1.28.1,<2' openai
+      - run: python -c "import sys; sys.path.insert(0, 'validation'); from run_protocol import mcp_probe; print(mcp_probe())"

@@ -1,5 +1,9 @@
 # Audit report: clmkit v0.1.0
 
+> Historical builder report, retained as originally reported. Independent October
+> validation found unresolved defects and contradicted some coverage/security
+> claims. Use [current validation status](VALIDATION_STATUS.md) for release decisions.
+
 *Date: 2026-09-30. Environment: Windows 11, Python 3.13.1, CPU-only torch 2.13, transformers 5.17, peft 0.21, fastapi 0.142 / starlette 1.7, mcp 2.2.0 (and 1.28.1), faiss-cpu 1.15.*
 
 ## Summary

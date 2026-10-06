@@ -42,3 +42,4 @@ examples/**/index/
 Thumbs.db
 .idea/
 .vscode/
+validation-results/

@@ -1,0 +1,49 @@
+name: Qwen 0.6B reference checks
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reference:
+    name: CPU reference / ${{ matrix.kind }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: [embedding, reranker]
+    env:
+      OMP_NUM_THREADS: "2"
+      MKL_NUM_THREADS: "2"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HOME: ${{ runner.temp }}/hf
+      MODEL_KIND: ${{ matrix.kind }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install --no-cache-dir -e '.[hf]' pytest
+      - name: Resolve immutable checkpoint and download only inference files
+        run: python validation/prepare_reference.py
+      - name: Reference comparison
+        run: python -m pytest -q tests/test_real_model.py -m slow --junitxml=reference-junit.xml
+      - name: Require the intended reference test to pass without skipping
+        if: ${{ !cancelled() }}
+        run: python validation/check_reference_result.py reference-junit.xml
+      - run: python -m pip freeze > reference-requirements.txt
+        if: always()
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reference-${{ matrix.kind }}
+          path: |
+            reference-junit.xml
+            reference-model.json
+            reference-verification.json
+            reference-requirements.txt
+          retention-days: 7
