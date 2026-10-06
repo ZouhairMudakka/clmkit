@@ -5,6 +5,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+- Add a retail service-desk business template that prepares human-reviewed case
+  packets from scoped policies, order facts, preferences and request routing.
 - Add documented support search, scoped assistant memory and request routing
   templates, with deterministic behavior tests and installed-wheel CI coverage.
 

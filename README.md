@@ -167,7 +167,11 @@ OpenAI(base_url="http://127.0.0.1:8000/v1", api_key="secret").embeddings.create(
 
 ## Use-case templates
 
-Three [tested starter templates](docs/USE_CASES.md) show how to build:
+[Tested starter templates](docs/USE_CASES.md) show how to build:
+
+- [Retail customer-service desk](docs/BUSINESS_USE_CASE.md): an end-to-end business
+  workflow combining policy evidence, authorized order context, customer
+  preferences and team routing into a staff review packet.
 
 - [Support knowledge search](templates/support_search.py): tenant-scoped retrieval,
   source references, and index save/reload for FAQ search or RAG context.
@@ -215,7 +219,7 @@ src/clmkit/
   losses.py · pooling.py · data.py · retrieval.py · rerank.py · registry.py · cli.py
 configs/         ready-to-run training configs (Qwen3-Embedding-8B LoRA, 0.6B full)
 examples/        7 runnable examples + sample data
-templates/       tested support search, assistant memory and routing starters
+templates/       tested retail service desk, search, memory and routing starters
 docs/            DESIGN · TRAINING · AGENTS · GAP_ANALYSIS · AUDIT
 ```
 
@@ -232,6 +236,7 @@ future change. [Validation harnesses](validation/README.md) preserve the indepen
 ## Documentation
 
 - [Use cases & tested templates](docs/USE_CASES.md): choose a workflow, run it, customize it, and understand its test scope
+- [Retail business workflow](docs/BUSINESS_USE_CASE.md): customer journey, working template, integration points and pilot measures
 - [Design & architecture](docs/DESIGN.md): principles, module map, data flow, extension points
 - [Training guide](docs/TRAINING.md): data format, losses, GradCache, LoRA, hardware sizing for 8B
 - [Agents & integrations](docs/AGENTS.md): memory, routing, tools, MCP, REST, LangChain, sklearn

@@ -6,6 +6,7 @@ Copy one of these scripts into your project or run it from the repository root:
 python templates/support_search.py
 python templates/assistant_memory.py
 python templates/support_routing.py
+python templates/retail_service_desk.py
 ```
 
 Install clmkit first, using the
@@ -15,6 +16,7 @@ They print JSON and need no API credentials or model downloads.
 
 | Script | Reusable entry points | Demo checks |
 |---|---|---|
+| `retail_service_desk.py` | `RetailServiceDesk.prepare_case` | Business workflow: scoped order lookup, routing, policy evidence, preferences and escalation |
 | `support_search.py` | `build_retriever`, `search_support` | Refund article with source reference, tenant scope, no-match response, strict reload |
 | `assistant_memory.py` | `ScopedMemory` | Separate users' facts, required trusted scope, snapshot reload |
 | `support_routing.py` | `build_router`, `select_route` | Billing/account/delivery selection, abstention, no actions executed |
@@ -32,9 +34,13 @@ To run the behavior and command-line tests from a repository checkout:
 
 ```bash
 python -m pip install pytest
-python -m pytest -q tests/test_use_case_templates.py
+python -m pytest -q tests/test_use_case_templates.py tests/test_retail_service_desk.py
 ```
 
 The wheel supplies `clmkit`; these standalone recipes are separate repository
 assets. See the full guide for intended uses, expected results, customization,
 and what the tests do not establish.
+
+The [retail business guide](https://github.com/ZouhairMudakka/clmkit/blob/main/docs/BUSINESS_USE_CASE.md)
+also covers the business problem, customer journey, integration points and pilot
+success measures.

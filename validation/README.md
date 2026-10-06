@@ -9,7 +9,7 @@ a passing ordinary suite alone must not imply that these findings are resolved.
 - `run_protocol.py`: real loopback HTTP and MCP stdio exchanges.
 - `additional_probes.py`: actual LangChain integration and bounded transport checks.
 - `run_installed.py`: wheel built from sdist, installed into a new NumPy-only environment;
-  checks archive contents, the README quickstart, and tests including the three
+  checks archive contents, the README quickstart, and tests including the
   repository use-case templates copied outside the source checkout.
 - `prepare_reference.py`: resolve/record a model revision for manual 0.6B reference CI.
 - `check_reference_result.py`: fail if the intended reference test skipped or did not pass.

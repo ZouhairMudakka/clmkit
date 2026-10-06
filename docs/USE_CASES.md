@@ -4,8 +4,14 @@ Start with the workflow you need, then select an encoder and evaluate it on your
 own data. clmkit supplies embedding and retrieval components; an application
 supplies authentication, business rules, and any language-model generation.
 
+For a complete business scenario, start with the
+[retail customer-service desk](BUSINESS_USE_CASE.md): a fictional retailer's
+ticket becomes a staff review packet combining routing, policy evidence,
+authorized order facts, and scoped customer preferences.
+
 | Use case | What clmkit provides | Starting point | Validation scope |
 |---|---|---|---|
+| Retail service desk | Combine routing, policy retrieval and customer memory with an order lookup | [Business workflow](BUSINESS_USE_CASE.md) | Synthetic end-to-end packets, ownership checks and escalation |
 | Support FAQ or internal knowledge search | Ranked passages, metadata filters, persistent index | [Support search template](../templates/support_search.py) | Synthetic retrieval, source references, tenant scope and reload tests |
 | Personal assistant memory | Store and retrieve facts, metadata scope, persistence | [Assistant memory template](../templates/assistant_memory.py) | Two-user separation and reload tests |
 | Support request or tool routing | Route scoring, thresholds, abstention | [Support routing template](../templates/support_routing.py) | Known intents, unmatched requests and selection-only behavior |
@@ -13,7 +19,7 @@ supplies authentication, business rules, and any language-model generation.
 | Classification or clustering | Embedding features for an ML pipeline | [scikit-learn example](../examples/06_sklearn_pipeline.py) | Requires extra dependencies and a task-specific evaluation |
 | Domain-specific embedding training | Pair loading, losses, hard negatives, LoRA and evaluation | [Training guide](TRAINING.md) | CPU contracts and Qwen 0.6B smoke checks; no demonstrated quality improvement |
 
-The three templates use synthetic data and the **NumPy-only hashing encoder**.
+The templates use synthetic data and the **NumPy-only hashing encoder**.
 It is a lexical pipeline baseline, not a trained semantic model. Passing these
 tests establishes the demonstrated workflow behavior, not accuracy on real
 customer questions, multilingual text, or paraphrases.
@@ -48,6 +54,7 @@ python -m pip install "clmkit @ git+https://github.com/ZouhairMudakka/clmkit@v0.
 python templates/support_search.py
 python templates/assistant_memory.py
 python templates/support_routing.py
+python templates/retail_service_desk.py
 ```
 
 Each command prints JSON, needs no API key or model download, and uses temporary
@@ -149,7 +156,7 @@ encoder = load_encoder("Qwen/Qwen3-Embedding-0.6B")
 ```
 
 This downloads model weights and requires additional memory and disk space.
-Existing Qwen 0.6B reference checks cover encoder behavior; **the three use-case
+Existing Qwen 0.6B reference checks cover encoder behavior; **the use-case
 datasets have not been quality-benchmarked with that model**. Rebuild stored
 vectors when changing encoders and retune thresholds on held-out examples.
 For custom mutable weights, rebuild snapshots after weight changes or extend the
@@ -167,7 +174,7 @@ With the released core installed and the current repository checked out:
 
 ```bash
 python -m pip install pytest
-python -m pytest -q tests/test_use_case_templates.py
+python -m pytest -q tests/test_use_case_templates.py tests/test_retail_service_desk.py
 ```
 
 Tests exercise application behavior, persistence, data scope, abstention, and
