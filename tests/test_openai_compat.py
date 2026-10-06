@@ -155,8 +155,12 @@ class _Redirector(BaseHTTPRequestHandler):
         pass
 
     def do_POST(self) -> None:
+        # Drain the request before closing; unread POST bytes can cause a TCP
+        # reset on Windows instead of delivering the redirect response.
+        self.rfile.read(int(self.headers["Content-Length"]))
         self.send_response(307)
         self.send_header("Location", type(self).target)
+        self.send_header("Content-Length", "0")
         self.end_headers()
 
 

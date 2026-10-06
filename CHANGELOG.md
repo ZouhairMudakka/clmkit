@@ -3,6 +3,11 @@
 All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+- Add documented support search, scoped assistant memory and request routing
+  templates, with deterministic behavior tests and installed-wheel CI coverage.
+
 ## [0.1.0a1] - 2026-10-07
 
 First GitHub prerelease, covering the documented CPU alpha scope. NumPy-only

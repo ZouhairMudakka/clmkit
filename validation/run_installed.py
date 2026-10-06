@@ -28,6 +28,7 @@ with tempfile.TemporaryDirectory(prefix="clmkit-build-") as build_folder:
         allowed_root = {"README.md", "LICENSE", "CHANGELOG.md", "pyproject.toml", "PKG-INFO", ".gitignore"}
         unexpected = [str(path) for path in paths if not (
             str(path) in allowed_root or path.is_relative_to("src/clmkit") or path.is_relative_to("tests")
+            or path.is_relative_to("templates")
         ) or ".." in path.parts]
         assert not unexpected, f"Unexpected sdist files: {unexpected}"
         assert not any(member.issym() or member.islnk() for member in members), "sdist must not contain links"
@@ -60,6 +61,8 @@ with tempfile.TemporaryDirectory(prefix="clmkit-installed-") as folder:
     print(quickstart_output)
     subprocess.run([str(python), "-I", str(root / "examples" / "01_quickstart.py")], cwd=work, env=env, check=True)
     shutil.copytree(root / "tests", work / "tests")
+    # Repository recipes run against the installed wheel, outside the checkout.
+    shutil.copytree(root / "templates", work / "templates")
     shutil.copy2(root / "pyproject.toml", work / "pyproject.toml")
     result = subprocess.run([str(python), "-I", "-m", "pytest", "-q", "-m", "not slow",
                              "--import-mode=importlib", "--basetemp", str(work / "tmp"),

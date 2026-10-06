@@ -165,6 +165,23 @@ from openai import OpenAI
 OpenAI(base_url="http://127.0.0.1:8000/v1", api_key="secret").embeddings.create(model="clmkit", input=["hi"])
 ```
 
+## Use-case templates
+
+Three [tested starter templates](docs/USE_CASES.md) show how to build:
+
+- [Support knowledge search](templates/support_search.py): tenant-scoped retrieval,
+  source references, and index save/reload for FAQ search or RAG context.
+- [Assistant memory](templates/assistant_memory.py): user-scoped facts and recall
+  across sessions, with persistence and isolation checks.
+- [Support routing](templates/support_routing.py): billing/account/delivery
+  selection with an unmatched fallback; no business actions are executed.
+
+They use synthetic data and a NumPy-only hashing baseline, so no model download
+or API key is needed. Tests check workflow behavior; semantic accuracy must be
+evaluated with your chosen encoder and data. Templates were added after
+`v0.1.0a1`: get their files from the current repository, following the
+[setup and customization guide](docs/USE_CASES.md#get-the-templates).
+
 ## Supported models (presets)
 
 | Model family | Pooling | Query prompt | Notes |
@@ -198,6 +215,7 @@ src/clmkit/
   losses.py · pooling.py · data.py · retrieval.py · rerank.py · registry.py · cli.py
 configs/         ready-to-run training configs (Qwen3-Embedding-8B LoRA, 0.6B full)
 examples/        7 runnable examples + sample data
+templates/       tested support search, assistant memory and routing starters
 docs/            DESIGN · TRAINING · AGENTS · GAP_ANALYSIS · AUDIT
 ```
 
@@ -213,6 +231,7 @@ future change. [Validation harnesses](validation/README.md) preserve the indepen
 
 ## Documentation
 
+- [Use cases & tested templates](docs/USE_CASES.md): choose a workflow, run it, customize it, and understand its test scope
 - [Design & architecture](docs/DESIGN.md): principles, module map, data flow, extension points
 - [Training guide](docs/TRAINING.md): data format, losses, GradCache, LoRA, hardware sizing for 8B
 - [Agents & integrations](docs/AGENTS.md): memory, routing, tools, MCP, REST, LangChain, sklearn
