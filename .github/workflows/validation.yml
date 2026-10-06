@@ -61,6 +61,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+      - run: python -m pip install -U pip setuptools wheel
       - run: python -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
       - run: python -m pip install --no-cache-dir -e '.[dev,all,faiss]' openai langchain-core
       - run: python -m pip freeze > validation/resolved-requirements.txt
