@@ -1,0 +1,11 @@
+Requirement already satisfied: setuptools in ./.venv-validation/lib/python3.12/site-packages (78.1.0)
+Collecting setuptools
+  Downloading setuptools-84.0.0-py3-none-any.whl.metadata (6.6 kB)
+Downloading setuptools-84.0.0-py3-none-any.whl (818 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━ 818.2/818.2 kB 25.7 MB/s  0:00:00
+Installing collected packages: setuptools
+  Attempting uninstall: setuptools
+    Found existing installation: setuptools 78.1.0
+    Uninstalling setuptools-78.1.0:
+      Successfully uninstalled setuptools-78.1.0
+Successfully installed setuptools-84.0.0

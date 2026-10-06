@@ -10,6 +10,8 @@ a passing ordinary suite alone must not imply that these findings are resolved.
 - `additional_probes.py`: actual LangChain integration and bounded transport checks.
 - `run_installed.py`: wheel built from sdist, installed into a new NumPy-only environment.
 - `prepare_reference.py`: resolve/record a model revision for manual 0.6B reference CI.
+- `check_reference_result.py`: fail if the intended reference test skipped or did not pass.
+- `real_training_smoke.py`: bounded Linux CPU LoRA step, finite-parameter/update checks and adapter save/reload parity; run with `timeout 1200s python -u validation/real_training_smoke.py --threads 4`.
 
 The two original reference tests use different acceptance tolerances: embedding
 model-card scores allow 2e-3; reranker parity allows 1e-6. Historical smaller

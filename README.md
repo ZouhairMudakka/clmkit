@@ -32,7 +32,7 @@ A **contrastive language model (CLM)** maps text to vectors so that related text
 
 ## Highlights
 
-- **Qwen3 presets.** Presets for 0.6B/4B/8B apply last-token pooling, left padding, the `Instruct: …\nQuery:` prompt and the `<|endoftext|>` pooling token. Historical 0.6B reference checks are reported in [the original audit](docs/AUDIT.md#real-model-validation); independent reproduction is pending. The 4B/8B models have not been exercised.
+- **Qwen3 presets.** Presets for 0.6B/4B/8B apply last-token pooling, left padding, the `Instruct: …\nQuery:` prompt and the `<|endoftext|>` pooling token. Independent CPU reference checks pass for the 0.6B embedding and reranker models at the tests' enforced tolerances; see [current evidence](docs/VALIDATION_STATUS.md). The 4B/8B models have not been exercised.
 - **Experimental fine-tuning.** InfoNCE with in-batch and hard negatives, false-negative masking, CoSENT, triplet and Matryoshka losses. **GradCache** supports large contrastive batches through smaller forward passes, and **LoRA** is available through `peft`. Training has unresolved correctness findings; single-GPU 8B capacity has not been measured. See [validation status](docs/VALIDATION_STATUS.md).
 - **Agent building blocks.** `SemanticMemory` with recency decay, `SemanticRouter` for tool/intent routing, and a `ToolKit` that exports tool definitions for **Anthropic** and **OpenAI**-style function calling, plus an **MCP server** for Claude Desktop, Claude Code and IDE agents.
 - **ML pipelines.** A scikit-learn `EmbeddingTransformer`, a LangChain `Embeddings` adapter, a JSON/NumPy CLI, and IR metrics (nDCG/MRR/Recall/MAP) with BEIR loading.
@@ -146,8 +146,8 @@ OpenAI(base_url="http://127.0.0.1:8000/v1", api_key="secret").embeddings.create(
 
 | Model family | Pooling | Query prompt | Notes |
 |---|---|---|---|
-| `Qwen/Qwen3-Embedding-0.6B / 4B / 8B` | last token (`<\|endoftext\|>`) | `Instruct: {task}\nQuery:{q}` | MRL 32–1024 / 2560 / 4096 dims; historical 0.6B check only |
-| `Qwen/Qwen3-Reranker-0.6B / 4B / 8B` | LLM yes/no | `<Instruct>/<Query>/<Document>` | historical 0.6B check only |
+| `Qwen/Qwen3-Embedding-0.6B / 4B / 8B` | last token (`<\|endoftext\|>`) | `Instruct: {task}\nQuery:{q}` | MRL 32–1024 / 2560 / 4096 dims; independent 0.6B CPU check only |
+| `Qwen/Qwen3-Reranker-0.6B / 4B / 8B` | LLM yes/no | `<Instruct>/<Query>/<Document>` | independent 0.6B CPU check only |
 | `intfloat/e5-*`, `multilingual-e5-*-instruct`, `e5-mistral-7b-instruct` | mean / last token | `query: ` / `Instruct: …` | |
 | `BAAI/bge-*-en-v1.5`, `bge-m3` | CLS | BGE retrieval prompt | |
 | `thenlper/gte-*`, `sentence-transformers/all-*` | mean | – | |
@@ -175,7 +175,7 @@ docs/            DESIGN · TRAINING · AGENTS · GAP_ANALYSIS · AUDIT
 
 ## Quality
 
-On the retained Windows CPU environment, 102 original tests pass and two opt-in real-model tests skip. Statement coverage is 96.81%; branch coverage is 87.33%. Ruff, mypy and bandit pass. A fresh NumPy-only wheel install passes 62 tests with 13 optional skips and two slow tests deselected. Independent contract tests reveal unresolved defects, and the retained development environment includes known cryptography advisories. Hosted Linux, Windows and macOS workflows are configured; their actual results must be checked separately. See [current validation status](docs/VALIDATION_STATUS.md) and [validation harnesses](validation/README.md).
+On the retained Windows CPU environment, 102 original tests pass and two opt-in real-model tests skip. Statement coverage is 96.81%; branch coverage is 87.33%. Ruff, mypy and bandit pass. A fresh NumPy-only wheel install passes 62 tests with 13 optional skips and two slow tests deselected. Hosted ordinary CI and the six-job installed-wheel matrix pass; independent contract tests still expose unresolved defects. Real 0.6B reference checks and a bounded CPU LoRA/save-reload probe pass. The fresh CPU dependency scan passes after updating setuptools, while the retained local environment still has cryptography advisories. See [current validation status](docs/VALIDATION_STATUS.md) and [validation harnesses](validation/README.md) for exact scope and run links.
 
 ## Documentation
 

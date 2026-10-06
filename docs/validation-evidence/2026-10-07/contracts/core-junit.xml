@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="19" skipped="0" tests="26" time="0.366" timestamp="2026-10-06T20:40:31.588062+00:00" hostname="runnervm8df0l"><testcase classname="validation.test_core_independent.CoreAudit" name="test_example_evaluation_preserves_per_query_instructions" time="0.002"><failure message="AssertionError: 0.5 != 1.0">self = &lt;test_core_independent.CoreAudit testMethod=test_example_evaluation_preserves_per_query_instructions&gt;
+
+    def test_example_evaluation_preserves_per_query_instructions(self):
+        examples = [ContrastiveExample("q", "a", instruction="left"),
+                    ContrastiveExample("q", "b", instruction="right")]
+        encoder = TableEncoder({"left:q": [1, 0], "right:q": [0, 1], "q": [1, 0], "a": [1, 0], "b": [0, 1]},
+                               query_template="{instruction}:{text}")
+        evaluator = RetrievalEvaluator.from_examples(examples, ks=[1], metrics=["recall"])
+&gt;       self.assertEqual(evaluator(encoder)["recall@1"], 1.0)
+E       AssertionError: 0.5 != 1.0
+
+validation/test_core_independent.py:221: AssertionError</failure></testcase><testcase classname="validation.test_core_independent.CoreAudit" name="test_fingerprint_detects_changed_document_prompt" time="0.001"><failure message="AssertionError: 'hashing-32:32' == 'hashing-32:32'">self = &lt;test_core_independent.CoreAudit testMethod=test_fingerprint_detects_changed_document_prompt&gt;
+
+    def test_fingerprint_detects_changed_document_prompt(self):
+        first = HashingEncoder(dim=32)
+        changed = HashingEncoder(dim=32, document_template="important {text}")
+        self.assertFalse(np.array_equal(first.encode("ABC"), changed.encode("ABC")))
+&gt;       self.assertNotEqual(first.fingerprint(), changed.fingerprint())
+E       AssertionError: 'hashing-32:32' == 'hashing-32:32'
+
+validation/test_core_independent.py:173: AssertionError</failure></testcase><testcase classname="validation.test_core_independent.CoreAudit" name="test_loaded_duplicate_ids_rejected" time="0.003"><failure message="AssertionError: ValueError not raised">self = &lt;test_core_independent.CoreAudit testMethod=test_loaded_duplicate_ids_rejected&gt;
+
+    def test_loaded_duplicate_ids_rejected(self):
+        index = NumpyIndex(2)
+        index.add(["a", "b"], np.eye(2))
+        index.save(self.path)
+        (self.path / "ids.json").write_text('["a", "a"]', encoding="utf-8")
+&gt;       with self.assertRaises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: ValueError not raised
+
+validation/test_core_independent.py:145: AssertionError</failure></testcase><testcase classname="validation.test_core_independent.CoreAudit" name="test_loaded_nonfinite_vectors_rejected" time="0.002"><failure message="AssertionError: ValueError not raised">self = &lt;test_core_independent.CoreAudit testMethod=test_loaded_nonfinite_vectors_rejected&gt;
+
+    def test_loaded_nonfinite_vectors_rejected(self):
+        index = NumpyIndex(2)
+        index.add(["a"], np.array([[1, 0]]))
+        index.save(self.path)
+        np.save(self.path / "vectors.npy", np.array([[np.nan, 0]], dtype=np.float32))
+&gt;       with self.assertRaises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: ValueError not raised
+
+validation/test_core_independent.py:137: AssertionError</failure></testcase><testcase classname="validation.test_core_independent.CoreAudit" name="test_memory_decay_returns_global_best" time="0.001"><failure message="AssertionError: 'old0' != 'new'&#10;- old0&#10;+ new">self = &lt;test_core_independent.CoreAudit testMethod=test_memory_decay_returns_global_best&gt;
+
+    def test_memory_decay_returns_global_best(self):
+        table = {"q": [1, 0], **{f"old{i}": [1, 0] for i in range(4)}, "new": [0.6, 0.8]}
+        now = [0.0]
+        memory = SemanticMemory(TableEncoder(table), recency_half_life=1, clock=lambda: now[0])
+        for i in range(4):
+            memory.remember(f"old{i}", id=f"old{i}")
+        now[0] = 10.0
+        memory.remember("new", id="new")
+&gt;       self.assertEqual(memory.recall("q", k=1)[0].id, "new")
+E       AssertionError: 'old0' != 'new'
+E       - old0
+E       + new
+
+validation/test_core_independent.py:183: AssertionError</failure></testcase><testcase classname="validation.test_core_independent.CoreAudit" name="test_memory_persistence_preserves_decay" time="0.003"><failure message="AssertionError: 'old' != 'new'&#10;- old&#10;+ new">self = &lt;test_core_independent.CoreAudit testMethod=test_memory_persistence_preserves_decay&gt;
+
+    def test_memory_persistence_preserves_decay(self):
+        encoder = TableEncoder({"q": [1, 0], "old": [1, 0], "new": [0.6, 0.8]})
+        now = [0.0]
+        memory = SemanticMemory(encoder, recency_half_life=1, clock=lambda: now[0])
+        memory.remember("old", id="old")
+        now[0] = 10.0
+        memory.remember("new", id="new")
+        memory.save(self.path)
+        restored = SemanticMemory.load(self.path, encoder, clock=lambda: now[0])
+&gt;       self.assertEqual(restored.recall("q", k=1)[0].id, memory.recall("q", k=1)[0].id)
+E       AssertionError: 'old' != 'new'
+E       - old
+E       + new
+
+validation/test_core_independent.py:194: AssertionError</failure></testcase><testcase classname="validation.test_core_independent.CoreAudit" name="test_metrics_duplicate_docs_cannot_exceed_one" time="0.001"><failure message="AssertionError: 1.6309297535714575 not less than or equal to 1 : ndcg@2=1.6309297535714575">self = &lt;test_core_independent.CoreAudit testMethod=test_metrics_duplicate_docs_cannot_exceed_one&gt;
+
+    def test_metrics_duplicate_docs_cannot_exceed_one(self):
+        metrics = evaluate_run({"q": ["a", "a"]}, {"q": {"a": 1}}, ks=[2], metrics=["ndcg", "map"])
+        for name, score in metrics.items():
+&gt;           self.assertLessEqual(score, 1, f"{name}={score}")
+E           AssertionError: 1.6309297535714575 not less than or equal to 1 : ndcg@2=1.6309297535714575
+
+validation/test_core_independent.py:199: AssertionError</failure></testcase><testcase classname="validation.test_core_independent.CoreAudit" name="test_metrics_nonpositive_cutoff_rejected" time="0.001"><failure message="AssertionError: ValueError not raised">self = &lt;test_core_independent.CoreAudit testMethod=test_metrics_nonpositive_cutoff_rejected&gt;
+
+    def test_metrics_nonpositive_cutoff_rejected(self):
+&gt;       with self.assertRaises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: ValueError not raised
+
+validation/test_core_independent.py:202: AssertionError</failure></testcase><testcase classname="validation.test_core_independent.CoreAudit" name="test_numpy_negative_query_chunk_rejected" time="0.001"><failure message="AssertionError: ValueError not raised">self = &lt;test_core_independent.CoreAudit testMethod=test_numpy_negative_query_chunk_rejected&gt;
+
+    def test_numpy_negative_query_chunk_rejected(self):
+&gt;       with self.assertRaises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: ValueError not raised
+
+validation/test_core_independent.py:224: AssertionError</failure></testcase><testcase classname="validation.test_core_independent.CoreAudit" name="test_positive_batch_preserves_every_example" time="0.001" /><testcase classname="validation.test_core_independent.CoreAudit" name="test_positive_duplicate_add_is_atomic" time="0.001" /><testcase classname="validation.test_core_independent.CoreAudit" name="test_positive_metrics_hand_oracle" time="0.001" /><testcase classname="validation.test_core_independent.CoreAudit" name="test_positive_randomized_filtered_search_and_roundtrip" time="0.059" /><testcase classname="validation.test_core_independent.CoreAudit" name="test_positive_router_aggregations_and_abstention" time="0.001" /><testcase classname="validation.test_core_independent.CoreAudit" name="test_positive_selective_filter_before_topk" time="0.004" /><testcase classname="validation.test_core_independent.CoreAudit" name="test_query_nonfinite_rejected" time="0.046"><failure message="AssertionError: ValueError not raised">self = &lt;test_core_independent.CoreAudit testMethod=test_query_nonfinite_rejected&gt;
+
+    def test_query_nonfinite_rejected(self):
+        for metric in ("cosine", "dot"):
+            for value in (np.nan, np.inf, -np.inf):
+                with self.subTest(metric=metric, value=value):
+                    index = NumpyIndex(2, metric)
+                    index.add(["a"], np.array([[1, 0]]))
+&gt;                   with self.assertRaises(ValueError):
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   AssertionError: ValueError not raised
+
+validation/test_core_independent.py:129: AssertionError</failure><failure message="AssertionError: ValueError not raised">self = &lt;test_core_independent.CoreAudit testMethod=test_query_nonfinite_rejected&gt;
+
+    def test_query_nonfinite_rejected(self):
+        for metric in ("cosine", "dot"):
+            for value in (np.nan, np.inf, -np.inf):
+                with self.subTest(metric=metric, value=value):
+                    index = NumpyIndex(2, metric)
+                    index.add(["a"], np.array([[1, 0]]))
+&gt;                   with self.assertRaises(ValueError):
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   AssertionError: ValueError not raised
+
+validation/test_core_independent.py:129: AssertionError</failure><failure message="AssertionError: ValueError not raised">self = &lt;test_core_independent.CoreAudit testMethod=test_query_nonfinite_rejected&gt;
+
+    def test_query_nonfinite_rejected(self):
+        for metric in ("cosine", "dot"):
+            for value in (np.nan, np.inf, -np.inf):
+                with self.subTest(metric=metric, value=value):
+                    index = NumpyIndex(2, metric)
+                    index.add(["a"], np.array([[1, 0]]))
+&gt;                   with self.assertRaises(ValueError):
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   AssertionError: ValueError not raised
+
+validation/test_core_independent.py:129: AssertionError</failure><failure message="AssertionError: ValueError not raised">self = &lt;test_core_independent.CoreAudit testMethod=test_query_nonfinite_rejected&gt;
+
+    def test_query_nonfinite_rejected(self):
+        for metric in ("cosine", "dot"):
+            for value in (np.nan, np.inf, -np.inf):
+                with self.subTest(metric=metric, value=value):
+                    index = NumpyIndex(2, metric)
+                    index.add(["a"], np.array([[1, 0]]))
+&gt;                   with self.assertRaises(ValueError):
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   AssertionError: ValueError not raised
+
+validation/test_core_independent.py:129: AssertionError</failure><failure message="AssertionError: ValueError not raised">self = &lt;test_core_independent.CoreAudit testMethod=test_query_nonfinite_rejected&gt;
+
+    def test_query_nonfinite_rejected(self):
+        for metric in ("cosine", "dot"):
+            for value in (np.nan, np.inf, -np.inf):
+                with self.subTest(metric=metric, value=value):
+                    index = NumpyIndex(2, metric)
+                    index.add(["a"], np.array([[1, 0]]))
+&gt;                   with self.assertRaises(ValueError):
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   AssertionError: ValueError not raised
+
+validation/test_core_independent.py:129: AssertionError</failure><failure message="AssertionError: ValueError not raised">self = &lt;test_core_independent.CoreAudit testMethod=test_query_nonfinite_rejected&gt;
+
+    def test_query_nonfinite_rejected(self):
+        for metric in ("cosine", "dot"):
+            for value in (np.nan, np.inf, -np.inf):
+                with self.subTest(metric=metric, value=value):
+                    index = NumpyIndex(2, metric)
+                    index.add(["a"], np.array([[1, 0]]))
+&gt;                   with self.assertRaises(ValueError):
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   AssertionError: ValueError not raised
+
+validation/test_core_independent.py:129: AssertionError</failure></testcase><testcase classname="validation.test_core_independent.CoreAudit" name="test_retriever_loaded_id_set_mismatch_rejected" time="0.002"><failure message="AssertionError: ValueError not raised">self = &lt;test_core_independent.CoreAudit testMethod=test_retriever_loaded_id_set_mismatch_rejected&gt;
+
+    def test_retriever_loaded_id_set_mismatch_rejected(self):
+        encoder = HashingEncoder(dim=32)
+        retriever = Retriever(encoder)
+        retriever.add(["alpha", "beta"], ids=["a", "b"])
+        retriever.save(self.path)
+        records = [json.loads(line) for line in (self.path / "documents.jsonl").read_text().splitlines()]
+        records[1]["id"] = "c"
+        (self.path / "documents.jsonl").write_text("\n".join(json.dumps(r) for r in records), encoding="utf-8")
+&gt;       with self.assertRaises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: ValueError not raised
+
+validation/test_core_independent.py:156: AssertionError</failure></testcase><testcase classname="validation.test_core_independent.CoreAudit" name="test_strict_fingerprint_detects_changed_encoder_config" time="0.002"><failure message="AssertionError: ValueError not raised">self = &lt;test_core_independent.CoreAudit testMethod=test_strict_fingerprint_detects_changed_encoder_config&gt;
+
+    def test_strict_fingerprint_detects_changed_encoder_config(self):
+        first = HashingEncoder(dim=32, lowercase=True)
+        changed = HashingEncoder(dim=32, lowercase=False)
+        self.assertFalse(np.array_equal(first.encode("ABC"), changed.encode("ABC")))
+        retriever = Retriever(first)
+        retriever.add(["ABC"])
+        retriever.save(self.path)
+&gt;       with self.assertRaises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: ValueError not raised
+
+validation/test_core_independent.py:166: AssertionError</failure></testcase><testcase classname="validation.test_core_independent.CoreAudit" name="test_training_nonfinite_score_rejected" time="0.001"><failure message="AssertionError: ValueError not raised">self = &lt;test_core_independent.CoreAudit testMethod=test_training_nonfinite_score_rejected&gt;
+
+    def test_training_nonfinite_score_rejected(self):
+&gt;       with self.assertRaises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: ValueError not raised
+
+validation/test_core_independent.py:206: AssertionError</failure></testcase><testcase classname="validation.test_core_independent.CoreAudit" name="test_zero_requested_negatives_stays_zero" time="0.001"><failure message="AssertionError: Lists differ: ['n'] != []&#10;&#10;First list contains 1 additional elements.&#10;First extra element 0:&#10;'n'&#10;&#10;- ['n']&#10;+ []">self = &lt;test_core_independent.CoreAudit testMethod=test_zero_requested_negatives_stays_zero&gt;
+
+    def test_zero_requested_negatives_stays_zero(self):
+        encoder = TableEncoder({"q": [1, 0], "p": [0, 1], "n": [1, 0]})
+        result = mine_hard_negatives(encoder, [ContrastiveExample("q", "p")], ["n", "p"],
+                                     num_negatives=0, max_relative_score=None)
+&gt;       self.assertEqual(result[0].negatives, [])
+E       AssertionError: Lists differ: ['n'] != []
+E       
+E       First list contains 1 additional elements.
+E       First extra element 0:
+E       'n'
+E       
+E       - ['n']
+E       + []
+
+validation/test_core_independent.py:213: AssertionError</failure></testcase></testsuite></testsuites>
