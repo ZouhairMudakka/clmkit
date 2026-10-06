@@ -57,8 +57,9 @@ python templates/support_routing.py
 python templates/retail_service_desk.py
 ```
 
-Each command prints JSON, needs no API key or model download, and uses temporary
-directories for demo snapshots. They neither contact a customer service nor
+Each command prints JSON and needs no API key or model download. Search and memory
+use temporary directories for demo snapshots; routing and the retail desk keep
+their demo data in memory. They neither contact a customer service nor
 execute business actions. The Python scripts can be copied into another project;
 they use public clmkit APIs and the standard library. Templates are repository
 assets, not modules installed by the wheel. Source archives built after this

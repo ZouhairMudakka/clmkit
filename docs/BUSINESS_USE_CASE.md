@@ -102,6 +102,10 @@ The template trusts the two identity arguments; it does not authenticate users.
 Expose a server endpoint that derives those IDs from the session, rather than a
 model tool with editable identity fields.
 
+For a staff-facing helpdesk, also verify that the signed-in staff member may
+access this business, ticket and customer, and that the ticket belongs to that
+customer. Supply the customer identity from that checked association.
+
 ## Replace the demo inputs
 
 | Demo input | Business replacement | Rule to retain |
