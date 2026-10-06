@@ -1,0 +1,323 @@
+{
+  "started_utc": "2026-10-06T21:06:13.911190+00:00",
+  "command": "D:\\Projects\\Framework\\.venv\\Scripts\\python.exe D:\\Projects\\Framework\\validation\\run_protocol.py",
+  "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "environment": "see runner provenance; package versions recorded",
+  "versions": {
+    "openai": "3.25.0",
+    "httpx": "0.28.1",
+    "fastapi": "0.142.0",
+    "starlette": "1.7.0",
+    "uvicorn": "0.54.0",
+    "mcp": "1.30.0",
+    "numpy": "2.4.6",
+    "anyio": "4.15.1"
+  },
+  "loaded_openai": {
+    "version": "3.25.0",
+    "path": "D:\\Projects\\Framework\\docs\\audits\\2026-10-07\\protocol-validation\\integration-tools\\openai\\__init__.py"
+  },
+  "finished_utc": "2026-10-06T21:06:58.729586+00:00",
+  "results": [
+    {
+      "name": "sdk_default_constructor_and_embeddings",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.6156002999923658
+    },
+    {
+      "name": "sdk_explicit_client_encoding_None",
+      "status": "passed",
+      "detail": {
+        "encoding": null,
+        "dimension": 8
+      },
+      "seconds": 1.8702871999994386
+    },
+    {
+      "name": "sdk_explicit_client_encoding_float",
+      "status": "passed",
+      "detail": {
+        "encoding": "float",
+        "dimension": 8
+      },
+      "seconds": 1.0568060999794398
+    },
+    {
+      "name": "sdk_explicit_client_encoding_base64",
+      "status": "passed",
+      "detail": {
+        "encoding": "base64",
+        "dimension": 8
+      },
+      "seconds": 0.62950800001272
+    },
+    {
+      "name": "auth_models",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.017608099995413795
+    },
+    {
+      "name": "auth_embeddings",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.005292699992423877
+    },
+    {
+      "name": "auth_search",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.0065039999899454415
+    },
+    {
+      "name": "auth_add",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.01566179998917505
+    },
+    {
+      "name": "auth_delete",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.007141399983083829
+    },
+    {
+      "name": "auth_rerank",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.005888699990464374
+    },
+    {
+      "name": "writes_disabled_POST",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.0035201999999117106
+    },
+    {
+      "name": "writes_disabled_DELETE",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.0057649000082165
+    },
+    {
+      "name": "rest_empty_list",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.004692699993029237
+    },
+    {
+      "name": "rest_numeric_input",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.004664200008846819
+    },
+    {
+      "name": "rest_null_input",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.004473100008908659
+    },
+    {
+      "name": "rest_dimension_zero",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.010927399998763576
+    },
+    {
+      "name": "rest_dimension_negative",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.0029787000094074756
+    },
+    {
+      "name": "rest_dimension_exceeds_native",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.006749499996658415
+    },
+    {
+      "name": "rest_dimension_fraction",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.016311600018525496
+    },
+    {
+      "name": "rest_encoding_invalid",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.0027288999990560114
+    },
+    {
+      "name": "rest_batch_limit",
+      "status": "passed",
+      "detail": 413,
+      "seconds": 0.002742000011494383
+    },
+    {
+      "name": "rest_text_limit",
+      "status": "passed",
+      "detail": 413,
+      "seconds": 0.0029467999993357807
+    },
+    {
+      "name": "writes_enabled_roundtrip",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.06261839999933727
+    },
+    {
+      "name": "remote_reorders_indexed_response",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5347413999843411
+    },
+    {
+      "name": "remote_retry_408",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5278725999814924
+    },
+    {
+      "name": "remote_retry_409",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5635521000076551
+    },
+    {
+      "name": "remote_retry_429",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5167366999958176
+    },
+    {
+      "name": "remote_retry_500",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5824204999953508
+    },
+    {
+      "name": "remote_retry_502",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5180824999988545
+    },
+    {
+      "name": "remote_retry_503",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5804363999923225
+    },
+    {
+      "name": "remote_retry_504",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5178313000069465
+    },
+    {
+      "name": "remote_error_bound_401",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.514025100012077
+    },
+    {
+      "name": "remote_error_bound_429",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.519822700007353
+    },
+    {
+      "name": "remote_error_bound_503",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5094829999725334
+    },
+    {
+      "name": "remote_redirects_refused_no_key_forward",
+      "status": "passed",
+      "detail": null,
+      "seconds": 3.0384796999860555
+    },
+    {
+      "name": "remote_rejects_invalid_json",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5609859999967739
+    },
+    {
+      "name": "remote_rejects_null_json",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5386021999875084
+    },
+    {
+      "name": "remote_rejects_missing_data",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5284748999984004
+    },
+    {
+      "name": "remote_rejects_duplicate_indices",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5845941999868955
+    },
+    {
+      "name": "remote_rejects_out_of_range_indices",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5687985999975353
+    },
+    {
+      "name": "remote_rejects_nan_vector",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5140409999876283
+    },
+    {
+      "name": "remote_rejects_infinity_vector",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5178092000132892
+    },
+    {
+      "name": "remote_rejects_wrong_dim",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5342903999844566
+    },
+    {
+      "name": "mcp_actual_stdio_initialize_list_call_errors",
+      "status": "passed",
+      "detail": {
+        "protocol_version": "2025-11-25",
+        "tools": [
+          "knowledge_search"
+        ]
+      },
+      "seconds": 17.03377890001866
+    }
+  ],
+  "passed": 44,
+  "failed": 0,
+  "torch_imported": false
+}

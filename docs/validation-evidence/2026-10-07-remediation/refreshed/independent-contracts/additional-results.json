@@ -1,0 +1,76 @@
+{
+  "python": "3.13.15 (main, Aug  6 2026, 02:15:18) [GCC 13.3.0]",
+  "versions": {
+    "openai": "3.25.0",
+    "httpx": "0.28.1",
+    "langchain-core": "1.6.7",
+    "mcp": "2.3.0",
+    "numpy": "2.5.3"
+  },
+  "environment": "fresh GitHub-hosted dependency resolution",
+  "results": [
+    {
+      "name": "actual_langchain_base",
+      "status": "passed",
+      "detail": "1.6.7",
+      "seconds": 0.0005082829999878413
+    },
+    {
+      "name": "actual_langchain_vectors",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.007971835000006422
+    },
+    {
+      "name": "actual_langchain_async",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.0020555739999963407
+    },
+    {
+      "name": "actual_langchain_vectorstore",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.000708307999985891
+    },
+    {
+      "name": "timeout_retries_then_succeeds",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.7047047370000143
+    },
+    {
+      "name": "timeout_exhaustion_is_bounded",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.7034326810000096
+    },
+    {
+      "name": "rejects_boolean_indices",
+      "status": "passed",
+      "detail": "rejected",
+      "seconds": 0.5020095769999955
+    },
+    {
+      "name": "rejects_float_indices",
+      "status": "passed",
+      "detail": "rejected",
+      "seconds": 0.5019088310000086
+    },
+    {
+      "name": "rejects_string_indices",
+      "status": "passed",
+      "detail": "rejected",
+      "seconds": 0.5020465529999854
+    },
+    {
+      "name": "rejects_negative_indices",
+      "status": "passed",
+      "detail": "rejected",
+      "seconds": 0.5020460380000031
+    }
+  ],
+  "passed": 10,
+  "failed": 0,
+  "torch_imported": false
+}

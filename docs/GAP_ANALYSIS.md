@@ -1,7 +1,8 @@
 # Gap analysis & roadmap
 
 > Historical builder assessment. The status labels below are not an independent
-> release verdict. Read [current validation status](VALIDATION_STATUS.md) first.
+> release verdict. Read [current validation status](VALIDATION_STATUS.md) and the
+> [updated remaining gaps](REMEDIATION.md#remaining-gaps) first.
 
 *Assessed against v0.1.0 (2026-09-30).* Legend: ✅ done and tested · 🟡 partial / workaround exists · ❌ not implemented.
 

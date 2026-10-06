@@ -1,0 +1,1025 @@
+{
+  "total_count": 9,
+  "jobs": [
+    {
+      "id": 112504504526,
+      "run_id": 37532318161,
+      "workflow_name": "Independent validation",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318161",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqAzg",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504526",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318161/job/112504504526",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:14:36Z",
+      "name": "Minimum supported ML stack / CPU",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:28Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run python -m pip install -U pip setuptools wheel",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:31Z"
+        },
+        {
+          "name": "Run python -m pip install 'torch==2.13.0' --index-url https://download.pytorch.org/whl/cpu",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:31Z",
+          "completed_at": "2026-10-06T21:13:54Z"
+        },
+        {
+          "name": "Run python -m pip install -e '.[dev,train]' 'transformers==5.17.0' 'peft==0.21.1' 'safetensors==0.8.0' pip-audit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:13:54Z",
+          "completed_at": "2026-10-06T21:14:17Z"
+        },
+        {
+          "name": "Run python -m pip check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-06T21:14:17Z",
+          "completed_at": "2026-10-06T21:14:17Z"
+        },
+        {
+          "name": "Run python -m pip freeze > minimum-ml-requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-06T21:14:17Z",
+          "completed_at": "2026-10-06T21:14:18Z"
+        },
+        {
+          "name": "Run python -m pytest -q -m 'not slow' tests validation/test_scientific_contracts.py validation/test_finite_loss_nonfinite_gradients.py --junitxml=minimum-ml-junit.xml",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-06T21:14:18Z",
+          "completed_at": "2026-10-06T21:14:31Z"
+        },
+        {
+          "name": "Run pip-audit --skip-editable",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-06T21:14:31Z",
+          "completed_at": "2026-10-06T21:14:33Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-06T21:14:33Z",
+          "completed_at": "2026-10-06T21:14:34Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-06T21:14:34Z",
+          "completed_at": "2026-10-06T21:14:34Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-10-06T21:14:34Z",
+          "completed_at": "2026-10-06T21:14:34Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-10-06T21:14:34Z",
+          "completed_at": "2026-10-06T21:14:34Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504526",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000374,
+      "runner_name": "GitHub Actions 1000000374",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504703,
+      "run_id": 37532318161,
+      "workflow_name": "Independent validation",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318161",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqBfw",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504703",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318161/job/112504504703",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:13:55Z",
+      "name": "Installed NumPy-only wheel / ubuntu-latest / Python 3.11",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir build twine",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:35Z"
+        },
+        {
+          "name": "Run python validation/run_installed.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:35Z",
+          "completed_at": "2026-10-06T21:13:52Z"
+        },
+        {
+          "name": "Run python -m twine check validation-results/*.whl validation-results/*.tar.gz",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:13:52Z",
+          "completed_at": "2026-10-06T21:13:52Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-06T21:13:52Z",
+          "completed_at": "2026-10-06T21:13:53Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:13:53Z",
+          "completed_at": "2026-10-06T21:13:53Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-06T21:13:53Z",
+          "completed_at": "2026-10-06T21:13:54Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-06T21:13:54Z",
+          "completed_at": "2026-10-06T21:13:54Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504703",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000376,
+      "runner_name": "GitHub Actions 1000000376",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504723,
+      "run_id": 37532318161,
+      "workflow_name": "Independent validation",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318161",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqBkw",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504723",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318161/job/112504504723",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:13:54Z",
+      "name": "Installed NumPy-only wheel / ubuntu-latest / Python 3.12",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir build twine",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:34Z"
+        },
+        {
+          "name": "Run python validation/run_installed.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:34Z",
+          "completed_at": "2026-10-06T21:13:50Z"
+        },
+        {
+          "name": "Run python -m twine check validation-results/*.whl validation-results/*.tar.gz",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:13:50Z",
+          "completed_at": "2026-10-06T21:13:50Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-06T21:13:50Z",
+          "completed_at": "2026-10-06T21:13:51Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:13:51Z",
+          "completed_at": "2026-10-06T21:13:51Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-06T21:13:52Z",
+          "completed_at": "2026-10-06T21:13:52Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-06T21:13:52Z",
+          "completed_at": "2026-10-06T21:13:52Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504723",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000377,
+      "runner_name": "GitHub Actions 1000000377",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504777,
+      "run_id": 37532318161,
+      "workflow_name": "Independent validation",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318161",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqByQ",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504777",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318161/job/112504504777",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:14:28Z",
+      "name": "Installed NumPy-only wheel / windows-latest / Python 3.13",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:34Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:34Z",
+          "completed_at": "2026-10-06T21:13:34Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir build twine",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:34Z",
+          "completed_at": "2026-10-06T21:13:47Z"
+        },
+        {
+          "name": "Run python validation/run_installed.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:47Z",
+          "completed_at": "2026-10-06T21:14:21Z"
+        },
+        {
+          "name": "Run python -m twine check validation-results/*.whl validation-results/*.tar.gz",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:14:21Z",
+          "completed_at": "2026-10-06T21:14:23Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-06T21:14:23Z",
+          "completed_at": "2026-10-06T21:14:24Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:14:24Z",
+          "completed_at": "2026-10-06T21:14:24Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-06T21:14:24Z",
+          "completed_at": "2026-10-06T21:14:26Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-06T21:14:26Z",
+          "completed_at": "2026-10-06T21:14:26Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504777",
+      "labels": [
+        "windows-latest"
+      ],
+      "runner_id": 1000000385,
+      "runner_name": "GitHub Actions 1000000385",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504838,
+      "run_id": 37532318161,
+      "workflow_name": "Independent validation",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318161",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqCBg",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504838",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318161/job/112504504838",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:13:58Z",
+      "name": "Installed NumPy-only wheel / ubuntu-latest / Python 3.13",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir build twine",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:37Z"
+        },
+        {
+          "name": "Run python validation/run_installed.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:37Z",
+          "completed_at": "2026-10-06T21:13:54Z"
+        },
+        {
+          "name": "Run python -m twine check validation-results/*.whl validation-results/*.tar.gz",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:13:54Z",
+          "completed_at": "2026-10-06T21:13:54Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-06T21:13:54Z",
+          "completed_at": "2026-10-06T21:13:56Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:13:56Z",
+          "completed_at": "2026-10-06T21:13:56Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-06T21:13:56Z",
+          "completed_at": "2026-10-06T21:13:56Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-06T21:13:56Z",
+          "completed_at": "2026-10-06T21:13:56Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504838",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000379,
+      "runner_name": "GitHub Actions 1000000379",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504868,
+      "run_id": 37532318161,
+      "workflow_name": "Independent validation",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318161",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqCJA",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504868",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318161/job/112504504868",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:34Z",
+      "completed_at": "2026-10-06T21:14:44Z",
+      "name": "Installed NumPy-only wheel / macos-latest / Python 3.13",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:35Z",
+          "completed_at": "2026-10-06T21:13:37Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:37Z",
+          "completed_at": "2026-10-06T21:13:38Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:38Z",
+          "completed_at": "2026-10-06T21:13:38Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir build twine",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:38Z",
+          "completed_at": "2026-10-06T21:13:43Z"
+        },
+        {
+          "name": "Run python validation/run_installed.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:43Z",
+          "completed_at": "2026-10-06T21:14:38Z"
+        },
+        {
+          "name": "Run python -m twine check validation-results/*.whl validation-results/*.tar.gz",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:14:38Z",
+          "completed_at": "2026-10-06T21:14:39Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-06T21:14:39Z",
+          "completed_at": "2026-10-06T21:14:40Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:14:40Z",
+          "completed_at": "2026-10-06T21:14:41Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-06T21:14:41Z",
+          "completed_at": "2026-10-06T21:14:41Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-06T21:14:41Z",
+          "completed_at": "2026-10-06T21:14:42Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504868",
+      "labels": [
+        "macos-latest"
+      ],
+      "runner_id": 1000000387,
+      "runner_name": "GitHub Actions 1000000387",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504897,
+      "run_id": 37532318161,
+      "workflow_name": "Independent validation",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318161",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqCQQ",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504897",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318161/job/112504504897",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:14:00Z",
+      "name": "Installed NumPy-only wheel / ubuntu-latest / Python 3.10",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir build twine",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:37Z"
+        },
+        {
+          "name": "Run python validation/run_installed.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:37Z",
+          "completed_at": "2026-10-06T21:13:56Z"
+        },
+        {
+          "name": "Run python -m twine check validation-results/*.whl validation-results/*.tar.gz",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:13:56Z",
+          "completed_at": "2026-10-06T21:13:57Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-06T21:13:57Z",
+          "completed_at": "2026-10-06T21:13:57Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:13:57Z",
+          "completed_at": "2026-10-06T21:13:58Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-06T21:13:58Z",
+          "completed_at": "2026-10-06T21:13:58Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-06T21:13:58Z",
+          "completed_at": "2026-10-06T21:13:58Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504897",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000378,
+      "runner_name": "GitHub Actions 1000000378",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504971,
+      "run_id": 37532318161,
+      "workflow_name": "Independent validation",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318161",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqCiw",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504971",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318161/job/112504504971",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:13:50Z",
+      "name": "MCP 1.x actual stdio",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir -e '.[serve]' 'mcp>=1.28.1,<2' openai",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:46Z"
+        },
+        {
+          "name": "Run python -c \"import sys; sys.path.insert(0, 'validation'); from run_protocol import mcp_probe; print(mcp_probe())\"",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:46Z",
+          "completed_at": "2026-10-06T21:13:49Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-06T21:13:49Z",
+          "completed_at": "2026-10-06T21:13:49Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-06T21:13:49Z",
+          "completed_at": "2026-10-06T21:13:49Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-06T21:13:49Z",
+          "completed_at": "2026-10-06T21:13:49Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504971",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000380,
+      "runner_name": "GitHub Actions 1000000380",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504505465,
+      "run_id": 37532318161,
+      "workflow_name": "Independent validation",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318161",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqEeQ",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504505465",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318161/job/112504505465",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:28Z",
+      "completed_at": "2026-10-06T21:15:13Z",
+      "name": "Independent scientific, core and protocol contracts",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:56Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir -e '.[dev,all,faiss]' openai langchain-core",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:56Z",
+          "completed_at": "2026-10-06T21:14:37Z"
+        },
+        {
+          "name": "Run python -m pip freeze > validation/resolved-requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:14:37Z",
+          "completed_at": "2026-10-06T21:14:38Z"
+        },
+        {
+          "name": "Scientific contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-06T21:14:38Z",
+          "completed_at": "2026-10-06T21:14:47Z"
+        },
+        {
+          "name": "Core contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-06T21:14:47Z",
+          "completed_at": "2026-10-06T21:14:48Z"
+        },
+        {
+          "name": "Protocol contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-06T21:14:48Z",
+          "completed_at": "2026-10-06T21:15:05Z"
+        },
+        {
+          "name": "Additional integration and transport contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-06T21:15:05Z",
+          "completed_at": "2026-10-06T21:15:09Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-06T21:15:09Z",
+          "completed_at": "2026-10-06T21:15:10Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-06T21:15:10Z",
+          "completed_at": "2026-10-06T21:15:10Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-10-06T21:15:10Z",
+          "completed_at": "2026-10-06T21:15:10Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-10-06T21:15:10Z",
+          "completed_at": "2026-10-06T21:15:10Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504505465",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000381,
+      "runner_name": "GitHub Actions 1000000381",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

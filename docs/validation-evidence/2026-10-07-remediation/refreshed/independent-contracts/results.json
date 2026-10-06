@@ -1,0 +1,323 @@
+{
+  "started_utc": "2026-10-06T21:21:12.586105+00:00",
+  "command": "/opt/hostedtoolcache/Python/3.13.15/x64/bin/python /home/runner/work/clmkit/clmkit/validation/run_protocol.py",
+  "python": "3.13.15 (main, Aug  6 2026, 02:15:18) [GCC 13.3.0]",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "environment": "fresh GitHub-hosted dependency resolution",
+  "versions": {
+    "openai": "3.25.0",
+    "httpx": "0.28.1",
+    "fastapi": "0.142.2",
+    "starlette": "1.7.0",
+    "uvicorn": "0.54.0",
+    "mcp": "2.3.0",
+    "numpy": "2.5.3",
+    "anyio": "4.15.1"
+  },
+  "loaded_openai": {
+    "version": "3.25.0",
+    "path": "/opt/hostedtoolcache/Python/3.13.15/x64/lib/python3.13/site-packages/openai/__init__.py"
+  },
+  "finished_utc": "2026-10-06T21:21:28.494394+00:00",
+  "results": [
+    {
+      "name": "sdk_default_constructor_and_embeddings",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.03161103500001161
+    },
+    {
+      "name": "sdk_explicit_client_encoding_None",
+      "status": "passed",
+      "detail": {
+        "encoding": null,
+        "dimension": 8
+      },
+      "seconds": 0.032238872000007746
+    },
+    {
+      "name": "sdk_explicit_client_encoding_float",
+      "status": "passed",
+      "detail": {
+        "encoding": "float",
+        "dimension": 8
+      },
+      "seconds": 0.021854317000006063
+    },
+    {
+      "name": "sdk_explicit_client_encoding_base64",
+      "status": "passed",
+      "detail": {
+        "encoding": "base64",
+        "dimension": 8
+      },
+      "seconds": 0.0212755809999976
+    },
+    {
+      "name": "auth_models",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.043579761000003714
+    },
+    {
+      "name": "auth_embeddings",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.08400042499999927
+    },
+    {
+      "name": "auth_search",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.08400228299998957
+    },
+    {
+      "name": "auth_add",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.0838158260000057
+    },
+    {
+      "name": "auth_delete",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.08605833599999357
+    },
+    {
+      "name": "auth_rerank",
+      "status": "passed",
+      "detail": [
+        401,
+        401
+      ],
+      "seconds": 0.0839338290000029
+    },
+    {
+      "name": "writes_disabled_POST",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.041994560999995656
+    },
+    {
+      "name": "writes_disabled_DELETE",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.041942020999997
+    },
+    {
+      "name": "rest_empty_list",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.04288835500000232
+    },
+    {
+      "name": "rest_numeric_input",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.042018514999995205
+    },
+    {
+      "name": "rest_null_input",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.04194219199999338
+    },
+    {
+      "name": "rest_dimension_zero",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.04202311299999906
+    },
+    {
+      "name": "rest_dimension_negative",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.041944473000000926
+    },
+    {
+      "name": "rest_dimension_exceeds_native",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.04201899599999592
+    },
+    {
+      "name": "rest_dimension_fraction",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.04182718799999918
+    },
+    {
+      "name": "rest_encoding_invalid",
+      "status": "passed",
+      "detail": 422,
+      "seconds": 0.041942433000002666
+    },
+    {
+      "name": "rest_batch_limit",
+      "status": "passed",
+      "detail": 413,
+      "seconds": 0.04203896099998872
+    },
+    {
+      "name": "rest_text_limit",
+      "status": "passed",
+      "detail": 413,
+      "seconds": 0.04194529899999111
+    },
+    {
+      "name": "writes_enabled_roundtrip",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.08864789800000494
+    },
+    {
+      "name": "remote_reorders_indexed_response",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5030773909999908
+    },
+    {
+      "name": "remote_retry_408",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5031407660000013
+    },
+    {
+      "name": "remote_retry_409",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5030009409999963
+    },
+    {
+      "name": "remote_retry_429",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5028902909999999
+    },
+    {
+      "name": "remote_retry_500",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5029030759999955
+    },
+    {
+      "name": "remote_retry_502",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5028453980000052
+    },
+    {
+      "name": "remote_retry_503",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5027693370000037
+    },
+    {
+      "name": "remote_retry_504",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5029728319999975
+    },
+    {
+      "name": "remote_error_bound_401",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5020764819999926
+    },
+    {
+      "name": "remote_error_bound_429",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5034262509999934
+    },
+    {
+      "name": "remote_error_bound_503",
+      "status": "passed",
+      "detail": null,
+      "seconds": 0.5039731439999997
+    },
+    {
+      "name": "remote_redirects_refused_no_key_forward",
+      "status": "passed",
+      "detail": null,
+      "seconds": 3.0041263800000024
+    },
+    {
+      "name": "remote_rejects_invalid_json",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5019884219999966
+    },
+    {
+      "name": "remote_rejects_null_json",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5020204620000044
+    },
+    {
+      "name": "remote_rejects_missing_data",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5019891219999977
+    },
+    {
+      "name": "remote_rejects_duplicate_indices",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5019810599999914
+    },
+    {
+      "name": "remote_rejects_out_of_range_indices",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5020377620000005
+    },
+    {
+      "name": "remote_rejects_nan_vector",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5020980119999905
+    },
+    {
+      "name": "remote_rejects_infinity_vector",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5021444679999973
+    },
+    {
+      "name": "remote_rejects_wrong_dim",
+      "status": "passed",
+      "detail": "rejected as RemoteEncoderError",
+      "seconds": 0.5020671400000083
+    },
+    {
+      "name": "mcp_actual_stdio_initialize_list_call_errors",
+      "status": "passed",
+      "detail": {
+        "protocol_version": "2025-11-25",
+        "tools": [
+          "knowledge_search"
+        ]
+      },
+      "seconds": 1.4522931060000133
+    }
+  ],
+  "passed": 44,
+  "failed": 0,
+  "torch_imported": false
+}

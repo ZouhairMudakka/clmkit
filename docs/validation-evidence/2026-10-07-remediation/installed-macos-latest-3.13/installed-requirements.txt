@@ -1,0 +1,7 @@
+clmkit @ file:///Users/runner/work/clmkit/clmkit/validation-results/clmkit-0.1.0-py3-none-any.whl#sha256=5dbc6a56efbfaa58c8a1f8703fb8939b7e3bb2ce8ff467797f2ac7d2f8d29a6c
+iniconfig==2.3.0
+numpy==2.5.3
+packaging==26.3
+pluggy==1.6.0
+Pygments==2.21.0
+pytest==9.1.1

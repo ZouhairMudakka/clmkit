@@ -1,0 +1,401 @@
+{
+  "total_count": 3,
+  "jobs": [
+    {
+      "id": 112507475126,
+      "run_id": 37533195934,
+      "workflow_name": "Qwen 0.6B reference checks",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37533195934",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMffUtg",
+      "head_sha": "234c2942c256055a09e79eb0c2b241fe029ea153",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112507475126",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37533195934/job/112507475126",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:20:38Z",
+      "started_at": "2026-10-06T21:20:40Z",
+      "completed_at": "2026-10-06T21:21:45Z",
+      "name": "CPU bounded LoRA training and reload",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:20:40Z",
+          "completed_at": "2026-10-06T21:20:42Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:20:42Z",
+          "completed_at": "2026-10-06T21:20:43Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:20:43Z",
+          "completed_at": "2026-10-06T21:20:43Z"
+        },
+        {
+          "name": "Run python -m pip install -U pip setuptools wheel",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:20:43Z",
+          "completed_at": "2026-10-06T21:20:47Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:20:47Z",
+          "completed_at": "2026-10-06T21:21:03Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir -e '.[train]'",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:21:03Z",
+          "completed_at": "2026-10-06T21:21:17Z"
+        },
+        {
+          "name": "Run timeout 1200s python -u validation/real_training_smoke.py --threads 2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-06T21:21:17Z",
+          "completed_at": "2026-10-06T21:21:41Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-06T21:21:41Z",
+          "completed_at": "2026-10-06T21:21:42Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-06T21:21:42Z",
+          "completed_at": "2026-10-06T21:21:42Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-06T21:21:42Z",
+          "completed_at": "2026-10-06T21:21:42Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-06T21:21:42Z",
+          "completed_at": "2026-10-06T21:21:42Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112507475126",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000473,
+      "runner_name": "GitHub Actions 1000000473",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112507475422,
+      "run_id": 37533195934,
+      "workflow_name": "Qwen 0.6B reference checks",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37533195934",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMffV3g",
+      "head_sha": "234c2942c256055a09e79eb0c2b241fe029ea153",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112507475422",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37533195934/job/112507475422",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:20:38Z",
+      "started_at": "2026-10-06T21:20:42Z",
+      "completed_at": "2026-10-06T21:21:48Z",
+      "name": "CPU reference / embedding",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:20:43Z",
+          "completed_at": "2026-10-06T21:20:44Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:20:44Z",
+          "completed_at": "2026-10-06T21:20:45Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:20:45Z",
+          "completed_at": "2026-10-06T21:20:45Z"
+        },
+        {
+          "name": "Run python -m pip install -U pip setuptools wheel",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:20:45Z",
+          "completed_at": "2026-10-06T21:20:47Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:20:47Z",
+          "completed_at": "2026-10-06T21:21:10Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir -e '.[hf]' pytest",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:21:10Z",
+          "completed_at": "2026-10-06T21:21:27Z"
+        },
+        {
+          "name": "Resolve immutable checkpoint and download only inference files",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-06T21:21:27Z",
+          "completed_at": "2026-10-06T21:21:33Z"
+        },
+        {
+          "name": "Reference comparison",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-06T21:21:33Z",
+          "completed_at": "2026-10-06T21:21:42Z"
+        },
+        {
+          "name": "Require the intended reference test to pass without skipping",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-06T21:21:42Z",
+          "completed_at": "2026-10-06T21:21:42Z"
+        },
+        {
+          "name": "Run python -m pip freeze > reference-requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-06T21:21:42Z",
+          "completed_at": "2026-10-06T21:21:44Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-06T21:21:44Z",
+          "completed_at": "2026-10-06T21:21:45Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-06T21:21:45Z",
+          "completed_at": "2026-10-06T21:21:45Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-10-06T21:21:45Z",
+          "completed_at": "2026-10-06T21:21:45Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-10-06T21:21:45Z",
+          "completed_at": "2026-10-06T21:21:45Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112507475422",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000472,
+      "runner_name": "GitHub Actions 1000000472",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112507475430,
+      "run_id": 37533195934,
+      "workflow_name": "Qwen 0.6B reference checks",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37533195934",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMffV5g",
+      "head_sha": "234c2942c256055a09e79eb0c2b241fe029ea153",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112507475430",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37533195934/job/112507475430",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:20:38Z",
+      "started_at": "2026-10-06T21:20:40Z",
+      "completed_at": "2026-10-06T21:21:45Z",
+      "name": "CPU reference / reranker",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:20:40Z",
+          "completed_at": "2026-10-06T21:20:41Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:20:41Z",
+          "completed_at": "2026-10-06T21:20:41Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:20:41Z",
+          "completed_at": "2026-10-06T21:20:42Z"
+        },
+        {
+          "name": "Run python -m pip install -U pip setuptools wheel",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:20:42Z",
+          "completed_at": "2026-10-06T21:20:43Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:20:43Z",
+          "completed_at": "2026-10-06T21:21:05Z"
+        },
+        {
+          "name": "Run python -m pip install --no-cache-dir -e '.[hf]' pytest",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:21:05Z",
+          "completed_at": "2026-10-06T21:21:22Z"
+        },
+        {
+          "name": "Resolve immutable checkpoint and download only inference files",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-06T21:21:22Z",
+          "completed_at": "2026-10-06T21:21:28Z"
+        },
+        {
+          "name": "Reference comparison",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-06T21:21:28Z",
+          "completed_at": "2026-10-06T21:21:42Z"
+        },
+        {
+          "name": "Require the intended reference test to pass without skipping",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-06T21:21:42Z",
+          "completed_at": "2026-10-06T21:21:42Z"
+        },
+        {
+          "name": "Run python -m pip freeze > reference-requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-06T21:21:42Z",
+          "completed_at": "2026-10-06T21:21:42Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-06T21:21:42Z",
+          "completed_at": "2026-10-06T21:21:43Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-06T21:21:43Z",
+          "completed_at": "2026-10-06T21:21:43Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-10-06T21:21:43Z",
+          "completed_at": "2026-10-06T21:21:44Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-10-06T21:21:44Z",
+          "completed_at": "2026-10-06T21:21:44Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112507475430",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000474,
+      "runner_name": "GitHub Actions 1000000474",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+[
+  {
+    "name": "real-training",
+    "sha256": "3bfbd5ebce9a55b1e47f0784b3615ec8bf6b4cbdb0f574e1694b6c33fba1ea49",
+    "files_preserved": [
+      "real-training-smoke-20261006T211458Z-d4bb66/result.json"
+    ],
+    "run_id": 37532430967
+  },
+  {
+    "name": "reference-embedding",
+    "sha256": "941879d4836b8a16769e6860790d680b3356d3782c66b2820449ffd31b166adc",
+    "files_preserved": [
+      "reference-junit.xml",
+      "reference-model.json",
+      "reference-requirements.txt",
+      "reference-verification.json"
+    ],
+    "run_id": 37532430967
+  },
+  {
+    "name": "reference-reranker",
+    "sha256": "7c1b71a8c056bde67abe236b98586476bcad478ea6665e31f2ac3114ff87404c",
+    "files_preserved": [
+      "reference-junit.xml",
+      "reference-model.json",
+      "reference-verification.json",
+      "reference-requirements.txt"
+    ],
+    "run_id": 37532430967
+  },
+  {
+    "name": "independent-contracts",
+    "sha256": "4a686c358f9e1739883f3057560d424b75d392ae93781bcfba7dee1580ce3965",
+    "files_preserved": [
+      "additional-results.json",
+      "finite-loss-gradient-gradcache.json",
+      "core-junit.xml",
+      "finite-loss-gradient-ordinary.json",
+      "mcp-stderr.log",
+      "resolved-requirements.txt",
+      "results.json",
+      "scientific-junit.xml"
+    ],
+    "run_id": 37532318161
+  },
+  {
+    "name": "minimum-ml",
+    "sha256": "63f0882e72d7e032b8b5e059a423d69b8f0d04b443d4b868332933f65747439e",
+    "files_preserved": [
+      "minimum-ml-junit.xml",
+      "minimum-ml-requirements.txt"
+    ],
+    "run_id": 37532318161
+  },
+  {
+    "name": "installed-macos-latest-3.13",
+    "sha256": "89c93944a9575dc1de1e709abaf0ca3ce98d8ba6426f0f1a3f7108c6526797d6",
+    "files_preserved": [
+      "installed-junit.xml",
+      "installed-requirements.txt",
+      "installed-result.json"
+    ],
+    "run_id": 37532318161
+  },
+  {
+    "name": "installed-ubuntu-latest-3.10",
+    "sha256": "6ae01caec8524df0a09e2876d1fd7c9860bd91ac70580ae974898dec71a9b4ba",
+    "files_preserved": [
+      "installed-junit.xml",
+      "installed-requirements.txt",
+      "installed-result.json"
+    ],
+    "run_id": 37532318161
+  },
+  {
+    "name": "installed-ubuntu-latest-3.11",
+    "sha256": "950ea508678ed97980e1e856f909048a37130bcd0559279768c356834f7f600e",
+    "files_preserved": [
+      "installed-junit.xml",
+      "installed-requirements.txt",
+      "installed-result.json"
+    ],
+    "run_id": 37532318161
+  },
+  {
+    "name": "installed-ubuntu-latest-3.12",
+    "sha256": "730ae8d5e3ba01fbfec636b1a46e3d1a07ffef942fe038ff386999704004a541",
+    "files_preserved": [
+      "installed-junit.xml",
+      "installed-requirements.txt",
+      "installed-result.json"
+    ],
+    "run_id": 37532318161
+  },
+  {
+    "name": "installed-ubuntu-latest-3.13",
+    "sha256": "5e8d5cd4717eb695ceebce69c4255196b9d8e665574a475cc8a489603ce4e321",
+    "files_preserved": [
+      "installed-junit.xml",
+      "installed-requirements.txt",
+      "installed-result.json"
+    ],
+    "run_id": 37532318161
+  },
+  {
+    "name": "installed-windows-latest-3.13",
+    "sha256": "befd59287d41d9a6bf1d8c17e36598d92f7390f2cfafce655a1cb783e514ca6a",
+    "files_preserved": [
+      "installed-junit.xml",
+      "installed-requirements.txt",
+      "installed-result.json"
+    ],
+    "run_id": 37532318161
+  }
+]

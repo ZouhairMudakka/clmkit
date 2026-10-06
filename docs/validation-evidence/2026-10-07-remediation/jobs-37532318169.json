@@ -1,0 +1,1029 @@
+{
+  "total_count": 10,
+  "jobs": [
+    {
+      "id": 112504504253,
+      "run_id": 37532318169,
+      "workflow_name": "CI",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318169",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcp_vQ",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504253",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318169/job/112504504253",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:14:57Z",
+      "name": "Full (CPU torch + transformers) / py3.12",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run pip install torch --index-url https://download.pytorch.org/whl/cpu",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:54Z"
+        },
+        {
+          "name": "Run pip install -e \".[dev,train,serve,mcp,faiss,sklearn]\"",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:54Z",
+          "completed_at": "2026-10-06T21:14:29Z"
+        },
+        {
+          "name": "Run pytest -q --cov=clmkit --cov-report=term --cov-report=xml",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:14:29Z",
+          "completed_at": "2026-10-06T21:14:53Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-06T21:14:53Z",
+          "completed_at": "2026-10-06T21:14:54Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:14:54Z",
+          "completed_at": "2026-10-06T21:14:55Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-06T21:14:55Z",
+          "completed_at": "2026-10-06T21:14:55Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-06T21:14:55Z",
+          "completed_at": "2026-10-06T21:14:55Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504253",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000371,
+      "runner_name": "GitHub Actions 1000000371",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504523,
+      "run_id": 37532318169,
+      "workflow_name": "CI",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318169",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqAyw",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504523",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318169/job/112504504523",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:15:21Z",
+      "name": "Core (no torch) / py3.13 / windows-latest",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:28Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:34Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:34Z",
+          "completed_at": "2026-10-06T21:13:34Z"
+        },
+        {
+          "name": "Run pip install -e \".[dev,serve,mcp,sklearn]\"",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:34Z",
+          "completed_at": "2026-10-06T21:15:06Z"
+        },
+        {
+          "name": "Import must not pull in torch",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:15:06Z",
+          "completed_at": "2026-10-06T21:15:06Z"
+        },
+        {
+          "name": "Run pytest -q",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:15:06Z",
+          "completed_at": "2026-10-06T21:15:18Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-06T21:15:18Z",
+          "completed_at": "2026-10-06T21:15:18Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-06T21:15:18Z",
+          "completed_at": "2026-10-06T21:15:20Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:15:20Z",
+          "completed_at": "2026-10-06T21:15:20Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504523",
+      "labels": [
+        "windows-latest"
+      ],
+      "runner_id": 1000000375,
+      "runner_name": "GitHub Actions 1000000375",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504532,
+      "run_id": 37532318169,
+      "workflow_name": "CI",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318169",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqA1A",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504532",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318169/job/112504504532",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:13:56Z",
+      "name": "Core (no torch) / py3.13 / ubuntu-latest",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:27Z",
+          "completed_at": "2026-10-06T21:13:28Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run pip install -e \".[dev,serve,mcp,sklearn]\"",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:48Z"
+        },
+        {
+          "name": "Import must not pull in torch",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:48Z",
+          "completed_at": "2026-10-06T21:13:48Z"
+        },
+        {
+          "name": "Run pytest -q",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:13:48Z",
+          "completed_at": "2026-10-06T21:13:55Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-06T21:13:55Z",
+          "completed_at": "2026-10-06T21:13:55Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-06T21:13:55Z",
+          "completed_at": "2026-10-06T21:13:55Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:13:55Z",
+          "completed_at": "2026-10-06T21:13:55Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504532",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000372,
+      "runner_name": "GitHub Actions 1000000372",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504538,
+      "run_id": 37532318169,
+      "workflow_name": "CI",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318169",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqA2g",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504538",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318169/job/112504504538",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:13:49Z",
+      "name": "Lint & type-check",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run pip install -e \".[dev]\"",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:42Z"
+        },
+        {
+          "name": "Run ruff check src tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:42Z",
+          "completed_at": "2026-10-06T21:13:42Z"
+        },
+        {
+          "name": "Run ruff format --check src tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:13:42Z",
+          "completed_at": "2026-10-06T21:13:42Z"
+        },
+        {
+          "name": "Run mypy",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-06T21:13:42Z",
+          "completed_at": "2026-10-06T21:13:46Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:13:46Z",
+          "completed_at": "2026-10-06T21:13:46Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-06T21:13:46Z",
+          "completed_at": "2026-10-06T21:13:47Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-06T21:13:47Z",
+          "completed_at": "2026-10-06T21:13:47Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504538",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000384,
+      "runner_name": "GitHub Actions 1000000384",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504556,
+      "run_id": 37532318169,
+      "workflow_name": "CI",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318169",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqA7A",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504556",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318169/job/112504504556",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:14:49Z",
+      "name": "Full (CPU torch + transformers) / py3.10",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:28Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run pip install torch --index-url https://download.pytorch.org/whl/cpu",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:51Z"
+        },
+        {
+          "name": "Run pip install -e \".[dev,train,serve,mcp,faiss,sklearn]\"",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:51Z",
+          "completed_at": "2026-10-06T21:14:24Z"
+        },
+        {
+          "name": "Run pytest -q --cov=clmkit --cov-report=term --cov-report=xml",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:14:24Z",
+          "completed_at": "2026-10-06T21:14:47Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 7,
+          "started_at": "2026-10-06T21:14:47Z",
+          "completed_at": "2026-10-06T21:14:47Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:14:47Z",
+          "completed_at": "2026-10-06T21:14:48Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-06T21:14:48Z",
+          "completed_at": "2026-10-06T21:14:48Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-06T21:14:48Z",
+          "completed_at": "2026-10-06T21:14:48Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504556",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000383,
+      "runner_name": "GitHub Actions 1000000383",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504632,
+      "run_id": 37532318169,
+      "workflow_name": "CI",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318169",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqBOA",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504632",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318169/job/112504504632",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:14:05Z",
+      "name": "Core (no torch) / py3.10 / ubuntu-latest",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:30Z"
+        },
+        {
+          "name": "Run pip install -e \".[dev,serve,mcp,sklearn]\"",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:30Z",
+          "completed_at": "2026-10-06T21:13:55Z"
+        },
+        {
+          "name": "Import must not pull in torch",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:55Z",
+          "completed_at": "2026-10-06T21:13:55Z"
+        },
+        {
+          "name": "Run pytest -q",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:13:55Z",
+          "completed_at": "2026-10-06T21:14:02Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-06T21:14:02Z",
+          "completed_at": "2026-10-06T21:14:03Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-06T21:14:03Z",
+          "completed_at": "2026-10-06T21:14:03Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:14:03Z",
+          "completed_at": "2026-10-06T21:14:03Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504632",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000382,
+      "runner_name": "GitHub Actions 1000000382",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504667,
+      "run_id": 37532318169,
+      "workflow_name": "CI",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318169",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqBWw",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504667",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318169/job/112504504667",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:14:37Z",
+      "name": "Security scan",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run python -m pip install -U pip setuptools wheel && pip install bandit pip-audit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:38Z"
+        },
+        {
+          "name": "Run bandit -q -r src/clmkit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:13:38Z",
+          "completed_at": "2026-10-06T21:13:39Z"
+        },
+        {
+          "name": "Audit the dependency set a fresh install resolves to",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:13:39Z",
+          "completed_at": "2026-10-06T21:14:35Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-06T21:14:35Z",
+          "completed_at": "2026-10-06T21:14:35Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-06T21:14:35Z",
+          "completed_at": "2026-10-06T21:14:35Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:14:35Z",
+          "completed_at": "2026-10-06T21:14:35Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504667",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000373,
+      "runner_name": "GitHub Actions 1000000373",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504775,
+      "run_id": 37532318169,
+      "workflow_name": "CI",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318169",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqBxw",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504775",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318169/job/112504504775",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:32Z",
+      "completed_at": "2026-10-06T21:15:00Z",
+      "name": "Core (no torch) / py3.10 / macos-latest",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:32Z",
+          "completed_at": "2026-10-06T21:13:32Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:32Z",
+          "completed_at": "2026-10-06T21:13:34Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:34Z",
+          "completed_at": "2026-10-06T21:13:56Z"
+        },
+        {
+          "name": "Run pip install -e \".[dev,serve,mcp,sklearn]\"",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:56Z",
+          "completed_at": "2026-10-06T21:14:14Z"
+        },
+        {
+          "name": "Import must not pull in torch",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:14:14Z",
+          "completed_at": "2026-10-06T21:14:15Z"
+        },
+        {
+          "name": "Run pytest -q",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:14:15Z",
+          "completed_at": "2026-10-06T21:14:56Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-06T21:14:56Z",
+          "completed_at": "2026-10-06T21:14:57Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-06T21:14:57Z",
+          "completed_at": "2026-10-06T21:14:58Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:14:58Z",
+          "completed_at": "2026-10-06T21:14:59Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504775",
+      "labels": [
+        "macos-latest"
+      ],
+      "runner_id": 1000000389,
+      "runner_name": "GitHub Actions 1000000389",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504805,
+      "run_id": 37532318169,
+      "workflow_name": "CI",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318169",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqB5Q",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504805",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318169/job/112504504805",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:27Z",
+      "completed_at": "2026-10-06T21:14:23Z",
+      "name": "Core (no torch) / py3.10 / windows-latest",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:28Z",
+          "completed_at": "2026-10-06T21:13:29Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:29Z",
+          "completed_at": "2026-10-06T21:13:33Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:33Z",
+          "completed_at": "2026-10-06T21:13:33Z"
+        },
+        {
+          "name": "Run pip install -e \".[dev,serve,mcp,sklearn]\"",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:33Z",
+          "completed_at": "2026-10-06T21:14:10Z"
+        },
+        {
+          "name": "Import must not pull in torch",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:14:10Z",
+          "completed_at": "2026-10-06T21:14:11Z"
+        },
+        {
+          "name": "Run pytest -q",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:14:11Z",
+          "completed_at": "2026-10-06T21:14:20Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-06T21:14:20Z",
+          "completed_at": "2026-10-06T21:14:20Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-06T21:14:20Z",
+          "completed_at": "2026-10-06T21:14:21Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:14:21Z",
+          "completed_at": "2026-10-06T21:14:21Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504805",
+      "labels": [
+        "windows-latest"
+      ],
+      "runner_id": 1000000386,
+      "runner_name": "GitHub Actions 1000000386",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112504504811,
+      "run_id": 37532318169,
+      "workflow_name": "CI",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/runs/37532318169",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU-qRu88AAAAaMcqB6w",
+      "head_sha": "7bb7a075054e79ce3ea0e58fa5c2c170fb0ff20d",
+      "url": "https://api.github.com/repos/ZouhairMudakka/clmkit/actions/jobs/112504504811",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37532318169/job/112504504811",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T21:13:25Z",
+      "started_at": "2026-10-06T21:13:36Z",
+      "completed_at": "2026-10-06T21:15:12Z",
+      "name": "Core (no torch) / py3.13 / macos-latest",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-06T21:13:38Z",
+          "completed_at": "2026-10-06T21:13:39Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-06T21:13:39Z",
+          "completed_at": "2026-10-06T21:13:42Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-06T21:13:42Z",
+          "completed_at": "2026-10-06T21:13:42Z"
+        },
+        {
+          "name": "Run pip install -e \".[dev,serve,mcp,sklearn]\"",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-06T21:13:42Z",
+          "completed_at": "2026-10-06T21:14:18Z"
+        },
+        {
+          "name": "Import must not pull in torch",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-06T21:14:18Z",
+          "completed_at": "2026-10-06T21:14:19Z"
+        },
+        {
+          "name": "Run pytest -q",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-06T21:14:19Z",
+          "completed_at": "2026-10-06T21:15:05Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-06T21:15:05Z",
+          "completed_at": "2026-10-06T21:15:06Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-06T21:15:06Z",
+          "completed_at": "2026-10-06T21:15:07Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-06T21:15:07Z",
+          "completed_at": "2026-10-06T21:15:10Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ZouhairMudakka/clmkit/check-runs/112504504811",
+      "labels": [
+        "macos-latest"
+      ],
+      "runner_id": 1000000388,
+      "runner_name": "GitHub Actions 1000000388",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

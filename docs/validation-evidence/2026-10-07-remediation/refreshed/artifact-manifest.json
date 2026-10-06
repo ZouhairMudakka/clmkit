@@ -1,0 +1,56 @@
+[
+  {
+    "name": "independent-contracts",
+    "sha256": "370d118c573001e79163fbd2ac4b9be249a0321a84fb7a5e48c8f8aa1f97d6fc",
+    "files_preserved": [
+      "additional-results.json",
+      "finite-loss-gradient-gradcache.json",
+      "core-junit.xml",
+      "finite-loss-gradient-ordinary.json",
+      "mcp-stderr.log",
+      "resolved-requirements.txt",
+      "results.json",
+      "scientific-junit.xml"
+    ],
+    "run_id": 37533090000
+  },
+  {
+    "name": "minimum-ml",
+    "sha256": "2ad37516498e15091bdefe44414db6b42c9d6bf6a3f81ded1baaa82814cb6f1f",
+    "files_preserved": [
+      "minimum-ml-junit.xml",
+      "minimum-ml-requirements.txt"
+    ],
+    "run_id": 37533090000
+  },
+  {
+    "name": "real-training",
+    "sha256": "6f7409395b4ca1563de0f2b898bb2e6402e5beba4eaa3a6f269ca0b7f4e0c201",
+    "files_preserved": [
+      "real-training-smoke-20261006T212117Z-400e6f/result.json"
+    ],
+    "run_id": 37533195934
+  },
+  {
+    "name": "reference-embedding",
+    "sha256": "10158c81c73fb62b2fa6d13af2bd32da31dc0bca7083d67c83e988aa6abc524f",
+    "files_preserved": [
+      "reference-junit.xml",
+      "reference-verification.json",
+      "reference-model.json",
+      "reference-requirements.txt"
+    ],
+    "run_id": 37533195934
+  },
+  {
+    "name": "reference-reranker",
+    "sha256": "ce7f1285373c7958868f29c682acb694f17f199beb7693cb35b529f57b5d80c2",
+    "files_preserved": [
+      "reference-junit.xml",
+      "reference-model.json",
+      "reference-verification.json",
+      "reference-requirements.txt"
+    ],
+    "run_id": 37533195934
+  }
+]

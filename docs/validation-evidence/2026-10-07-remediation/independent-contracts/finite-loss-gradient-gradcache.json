@@ -1,0 +1,12 @@
+{
+  "mini_batch_size": 2,
+  "observed_loss_values": [
+    1.0
+  ],
+  "exception": "FloatingPointError('non-finite cached gradients at step 1')",
+  "global_step": 0,
+  "nonfinite_parameter_names": [],
+  "changed_parameter_names": [],
+  "optimizer_state_entries": 0,
+  "scheduler_changed": false
+}

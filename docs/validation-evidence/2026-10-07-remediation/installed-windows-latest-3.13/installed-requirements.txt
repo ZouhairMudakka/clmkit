@@ -1,0 +1,8 @@
+clmkit @ file:///D:/a/clmkit/clmkit/validation-results/clmkit-0.1.0-py3-none-any.whl#sha256=653d29b6b37c629c8336cdd5a02c91fff27cfdeae0a3bb357137b232d2c02f97
+colorama==0.4.6
+iniconfig==2.3.0
+numpy==2.5.3
+packaging==26.3
+pluggy==1.6.0
+Pygments==2.21.0
+pytest==9.1.1

@@ -1,10 +1,9 @@
 # clmkit
 
-> **Development preview — validation in progress.** Independent tests have found
-> training, persistence and input-validation defects. Fixes are undergoing verification; this is not yet
-> a verified public-alpha release. Read [current validation status](docs/VALIDATION_STATUS.md)
-> before using the training or serving paths. Historical audit claims below do
-> not override the current findings.
+> **Public alpha — validated CPU scope.** Audited training, persistence and input
+> contracts pass the corrected test suite and hosted checks. Read
+> [validation status and limits](docs/VALIDATION_STATUS.md) before using training
+> or serving paths. GPU/4B/8B capacity and production reliability remain unverified.
 
 **A lightweight, pluggable skeleton framework for Contrastive Language Models.**
 Encode, fine-tune, index, retrieve, rerank, evaluate and serve text-embedding models, and drop them into ML pipelines or AI agents.
@@ -12,7 +11,7 @@ Encode, fine-tune, index, retrieve, rerank, evaluate and serve text-embedding mo
 [![CI](https://github.com/ZouhairMudakka/clmkit/actions/workflows/ci.yml/badge.svg)](https://github.com/ZouhairMudakka/clmkit/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)
-![Status: development preview](https://img.shields.io/badge/status-development_preview-orange)
+![Status: public alpha](https://img.shields.io/badge/status-public_alpha-orange)
 
 ---
 
@@ -185,10 +184,11 @@ docs/            DESIGN · TRAINING · AGENTS · GAP_ANALYSIS · AUDIT
 
 ## Quality
 
-The original audit baseline passed 102 tests while independent probes exposed defects.
-Remediation adds regressions for those contracts and CI for the minimum supported ML
-stack. See [current validation status](docs/VALIDATION_STATUS.md) for corrected-candidate
-results, historical run links, environment advisories and untested hardware. Earlier
+All 22 final hosted jobs pass: standard CI, independent contracts, clean installed
+wheels, minimum ML dependencies, and real Qwen 0.6B reference/training checks.
+The independent review found no remaining P1 blocker in the documented CPU alpha
+scope. See [current validation status](docs/VALIDATION_STATUS.md) for exact results,
+historical run links, environment advisories and untested hardware. Earlier
 coverage figures and Qwen smoke results describe their recorded commits, not every
 future change. [Validation harnesses](validation/README.md) preserve the independent checks.
 
@@ -199,6 +199,7 @@ future change. [Validation harnesses](validation/README.md) preserve the indepen
 - [Agents & integrations](docs/AGENTS.md): memory, routing, tools, MCP, REST, LangChain, sklearn
 - [Gap analysis & roadmap](docs/GAP_ANALYSIS.md): what's covered, what isn't, what's next
 - [Audit report](docs/AUDIT.md): tests, static analysis, security review, real-model validation
+- [Audit remediation](docs/REMEDIATION.md): corrected contracts, acceptance evidence and remaining gaps
 
 ## Contributing
 

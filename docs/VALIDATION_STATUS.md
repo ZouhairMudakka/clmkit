@@ -1,11 +1,13 @@
 # Validation status — 7 October 2026
 
-This repository is published for development and validation. **It is not yet a
-verified public-alpha release.** No release tag is approved by these results.
+**The corrected framework meets the documented CPU public-alpha criteria.**
+The two P1 blockers and narrower supported-contract findings are resolved. This
+assessment does not establish production readiness, GPU capacity or quality gains.
+No tagged GitHub release or PyPI package has been published by this remediation.
 
-## Remediation candidate — 7 October 2026
+## Verified remediation — 7 October 2026
 
-The current candidate fixes epoch truncation, pre-update numerical guards,
+Product commit `7bb7a07` fixes epoch truncation, pre-update numerical guards,
 weighted Matryoshka pairing, output-dimension reload, mixed instructions, memory
 settings, encoder fingerprints, saved-store integrity and malformed remote output.
 HF/PEFT loaders require safetensors; supported minimum ML versions are torch 2.13,
@@ -15,8 +17,35 @@ Local combined validation passes **253 tests and six subtests**, with two opt-in
 real-model checks skipped. Actual protocol probes pass **44/44**; additional
 LangChain/transport probes pass **10/10**. Ruff, format, mypy and Bandit pass.
 The combined run collected before one final mocked model-revision test was added;
-that test is checked separately. Hosted candidate, minimum-stack, installed-wheel
-and real-model results are pending, as is independent remediation review.
+that test passed separately, as did the final snapshot-version and custom-encoder
+guards. The full exact-commit hosted checks below include these final additions.
+
+Workflow-only commit `234c2942c256055a09e79eb0c2b241fe029ea153` refreshes packaging
+tools before every CPU model installation. On that commit all **22 hosted jobs pass**:
+
+| Validation | Result |
+|---|---|
+| [Standard CI](https://github.com/ZouhairMudakka/clmkit/actions/runs/37533089986) | 10/10 jobs: Linux/Windows/macOS core, full CPU Python 3.10/3.12, static checks and fresh dependency scan. |
+| [Independent validation](https://github.com/ZouhairMudakka/clmkit/actions/runs/37533090000) | 9/9 jobs: scientific 14/14, core 20 methods plus six subtests, protocol 44/44, additional 10/10; six installed-wheel jobs; MCP 1.x; minimum ML stack with passing audit. |
+| [Real Qwen 0.6B](https://github.com/ZouhairMudakka/clmkit/actions/runs/37533195934) | 3/3 jobs: guarded embedding/reranker references and one-step LoRA with finite updates and adapter reload parity. |
+
+The exact minimum ML job pins torch 2.13.0+cpu, transformers 5.17.0, PEFT 0.21.1
+and safetensors 0.8.0; transitive packages are freshly resolved. It reports 236
+passes and 11 optional skips, with slow tests excluded. Each initially preserved
+installed-wheel artifact reports 135 passes and 17 optional skips (two slow tests
+deselected); the final six-job wheel matrix also passes on unchanged product code.
+
+The extra-high independent review found no remaining P1 implementation blocker.
+See [remediation and remaining gaps](REMEDIATION.md) and
+[retained per-commit evidence](validation-evidence/2026-10-07-remediation/).
+Private vulnerability reporting is enabled and verified. Reference tolerances
+remain embedding `atol=2e-3` and reranker `atol=1e-6`; no general quality claim follows.
+
+The first remediation runs passed behavior checks but retained setuptools 78.1.0
+in contract/reference environments. The final refreshed artifacts record 84.0.0;
+dedicated current/minimum security jobs pass. Older results remain qualified in
+the evidence directory. The laptop's inherited cryptography advisories are not
+silently reclassified as fixed by these fresh hosted results.
 
 Memory decay explicitly ranks within a bounded semantic candidate pool (default
 four times `k`); the independent oracle now tests both that documented limitation
