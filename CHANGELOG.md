@@ -15,6 +15,7 @@ quickstart and release artifacts are checked in isolated installations. GPU,
 - Restore saved output dimensions and memory settings; validate stored IDs and version encoder fingerprints.
 - Require safetensors for HF models and adapters; raise ML dependency floors and test the minimum stack in CI.
 - Document bounded memory-decay ranking, single-writer snapshot trust and unverified GPU/large-model paths.
+- Restrict source archives to explicit root-relative package/test files and verify their contents before distribution.
 
 ## [0.1.0] - 2026-09-30
 

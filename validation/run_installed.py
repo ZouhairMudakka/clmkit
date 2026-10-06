@@ -1,11 +1,13 @@
 """Build an sdist/wheel and test a non-editable install in a NumPy-only venv."""
 import json
+import hashlib
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import shutil
 import subprocess
 import sys
 import tempfile
+import tarfile
 import venv
 
 root = Path(__file__).resolve().parents[1]
@@ -16,6 +18,23 @@ with tempfile.TemporaryDirectory(prefix="clmkit-build-") as build_folder:
     subprocess.run([sys.executable, "-m", "build", "--outdir", build_folder], cwd=root, check=True)
     wheels = list(Path(build_folder).glob("*.whl"))
     assert len(wheels) == 1, wheels
+    sdists = list(Path(build_folder).glob("*.tar.gz"))
+    assert len(sdists) == 1, sdists
+    with tarfile.open(sdists[0]) as archive:
+        members = archive.getmembers()
+        roots = {PurePosixPath(member.name).parts[0] for member in members}
+        assert len(roots) == 1, roots
+        paths = [PurePosixPath(*PurePosixPath(member.name).parts[1:]) for member in members if member.isfile()]
+        allowed_root = {"README.md", "LICENSE", "CHANGELOG.md", "pyproject.toml", "PKG-INFO", ".gitignore"}
+        unexpected = [str(path) for path in paths if not (
+            str(path) in allowed_root or path.is_relative_to("src/clmkit") or path.is_relative_to("tests")
+        ) or ".." in path.parts]
+        assert not unexpected, f"Unexpected sdist files: {unexpected}"
+        assert not any(member.issym() or member.islnk() for member in members), "sdist must not contain links"
+    inventory = {"sdist_files": [str(path) for path in paths], "artifacts": {
+        artifact.name: hashlib.sha256(artifact.read_bytes()).hexdigest() for artifact in [wheels[0], sdists[0]]
+    }}
+    (artifacts / "artifact-inventory.json").write_text(json.dumps(inventory, indent=2), encoding="utf-8")
     wheel = artifacts / wheels[0].name
     for artifact in Path(build_folder).iterdir():
         shutil.copy2(artifact, artifacts / artifact.name)
