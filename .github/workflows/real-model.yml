@@ -19,7 +19,7 @@ jobs:
       OMP_NUM_THREADS: "2"
       MKL_NUM_THREADS: "2"
       TOKENIZERS_PARALLELISM: "false"
-      HF_HOME: ${{ runner.temp }}/hf
+      HF_HOME: ${{ github.workspace }}/.hf-cache
       MODEL_KIND: ${{ matrix.kind }}
     steps:
       - uses: actions/checkout@v4
