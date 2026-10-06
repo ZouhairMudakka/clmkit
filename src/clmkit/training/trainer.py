@@ -89,6 +89,8 @@ class TrainConfig:
     metric_for_best: str | None = None
 
     def __post_init__(self) -> None:
+        if self.epochs < 1 and self.max_steps is None:
+            raise ValueError("epochs must be >= 1")
         if self.batch_size < 1:
             raise ValueError("batch_size must be >= 1")
         if self.mini_batch_size is not None and self.mini_batch_size < 1:
@@ -97,6 +99,8 @@ class TrainConfig:
             raise ValueError("log_every must be >= 1")
         if self.max_steps is not None and self.max_steps < 1:
             raise ValueError("max_steps must be >= 1")
+        if self.max_negatives is not None and self.max_negatives < 0:
+            raise ValueError("max_negatives must be >= 0")
         if self.precision not in ("auto", "bf16", "fp32"):
             raise ValueError("precision must be 'auto', 'bf16' or 'fp32' (fp16 is not supported)")
         if isinstance(self.lora, dict):
@@ -159,8 +163,11 @@ class ContrastiveTrainer:
             [{"params": decay, "weight_decay": config.weight_decay}, {"params": no_decay, "weight_decay": 0.0}],
             lr=config.learning_rate,
         )
-        steps_per_epoch = math.ceil(len(self.examples) / config.batch_size)
-        self.total_steps = config.max_steps or max(1, steps_per_epoch * config.epochs)
+        # Duplicate avoidance can expand (and shuffling can change) an epoch's
+        # batch count. Count the same deterministic batches the loop will use.
+        self.total_steps = config.max_steps or sum(
+            sum(1 for _ in self._epoch_batches(epoch)) for epoch in range(config.epochs)
+        )
         warmup = int(self.total_steps * config.warmup_ratio)
 
         def schedule(step: int) -> float:
@@ -200,6 +207,19 @@ class ContrastiveTrainer:
         return contextlib.nullcontext()
 
     # --------------------------------------------------------------- step --
+    def _epoch_batches(self, epoch: int) -> Iterator[list[ContrastiveExample]]:
+        return iter_batches(
+            self.examples,
+            self.config.batch_size,
+            shuffle=True,
+            seed=self.config.seed + epoch,
+            avoid_duplicates=self.config.avoid_duplicates,
+        )
+
+    def _check_finite_loss(self, loss: torch.Tensor) -> None:
+        if not math.isfinite(float(loss.detach())):
+            raise FloatingPointError(f"non-finite loss at step {self.global_step + 1}")
+
     def _prepare(self, batch: list[ContrastiveExample]) -> tuple[list[str], list[str | None], list[str], int, Any]:
         n_per = min(len(ex.negatives) for ex in batch)
         if self.config.max_negatives is not None:
@@ -245,6 +265,7 @@ class ContrastiveTrainer:
                 q = self.encoder.forward(q_texts, "query", q_inst)
                 d = self.encoder.forward(d_texts, "document", None)
             loss = self._loss(q, d, n_per, scores)
+            self._check_finite_loss(loss)
             loss.backward()
             return float(loss.detach())
         return self._gradcache_step(q_texts, q_inst, d_texts, n_per, scores)
@@ -274,8 +295,11 @@ class ContrastiveTrainer:
         q_all = torch.cat(reps[0]).float().detach().requires_grad_()
         d_all = torch.cat(reps[1]).float().detach().requires_grad_()
         loss = self._loss(q_all, d_all, n_per, scores)
+        self._check_finite_loss(loss)
         loss.backward()
         cached = [q_all.grad, d_all.grad]
+        if any(grad is not None and not torch.isfinite(grad).all() for grad in cached):
+            raise FloatingPointError(f"non-finite cached gradients at step {self.global_step + 1}")
 
         # 3) Re-run each chunk with a graph and push the cached gradient through it.
         for (kind, texts, inst), g_states, grad in zip(groups, states, cached, strict=True):
@@ -304,23 +328,25 @@ class ContrastiveTrainer:
         done = False
         epoch = 0
         while not done and (cfg.max_steps is not None or epoch < cfg.epochs):
-            for batch in iter_batches(
-                self.examples,
-                cfg.batch_size,
-                shuffle=True,
-                seed=cfg.seed + epoch,
-                avoid_duplicates=cfg.avoid_duplicates,
-            ):
-                loss = self.training_step(batch)
-                if cfg.max_grad_norm:
-                    torch.nn.utils.clip_grad_norm_(params, cfg.max_grad_norm)
+            for batch in self._epoch_batches(epoch):
+                try:
+                    loss = self.training_step(batch)
+                    if not math.isfinite(loss):
+                        raise FloatingPointError(f"non-finite loss at step {self.global_step + 1}")
+                    if any(p.grad is not None and not torch.isfinite(p.grad).all() for p in params):
+                        raise FloatingPointError(f"non-finite gradients at step {self.global_step + 1}")
+                    if cfg.max_grad_norm:
+                        norm = torch.nn.utils.clip_grad_norm_(params, cfg.max_grad_norm)
+                        if not torch.isfinite(norm):
+                            raise FloatingPointError(f"non-finite gradient norm at step {self.global_step + 1}")
+                except FloatingPointError:
+                    self.optimizer.zero_grad(set_to_none=True)
+                    raise
                 self.optimizer.step()
                 self.scheduler.step()
                 self.optimizer.zero_grad(set_to_none=True)
                 self.global_step += 1
                 running.append(loss)
-                if not math.isfinite(loss):
-                    raise FloatingPointError(f"non-finite loss {loss} at step {self.global_step}")
                 if self.global_step % cfg.log_every == 0:
                     self._log(
                         {
@@ -336,7 +362,7 @@ class ContrastiveTrainer:
                     model.train()
                 if cfg.save_every and self.global_step % cfg.save_every == 0:
                     self.encoder.save_pretrained(out / f"checkpoint-{self.global_step}", merge_adapter=False)
-                if self.global_step >= self.total_steps:
+                if cfg.max_steps is not None and self.global_step >= cfg.max_steps:
                     done = True
                     break
             epoch += 1

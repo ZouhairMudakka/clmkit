@@ -111,3 +111,20 @@ result = trainer.train()
 ```
 
 Custom losses need only the call signature `(query, positive, negatives=None, scores=None) -> Tensor`. Pass one with `loss_fn=` or register it in `clmkit.LOSSES`.
+
+## Training contracts and limits
+
+Without `max_steps`, an epoch consumes every duplicate-aware batch. The scheduler
+counts the same deterministic batch plans; this adds an initial batching pass.
+Explicit `max_steps` is a step budget and may intentionally stop partway through
+an epoch. Repeated duplicate groups can still make the sampler quadratic.
+Singleton InfoNCE batches without hard negatives have no contrastive learning signal.
+
+Non-finite loss or gradients raise before optimizer/scheduler updates and clear
+gradient buffers. This does not roll back arbitrary custom encoder side effects.
+Weighted Matryoshka dimensions retain their supplied weight pairing; dimensions
+must be unique positive integers and weights finite, nonnegative with positive sum.
+
+HF checkpoint loading requires safetensors. Saved weights/adapters are inference
+checkpoints, not resumable optimizer/scheduler state. 4B/8B capacity, CUDA mixed
+precision, multi-GPU training and held-out quality improvement remain unverified.

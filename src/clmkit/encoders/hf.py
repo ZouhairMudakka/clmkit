@@ -5,6 +5,7 @@ Requires ``pip install "clmkit[hf]"``.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import warnings
@@ -24,6 +25,68 @@ if TYPE_CHECKING:
     import torch
 
 logger = logging.getLogger(__name__)
+
+
+class _Unset:
+    """Distinguish an omitted output dimension from an explicit native-dimension override."""
+
+
+_UNSET = _Unset()
+
+
+def _safe_model_kwargs(path: str | None, revision: str | None, kwargs: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Enforce safetensors and reject implicit PEFT loading, which can fall back to pickle."""
+    options = dict(kwargs or {})
+    if "use_safetensors" in options and options["use_safetensors"] is not True:
+        raise ValueError("clmkit requires use_safetensors=True")
+    for key in ("from_tf", "from_flax", "adapter_kwargs", "_adapter_model_path", "_commit_hash"):
+        if key in options:
+            raise ValueError(f"model_kwargs[{key!r}] is unsupported by the safetensors-only loader")
+    options["use_safetensors"] = True
+    if path:
+        transformers = require("transformers")
+        hub_options = {k: options[k] for k in ("cache_dir", "token", "local_files_only", "subfolder") if k in options}
+        # PEFT does not enforce a use_safetensors argument. Never let Transformers
+        # transparently enter its adapter loader; HFEncoder handles adapters itself.
+        local = Path(path)
+        if local.is_dir():
+            adapter_config = local / str(options.get("subfolder", "")) / "adapter_config.json"
+            is_adapter = adapter_config.is_file() or (local / "adapter_config.json").is_file()
+        else:
+            # Pin the check and the eventual loader to one snapshot, so a moving
+            # Hub branch cannot introduce an unchecked implicit adapter in between.
+            config_path = transformers.utils.hub.cached_file(path, "config.json", revision=revision, **hub_options)
+            commit = transformers.utils.hub.extract_commit_hash(config_path, None)
+            if commit is None:
+                raise ValueError("could not resolve an immutable model snapshot for safetensors loading")
+            options["_commit_hash"] = commit
+            revision = commit
+            is_adapter = transformers.utils.find_adapter_config_file(path, revision=revision, **hub_options) is not None
+        if is_adapter:
+            raise ValueError(
+                "implicit adapter loading is unsupported; use HFEncoder(base, adapter=...) with safetensors"
+            )
+        # Keep the dependency's own adapter lookup on the same revision and options.
+        options["adapter_kwargs"] = {"revision": revision, **hub_options}
+    return options
+
+
+def _safe_adapter_path(adapter: str, revision: str | None = None) -> str:
+    """Resolve only safe adapter weights; PEFT itself otherwise permits .bin fallback."""
+    local = Path(adapter)
+    if local.is_dir():
+        if not (local / "adapter_model.safetensors").is_file():
+            raise ValueError("adapter requires adapter_model.safetensors; legacy .bin weights are unsupported")
+        return str(local)
+    hub = require("huggingface_hub")
+    weights = Path(hub.hf_hub_download(adapter, "adapter_model.safetensors", revision=revision))
+    # The cache snapshot directory is an immutable commit, unlike a mutable branch.
+    commit = weights.parent.name
+    config = Path(hub.hf_hub_download(adapter, "adapter_config.json", revision=commit))
+    if config.parent != weights.parent:
+        raise ValueError("adapter config and safetensors must belong to the same snapshot")
+    return str(weights.parent)
+
 
 _DTYPES = {
     "float32": "float32",
@@ -87,23 +150,25 @@ class HFEncoder(Encoder):
         max_length: int | None = None,
         ensure_eos: bool | None = None,
         eos_token: str | None = None,
-        output_dim: int | None = None,
+        output_dim: int | _Unset | None = _UNSET,
         device: str | None = "auto",
         dtype: str | None = "auto",
         revision: str | None = None,
         trust_remote_code: bool = False,
         adapter: str | None = None,
+        adapter_revision: str | None = None,
         model_kwargs: dict[str, Any] | None = None,
         tokenizer_kwargs: dict[str, Any] | None = None,
     ) -> None:
         if model_name_or_path is None and (model is None or tokenizer is None):
             raise ValueError("pass model_name_or_path, or both model= and tokenizer=")
         preset: ModelPreset = resolve_preset(model_name_or_path) if model_name_or_path else DEFAULT_PRESET
+        resolved_output_dim = preset.output_dim if isinstance(output_dim, _Unset) else output_dim
         super().__init__(
             query_template=query_template or preset.query_template,
             document_template=document_template or preset.document_template,
             default_instruction=default_instruction if default_instruction is not None else preset.default_instruction,
-            output_dim=output_dim,
+            output_dim=resolved_output_dim,
         )
         torch = require("torch")
         transformers = require("transformers")
@@ -146,19 +211,25 @@ class HFEncoder(Encoder):
                 revision=revision,
                 trust_remote_code=trust_remote_code,
                 **_dtype_kwarg(resolve_torch_dtype(dtype, self.device)),
-                **(model_kwargs or {}),
+                **_safe_model_kwargs(weights_path, revision, model_kwargs),
             )
         if adapter:
             peft = require("peft")
-            model = peft.PeftModel.from_pretrained(model, adapter)
+            adapter_path = _safe_adapter_path(adapter, adapter_revision)
+            model = peft.PeftModel.from_pretrained(model, adapter_path, local_files_only=True)
         self.model = model.to(self.device)
         self.model.eval()
         self.name = model_name_or_path or type(model).__name__
+        self.revision = revision
+        self.resolved_revision = getattr(model.config, "_commit_hash", None)
+        self.adapter = adapter
+        self.adapter_revision = adapter_revision
+        self.resolved_adapter_revision = Path(adapter_path).name if adapter and not Path(adapter).is_dir() else None
         self._torch = torch
 
-        if output_dim and self.mrl_range and not (self.mrl_range[0] <= output_dim <= self.mrl_range[1]):
+        if self.output_dim and self.mrl_range and not (self.mrl_range[0] <= self.output_dim <= self.mrl_range[1]):
             warnings.warn(
-                f"output_dim={output_dim} is outside the model's Matryoshka range {self.mrl_range}", stacklevel=2
+                f"output_dim={self.output_dim} is outside the model's Matryoshka range {self.mrl_range}", stacklevel=2
             )
 
     # ------------------------------------------------------------ plumbing --
@@ -207,6 +278,39 @@ class HFEncoder(Encoder):
         return out
 
     # --------------------------------------------------------- persistence --
+    def fingerprint_config(self) -> dict[str, Any]:
+        tokenizer_config: dict[str, Any] = {
+            "class": type(self.tokenizer).__name__,
+            "padding_side": self.tokenizer.padding_side,
+            "truncation_side": self.tokenizer.truncation_side,
+            "special_tokens": self.tokenizer.special_tokens_map,
+        }
+        backend = getattr(self.tokenizer, "backend_tokenizer", None)
+        if backend is not None:
+            backend_config = json.loads(backend.to_str())
+            # These fields are mutated on each tokenization call; the effective
+            # settings are already represented by max_length and padding_side.
+            backend_config.pop("padding", None)
+            backend_config.pop("truncation", None)
+            tokenizer_config["backend"] = backend_config
+        else:
+            tokenizer_config["vocab"] = self.tokenizer.get_vocab()
+        tokenizer_digest = hashlib.sha256(
+            json.dumps(tokenizer_config, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        ).hexdigest()
+        return {
+            **super().fingerprint_config(),
+            **self.config_dict(),
+            "revision": self.revision,
+            "resolved_revision": self.resolved_revision,
+            "adapter": self.adapter,
+            "adapter_revision": self.adapter_revision,
+            "resolved_adapter_revision": self.resolved_adapter_revision,
+            "tokenizer": tokenizer_digest,
+            "dtype": str(getattr(self.model, "dtype", None)),
+            "attention_implementation": getattr(self.model.config, "_attn_implementation", None),
+        }
+
     def config_dict(self) -> dict[str, Any]:
         return ModelPreset(
             pooling=self.pooling,
@@ -218,6 +322,7 @@ class HFEncoder(Encoder):
             eos_token=self.eos_token,
             max_length=self.max_length,
             mrl_range=self.mrl_range,
+            output_dim=self.output_dim,
         ).to_dict()
 
     def save_pretrained(self, path: str | Path, *, merge_adapter: bool = False) -> Path:
@@ -231,7 +336,7 @@ class HFEncoder(Encoder):
         path.mkdir(parents=True, exist_ok=True)
         if merge_adapter and hasattr(self.model, "merge_and_unload"):
             self.model = self.model.merge_and_unload()
-        self.model.save_pretrained(str(path))
+        self.model.save_pretrained(str(path), safe_serialization=True)
         self.tokenizer.save_pretrained(str(path))
         (path / CONFIG_FILENAME).write_text(json.dumps(self.config_dict(), indent=2), encoding="utf-8")
         logger.info("saved encoder to %s", path)

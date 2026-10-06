@@ -40,18 +40,21 @@ classifiers = [
 dependencies = ["numpy>=1.24"]
 
 [project.optional-dependencies]
-hf = ["torch>=2.1", "transformers>=4.51"]
-train = ["torch>=2.1", "transformers>=4.51", "peft>=0.10"]
-# Lower bounds exclude releases with known CVEs (pip-audit, 2026-09); see docs/AUDIT.md.
+# ML support starts at the stack exercised by the October 2026 remediation.
+# Checkpoints must use safetensors; see SECURITY.md and the minimum-ML CI job.
+hf = ["torch>=2.13,<3", "transformers>=5.17,<6", "safetensors>=0.8"]
+train = ["torch>=2.13,<3", "transformers>=5.17,<6", "peft>=0.21.1,<0.22", "safetensors>=0.8"]
+# These floors exclude reviewed advisories, not all future vulnerabilities.
 serve = ["fastapi>=0.115", "starlette>=1.3.1", "uvicorn>=0.30", "h11>=0.16"]
 mcp = ["mcp>=1.28.1"]
 faiss = ["faiss-cpu>=1.7.4"]
 yaml = ["pyyaml>=6"]
 sklearn = ["scikit-learn>=1.3"]
 all = [
-  "torch>=2.1",
-  "transformers>=4.51",
-  "peft>=0.10",
+  "torch>=2.13,<3",
+  "transformers>=5.17,<6",
+  "peft>=0.21.1,<0.22",
+  "safetensors>=0.8",
   "fastapi>=0.115",
   "starlette>=1.3.1",
   "uvicorn>=0.30",

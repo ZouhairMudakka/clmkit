@@ -11,6 +11,7 @@ Aliases accepted: ``anchor``/``question`` for query, ``pos``/``document`` for po
 from __future__ import annotations
 
 import json
+import math
 import random
 from collections import deque
 from collections.abc import Iterator, Sequence
@@ -49,6 +50,8 @@ class ContrastiveExample:
             raise ValueError("negatives must be strings")
         if self.score is not None:
             self.score = float(self.score)
+            if not math.isfinite(self.score):
+                raise ValueError("score must be finite")
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> ContrastiveExample:
@@ -189,6 +192,10 @@ def mine_hard_negatives(
     * ``max_relative_score`` drops candidates scoring above ``ratio * sim(query, positive)``
       ("positive-aware" mining, NV-Retriever 2024).
     """
+    if num_negatives < 0 or skip_top < 0:
+        raise ValueError("num_negatives and skip_top must be >= 0")
+    if num_negatives == 0:
+        return [ContrastiveExample(e.query, e.positive, list(e.negatives), e.instruction, e.score) for e in examples]
     corpus = list(dict.fromkeys(corpus))  # dedupe, keep order
     if not corpus:
         raise ValueError("corpus is empty")

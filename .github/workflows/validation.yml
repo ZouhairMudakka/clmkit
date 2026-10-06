@@ -64,7 +64,7 @@ jobs:
       - run: python -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
       - run: python -m pip install --no-cache-dir -e '.[dev,all,faiss]' openai langchain-core
       - run: python -m pip freeze > validation/resolved-requirements.txt
-      # Known baseline failures stay visible; no xfail or continue-on-error.
+      # Contract failures remain release-blocking; no xfail or continue-on-error.
       - name: Scientific contracts
         run: python -m pytest -q validation/test_scientific_contracts.py validation/test_finite_loss_nonfinite_gradients.py --junitxml=validation/scientific-junit.xml
       - name: Core contracts
@@ -85,6 +85,29 @@ jobs:
             validation/*.json
             validation/*.log
             validation/resolved-requirements.txt
+          retention-days: 7
+
+  minimum-ml:
+    name: Minimum supported ML stack / CPU
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -U pip setuptools wheel
+      - run: python -m pip install 'torch==2.13.0' --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install -e '.[dev,train]' 'transformers==5.17.0' 'peft==0.21.1' 'safetensors==0.8.0' pip-audit
+      - run: python -m pip check
+      - run: python -m pip freeze > minimum-ml-requirements.txt
+      - run: python -m pytest -q -m 'not slow' tests validation/test_scientific_contracts.py validation/test_finite_loss_nonfinite_gradients.py --junitxml=minimum-ml-junit.xml
+      - run: pip-audit --skip-editable
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: minimum-ml
+          path: minimum-ml-*
           retention-days: 7
 
   mcp-v1:

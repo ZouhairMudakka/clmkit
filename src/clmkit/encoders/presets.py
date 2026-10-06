@@ -39,6 +39,8 @@ class ModelPreset:
     max_length: int = 512
     #: Inclusive (min, max) Matryoshka dims the model was trained for, if any.
     mrl_range: tuple[int, int] | None = None
+    #: Persisted inference truncation. Old checkpoints default to the native dimension.
+    output_dim: int | None = None
 
     def to_dict(self) -> dict[str, Any]:
         d = asdict(self)

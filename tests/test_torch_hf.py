@@ -107,6 +107,156 @@ def test_save_and_reload_roundtrip(tmp_path, tiny_model_dir) -> None:  # type: i
     )
 
 
+@pytest.mark.parametrize("output_dim", [None, 16])
+def test_output_dim_roundtrip_and_overrides(tmp_path, tiny_model_dir, output_dim) -> None:  # type: ignore[no-untyped-def]
+    enc = _encoder(tiny_model_dir, output_dim=output_dim)
+    saved = enc.save_pretrained(tmp_path / "dimension")
+    loaded = HFEncoder(str(saved), device="cpu")
+    assert loaded.output_dim == output_dim
+    assert loaded.encode("cats").shape == (output_dim or 32,)
+    np.testing.assert_allclose(loaded.encode("cats"), enc.encode("cats"), atol=1e-6)
+    assert HFEncoder(str(saved), device="cpu", output_dim=8).dim == 8
+    assert HFEncoder(str(saved), device="cpu", output_dim=None).dim == 32
+    # Old checkpoints omit output_dim and continue to reload at the native dimension.
+    config = json.loads((saved / CONFIG_FILENAME).read_text())
+    config.pop("output_dim")
+    (saved / CONFIG_FILENAME).write_text(json.dumps(config))
+    assert HFEncoder(str(saved), device="cpu").dim == 32
+
+
+@pytest.mark.parametrize("merge", [False, True])
+def test_truncated_adapter_roundtrip(tmp_path, tiny_model_dir, merge) -> None:  # type: ignore[no-untyped-def]
+    peft = pytest.importorskip("peft")
+    enc = _encoder(tiny_model_dir, output_dim=16)
+    enc.model = peft.get_peft_model(enc.model, peft.LoraConfig(r=2, target_modules=["q_proj", "v_proj"]))
+    enc.model.eval()
+    expected = enc.encode("cats")
+    saved = enc.save_pretrained(tmp_path / "adapter", merge_adapter=merge)
+    loaded = HFEncoder(str(saved), device="cpu")
+    assert loaded.dim == 16
+    np.testing.assert_allclose(loaded.encode("cats"), expected, atol=1e-6)
+
+
+@pytest.mark.parametrize("kind", ["encoder", "causal", "cross"])
+def test_model_load_rejects_bin_without_deserialization(tmp_path, tiny_hf_parts, monkeypatch, kind) -> None:  # type: ignore[no-untyped-def]
+    from transformers import Qwen3ForCausalLM, Qwen3ForSequenceClassification, Qwen3Model
+
+    from clmkit.rerank import CrossEncoderReranker
+
+    config, tokenizer = tiny_hf_parts
+    classes = {"encoder": Qwen3Model, "causal": Qwen3ForCausalLM, "cross": Qwen3ForSequenceClassification}
+    model = classes[kind](config())
+    model.config.save_pretrained(tmp_path)
+    tokenizer().save_pretrained(tmp_path)
+    # Harmless bytes under the legacy filename: no executable pickle payload.
+    (tmp_path / "pytorch_model.bin").write_bytes(b"not a checkpoint")
+
+    def forbidden(*args, **kwargs):  # type: ignore[no-untyped-def]
+        pytest.fail("legacy weights must never reach torch.load")
+
+    monkeypatch.setattr(torch, "load", forbidden)
+    loader = {"encoder": HFEncoder, "causal": LLMYesNoReranker, "cross": CrossEncoderReranker}[kind]
+    with pytest.raises(OSError, match="safetensors"):
+        loader(str(tmp_path), device="cpu")
+    model.save_pretrained(tmp_path, safe_serialization=True)
+    loaded = loader(str(tmp_path), device="cpu")
+    assert loaded.model is not None
+
+
+@pytest.mark.parametrize(
+    "kwargs", [{"use_safetensors": False}, {"use_safetensors": None}, {"from_tf": True}, {"adapter_kwargs": {}}]
+)
+def test_model_kwargs_cannot_disable_safe_loading(tiny_model_dir, kwargs) -> None:  # type: ignore[no-untyped-def]
+    with pytest.raises(ValueError, match="safetensors"):
+        _encoder(tiny_model_dir, model_kwargs=kwargs)
+
+
+def test_adapter_load_rejects_bin(tmp_path, tiny_model_dir, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    peft = pytest.importorskip("peft")
+    enc = _encoder(tiny_model_dir)
+    enc.model = peft.get_peft_model(enc.model, peft.LoraConfig(r=2, target_modules=["q_proj"]))
+    saved = enc.save_pretrained(tmp_path / "adapter")
+    (saved / "adapter_model.safetensors").unlink()
+    (saved / "adapter_model.bin").write_bytes(b"not a checkpoint")
+
+    def forbidden(*args, **kwargs):  # type: ignore[no-untyped-def]
+        pytest.fail("legacy adapter weights must never reach torch.load")
+
+    monkeypatch.setattr(torch, "load", forbidden)
+    with pytest.raises(ValueError, match=r"adapter_model\.safetensors"):
+        HFEncoder(str(saved), device="cpu")
+    with pytest.raises(ValueError, match=r"adapter_model\.safetensors"):
+        _encoder(tiny_model_dir, adapter=str(saved))
+
+
+def test_safe_hub_adapter_is_pinned_without_bin_fallback(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    import huggingface_hub
+
+    from clmkit.encoders.hf import _safe_adapter_path
+
+    snapshot = tmp_path / "snapshots" / ("a" * 40)
+    snapshot.mkdir(parents=True)
+    calls = []
+
+    def download(repo_id, filename, revision):  # type: ignore[no-untyped-def]
+        calls.append((repo_id, filename, revision))
+        return str(snapshot / filename)
+
+    monkeypatch.setattr(huggingface_hub, "hf_hub_download", download)
+    assert _safe_adapter_path("test/adapter", "release") == str(snapshot)
+    assert calls == [
+        ("test/adapter", "adapter_model.safetensors", "release"),
+        ("test/adapter", "adapter_config.json", "a" * 40),
+    ]
+
+
+def test_implicit_adapter_loading_is_rejected(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    from clmkit.encoders.hf import _safe_model_kwargs
+
+    (tmp_path / "adapter_config.json").write_text("{}")
+    (tmp_path / "adapter_model.bin").write_bytes(b"not a checkpoint")
+    with pytest.raises(ValueError, match="implicit adapter"):
+        _safe_model_kwargs(str(tmp_path), None)
+    with pytest.raises(ValueError, match="implicit adapter"):
+        _safe_model_kwargs(str(tmp_path), None, {"subfolder": "base"})
+
+
+def test_safe_hub_model_pins_adapter_check_to_model_commit(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    import transformers
+
+    from clmkit.encoders.hf import _safe_model_kwargs
+
+    commit = "b" * 40
+    monkeypatch.setattr(transformers.utils.hub, "cached_file", lambda *a, **kw: f"/snapshots/{commit}/config.json")
+    calls = []
+
+    def find_adapter(path, **kwargs):  # type: ignore[no-untyped-def]
+        calls.append((path, kwargs))
+
+    monkeypatch.setattr(transformers.utils, "find_adapter_config_file", find_adapter)
+    options = _safe_model_kwargs("test/model", "main")
+    assert options["use_safetensors"] is True
+    assert options["_commit_hash"] == commit
+    assert options["adapter_kwargs"]["revision"] == commit
+    assert calls == [("test/model", {"revision": commit})]
+
+
+@pytest.mark.parametrize(
+    "changed", [{"pooling": "mean"}, {"revision": "pinned"}, {"max_length": 12}, {"ensure_eos": False}]
+)
+def test_hf_fingerprint_tracks_inference_configuration(tiny_model_dir, changed) -> None:  # type: ignore[no-untyped-def]
+    assert _encoder(tiny_model_dir).fingerprint() != _encoder(tiny_model_dir, **changed).fingerprint()
+
+
+def test_hf_fingerprint_stable_after_tokenization(tiny_model_dir) -> None:  # type: ignore[no-untyped-def]
+    enc = _encoder(tiny_model_dir)
+    expected = enc.fingerprint()
+    enc.encode(["cats", "cats eat fish"])
+    assert enc.fingerprint() == expected
+    enc.tokenizer.truncation_side = "left"
+    assert enc.fingerprint() != expected
+
+
 def test_hf_encoder_in_a_retriever(tiny_model_dir) -> None:  # type: ignore[no-untyped-def]
     r = Retriever(_encoder(tiny_model_dir))
     r.add(["cats eat fish", "the sun is hot", "python is a programming language"])

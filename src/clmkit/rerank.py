@@ -106,7 +106,7 @@ class LLMYesNoReranker(Reranker):
         revision: str | None = None,
         trust_remote_code: bool = False,
     ) -> None:
-        from clmkit.encoders.hf import _dtype_kwarg, resolve_torch_dtype
+        from clmkit.encoders.hf import _dtype_kwarg, _safe_model_kwargs, resolve_torch_dtype
 
         self._torch = require("torch")
         transformers = require("transformers")
@@ -124,6 +124,7 @@ class LLMYesNoReranker(Reranker):
                 revision=revision,
                 trust_remote_code=trust_remote_code,
                 **_dtype_kwarg(resolve_torch_dtype(dtype, self.device)),
+                **_safe_model_kwargs(model_name_or_path, revision),
             )
         self.tokenizer = tokenizer
         self.model = model.to(self.device).eval()
@@ -191,6 +192,8 @@ class CrossEncoderReranker(Reranker):
         revision: str | None = None,
         trust_remote_code: bool = False,
     ) -> None:
+        from clmkit.encoders.hf import _safe_model_kwargs
+
         self._torch = require("torch")
         transformers = require("transformers")
         self.device = resolve_device(device)
@@ -198,7 +201,10 @@ class CrossEncoderReranker(Reranker):
             model_name_or_path, revision=revision, trust_remote_code=trust_remote_code
         )
         model = model or transformers.AutoModelForSequenceClassification.from_pretrained(
-            model_name_or_path, revision=revision, trust_remote_code=trust_remote_code
+            model_name_or_path,
+            revision=revision,
+            trust_remote_code=trust_remote_code,
+            **_safe_model_kwargs(model_name_or_path, revision),
         )
         self.model = model.to(self.device).eval()
         self.max_length = max_length

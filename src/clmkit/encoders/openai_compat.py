@@ -101,6 +101,11 @@ class OpenAICompatibleEncoder(Encoder):
     def __repr__(self) -> str:  # never leak the key
         return f"OpenAICompatibleEncoder(model={self.model!r}, base_url={self.base_url!r})"
 
+    def fingerprint_config(self) -> dict[str, Any]:
+        # Credentials/headers are deliberately excluded. A mutable deployment
+        # still needs a caller-provided encoder_identity when saving a retriever.
+        return {**super().fingerprint_config(), "base_url": self.base_url, "dimensions": self.dimensions}
+
     @property
     def native_dim(self) -> int:
         if self._native_dim is None:
@@ -138,6 +143,8 @@ class OpenAICompatibleEncoder(Encoder):
                     time.sleep(self.backoff * 2 ** (attempt - 1))
                     continue
                 raise RemoteEncoderError(f"embeddings endpoint unreachable: {exc}") from exc
+            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+                raise RemoteEncoderError("embeddings endpoint returned invalid JSON") from exc
 
     def _request(self, texts: list[str]) -> np.ndarray:
         payload: dict[str, Any] = {"model": self.model, "input": texts, "encoding_format": "float"}
@@ -145,12 +152,26 @@ class OpenAICompatibleEncoder(Encoder):
             payload["dimensions"] = self.dimensions
         body = self._post(payload)
         try:
-            items = sorted(body["data"], key=lambda d: d["index"])
+            items = body["data"]
+            if not isinstance(items, list) or len(items) != len(texts):
+                raise ValueError("data must contain one embedding per input")
+            indices = [item["index"] for item in items]
+            if any(type(index) is not int for index in indices) or set(indices) != set(range(len(texts))):
+                raise ValueError("indices must be a permutation of the input positions")
+            items = sorted(items, key=lambda d: d["index"])
             emb = np.asarray([d["embedding"] for d in items], dtype=np.float32)
-        except (KeyError, TypeError, ValueError) as exc:
-            raise RemoteEncoderError(f"malformed embeddings response: {str(body)[:300]}") from exc
-        if emb.ndim != 2 or emb.shape[0] != len(texts):
+        except (KeyError, TypeError, ValueError, OverflowError) as exc:
+            raise RemoteEncoderError("malformed embeddings response") from exc
+        if emb.ndim != 2 or emb.shape[0] != len(texts) or emb.shape[1] == 0:
             raise RemoteEncoderError(f"expected {len(texts)} embeddings, got shape {emb.shape}")
+        if self._native_dim is not None and emb.shape[1] != self._native_dim:
+            raise RemoteEncoderError(f"expected embedding dimension {self._native_dim}, got {emb.shape[1]}")
+        if not np.isfinite(emb).all():
+            raise RemoteEncoderError("embeddings response contains non-finite values")
+        # Discover the dimension on the first batch, so later batches are checked
+        # before concatenation (including a server that changes dimensions).
+        if self._native_dim is None:
+            self._native_dim = int(emb.shape[1])
         return emb
 
     def _encode(self, texts: list[str], batch_size: int) -> np.ndarray:

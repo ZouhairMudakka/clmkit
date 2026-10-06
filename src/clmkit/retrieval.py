@@ -48,6 +48,7 @@ class Retriever:
         *,
         reranker: Reranker | None = None,
         query_instruction: str | None = None,
+        encoder_identity: str | None = None,
     ) -> None:
         self.encoder = encoder
         self.index = index if index is not None else NumpyIndex(encoder.dim)
@@ -55,6 +56,9 @@ class Retriever:
             raise ValueError(f"index dim {self.index.dim} != encoder dim {encoder.dim}")
         self.reranker = reranker
         self.query_instruction = query_instruction
+        if encoder_identity is not None and (not isinstance(encoder_identity, str) or not encoder_identity):
+            raise ValueError("encoder_identity must be a non-empty immutable identifier")
+        self.encoder_identity = encoder_identity
         self.documents: dict[str, Document] = {}
 
     def __len__(self) -> int:
@@ -160,7 +164,7 @@ class Retriever:
         if use_rerank and self.reranker is None:
             raise ValueError("rerank=True but no reranker is configured")
         pool = max(k, rerank_candidates or 4 * k) if use_rerank else k
-        inst = instruction or self.query_instruction
+        inst = self.query_instruction if instruction is None else instruction
         qvecs = self.encoder.encode(queries, kind="query", instruction=inst)
         raw = self.index.search(qvecs, pool, allowed_ids=self._allowed(filter))
         results: list[list[SearchHit]] = []
@@ -180,10 +184,12 @@ class Retriever:
 
     # --------------------------------------------------------- persistence --
     def save(self, path: str | Path, *, extra_meta: Mapping[str, Any] | None = None) -> Path:
-        """Persist index + documents (JSON Lines) + encoder fingerprint. No pickle.
+        """Persist index + documents (JSON Lines) + encoder fingerprint.
 
         ``extra_meta`` is stored in ``retriever.json`` (the CLI records the encoder spec
         there so ``clmkit search --index DIR`` can rebuild the right encoder).
+        Use trusted, complete, single-writer snapshots. Multi-file writes are not
+        atomic and require backups/rebuilding after interruption.
         """
         path = Path(path)
         path.mkdir(parents=True, exist_ok=True)
@@ -195,6 +201,8 @@ class Retriever:
         meta = {
             **(extra_meta or {}),
             "encoder": self.encoder.fingerprint(),
+            "fingerprint_version": 2,
+            "encoder_identity": self.encoder_identity,
             "count": len(self),
             "query_instruction": self.query_instruction,
         }
@@ -207,31 +215,68 @@ class Retriever:
 
     @classmethod
     def load(
-        cls, path: str | Path, encoder: Encoder, *, reranker: Reranker | None = None, strict: bool = False
+        cls,
+        path: str | Path,
+        encoder: Encoder,
+        *,
+        reranker: Reranker | None = None,
+        strict: bool = False,
+        encoder_identity: str | None = None,
     ) -> Retriever:
-        """Load a saved retriever. ``strict=True`` raises if the encoder fingerprint differs."""
+        """Load a trusted complete snapshot, checking IDs and vector configuration.
+
+        ``strict=True`` raises on fingerprint or caller identity mismatch. Supply
+        the same immutable ``encoder_identity`` used at construction to identify
+        local/fine-tuned weights that configuration alone cannot identify. Legacy
+        name/dimension fingerprints load with a warning and a shallow comparison.
+        ``strict=False`` explicitly permits mismatches, with a warning.
+        """
         import warnings
 
         path = Path(path)
         meta = json.loads((path / "retriever.json").read_text(encoding="utf-8"))
-        if meta.get("encoder") != encoder.fingerprint():
+        saved = meta.get("encoder")
+        current = encoder.fingerprint()
+        if meta.get("fingerprint_version") is None and isinstance(saved, str) and not saved.startswith("v2:"):
+            warnings.warn(
+                "legacy encoder fingerprint checks only name and dimension; rebuild to record configuration",
+                EncoderMismatchWarning,
+                stacklevel=2,
+            )
+            current = f"{encoder.name}:{encoder.dim}"
+        if saved != current or meta.get("encoder_identity") != encoder_identity:
             msg = (
                 f"index at {path} was built with encoder {meta.get('encoder')!r} "
-                f"but is being queried with {encoder.fingerprint()!r}"
+                f"but is being queried with {current!r}; immutable encoder identities must also match"
             )
             if strict:
                 raise ValueError(msg)
             warnings.warn(msg, EncoderMismatchWarning, stacklevel=2)
         retriever = cls(
-            encoder, load_index(path / "index"), reranker=reranker, query_instruction=meta.get("query_instruction")
+            encoder,
+            load_index(path / "index"),
+            reranker=reranker,
+            query_instruction=meta.get("query_instruction"),
+            encoder_identity=encoder_identity,
         )
         with (path / "documents.jsonl").open(encoding="utf-8") as fh:
             for line in fh:
                 if line.strip():
                     rec = json.loads(line)
-                    retriever.documents[str(rec["id"])] = Document(rec["text"], rec.get("metadata") or {})
-        if len(retriever.documents) != len(retriever.index):
-            raise ValueError(
-                f"corrupt retriever at {path}: {len(retriever.documents)} documents vs {len(retriever.index)} vectors"
-            )
+                    if (
+                        not isinstance(rec, dict)
+                        or not isinstance(rec.get("id"), str)
+                        or not rec["id"]
+                        or rec["id"] in retriever.documents
+                        or not isinstance(rec.get("text"), str)
+                        or not isinstance(rec.get("metadata", {}), dict)
+                    ):
+                        raise ValueError(f"corrupt retriever at {path}: invalid or duplicate document record")
+                    retriever.documents[rec["id"]] = Document(rec["text"], rec.get("metadata", {}))
+        if (
+            set(retriever.documents) != set(retriever.index.ids())
+            or len(retriever.documents) != len(retriever.index)
+            or meta.get("count", len(retriever.documents)) != len(retriever.documents)
+        ):
+            raise ValueError(f"corrupt retriever at {path}: document/index ids or stored counts differ")
         return retriever

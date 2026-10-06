@@ -3,9 +3,17 @@
 All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses [Semantic Versioning](https://semver.org/).
 
+## Unreleased — audit remediation (2026-10-07)
+
+- Correct duplicate-aware epoch coverage, weighted Matryoshka pairing and per-query evaluation instructions.
+- Reject non-finite training losses/gradients before optimizer mutation; validate remote vector indices and values.
+- Restore saved output dimensions and memory settings; validate stored IDs and version encoder fingerprints.
+- Require safetensors for HF models and adapters; raise ML dependency floors and test the minimum stack in CI.
+- Document bounded memory-decay ranking, single-writer snapshot trust and unverified GPU/large-model paths.
+
 ## [0.1.0] - 2026-09-30
 
-First public release.
+Initial implementation (historical entry; no tagged or PyPI release was published on this date).
 
 ### Added
 - `Encoder` interface with asymmetric prompt templates, Matryoshka truncation and normalisation.

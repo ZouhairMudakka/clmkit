@@ -91,6 +91,8 @@ class VectorIndex(ABC):
             q = q[None, :]
         if q.ndim != 2 or q.shape[1] != self.dim:
             raise ValueError(f"expected queries of shape (n, {self.dim}), got {q.shape}")
+        if not np.isfinite(q).all():
+            raise ValueError("queries contain NaN or inf")
         if self.metric == "cosine":
             from clmkit.utils import l2_normalize
 
@@ -103,7 +105,14 @@ class VectorIndex(ABC):
 
     @staticmethod
     def read_meta(path: str | Path) -> dict[str, Any]:
-        return json.loads((Path(path) / INDEX_META).read_text(encoding="utf-8"))
+        """Read supported metadata; snapshots lacking a version use legacy v1."""
+        meta = json.loads((Path(path) / INDEX_META).read_text(encoding="utf-8"))
+        if not isinstance(meta, dict):
+            raise ValueError(f"corrupt index at {path}: metadata must be an object")
+        version = meta.get("format_version", 1)
+        if type(version) is not int or version != 1:
+            raise ValueError(f"unsupported index format_version {version!r} at {path}")
+        return meta
 
 
 def load_index(path: str | Path) -> VectorIndex:

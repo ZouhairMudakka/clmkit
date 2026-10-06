@@ -11,7 +11,9 @@ All losses share one call signature so the trainer can swap them freely::
 
 from __future__ import annotations
 
+import math
 from collections.abc import Sequence
+from numbers import Integral
 from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
@@ -133,6 +135,8 @@ class CoSENTLoss:
 
         if scores is None:
             raise ValueError("CoSENT needs graded `scores` labels for every pair")
+        if scores.shape != (query.shape[0],) or not torch.isfinite(scores).all():
+            raise ValueError("CoSENT scores must be a finite label vector of shape (B,)")
         cos = (F.normalize(query, dim=-1) * F.normalize(positive, dim=-1)).sum(-1) * self.scale
         diff = cos[None, :] - cos[:, None]  # diff[i, j] = cos_j - cos_i
         mask = scores[:, None] > scores[None, :]  # only pairs where i should rank above j
@@ -162,21 +166,34 @@ class TripletLoss:
 
 class MatryoshkaLoss:
     """Apply ``inner`` at several truncated dimensions so embeddings stay useful when cut
-    (Matryoshka Representation Learning). Qwen3-Embedding supports MRL natively."""
+    (Matryoshka Representation Learning). Qwen3-Embedding supports MRL natively.
+
+    Dimensions must be distinct positive integers. Weights follow the supplied
+    dimension order and must be finite and nonnegative, with a positive total.
+    """
 
     def __init__(self, inner: ContrastiveLoss, dims: Sequence[int], weights: Sequence[float] | None = None) -> None:
         if not dims:
             raise ValueError("dims must be non-empty")
+        if any(isinstance(d, bool) or not isinstance(d, Integral) or d <= 0 for d in dims):
+            raise ValueError("dims must be positive integers")
+        if len(set(dims)) != len(dims):
+            raise ValueError("dims must be distinct")
         self.inner = inner
-        self.dims = sorted({int(d) for d in dims}, reverse=True)
-        self.weights = list(weights) if weights is not None else [1.0] * len(self.dims)
+        self.dims = list(dims)
+        self.weights = [float(w) for w in weights] if weights is not None else [1.0] * len(self.dims)
         if len(self.weights) != len(self.dims):
             raise ValueError("weights must match dims")
+        if any(not math.isfinite(w) or w < 0 for w in self.weights):
+            raise ValueError("weights must be finite and nonnegative")
+        if not math.isfinite(sum(self.weights)) or sum(self.weights) <= 0:
+            raise ValueError("weights must have a finite positive total")
 
     def __call__(
         self, query: Tensor, positive: Tensor, negatives: Tensor | None = None, scores: Tensor | None = None
     ) -> Tensor:
-        full = query.shape[-1]
+        tensors = [query, positive] + ([negatives] if negatives is not None else [])
+        full = min(tensor.shape[-1] for tensor in tensors)
         terms = []
         for dim, w in zip(self.dims, self.weights, strict=True):
             if dim > full:

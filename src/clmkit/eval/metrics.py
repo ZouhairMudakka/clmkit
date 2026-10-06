@@ -16,10 +16,20 @@ Run = Mapping[str, Sequence[str]]
 
 
 def _positive(relevant: Mapping[str, float]) -> set[str]:
+    if any(not math.isfinite(r) for r in relevant.values()):
+        raise ValueError("relevance scores must be finite")
     return {d for d, r in relevant.items() if r > 0}
 
 
+def _ranked_at_k(ranked: Sequence[str], k: int) -> list[str]:
+    if isinstance(k, bool) or not isinstance(k, int) or k < 1:
+        raise ValueError("k must be a positive integer")
+    # A document can contribute once; retain its first occurrence in the run.
+    return list(dict.fromkeys(ranked))[:k]
+
+
 def recall_at_k(ranked: Sequence[str], relevant: Mapping[str, float], k: int) -> float:
+    ranked = _ranked_at_k(ranked, k)
     rel = _positive(relevant)
     if not rel:
         return 0.0
@@ -27,16 +37,19 @@ def recall_at_k(ranked: Sequence[str], relevant: Mapping[str, float], k: int) ->
 
 
 def precision_at_k(ranked: Sequence[str], relevant: Mapping[str, float], k: int) -> float:
+    ranked = _ranked_at_k(ranked, k)
     rel = _positive(relevant)
     return sum(1 for d in ranked[:k] if d in rel) / k
 
 
 def hit_rate_at_k(ranked: Sequence[str], relevant: Mapping[str, float], k: int) -> float:
+    ranked = _ranked_at_k(ranked, k)
     rel = _positive(relevant)
     return 1.0 if any(d in rel for d in ranked[:k]) else 0.0
 
 
 def mrr_at_k(ranked: Sequence[str], relevant: Mapping[str, float], k: int) -> float:
+    ranked = _ranked_at_k(ranked, k)
     rel = _positive(relevant)
     for rank, d in enumerate(ranked[:k], start=1):
         if d in rel:
@@ -46,6 +59,8 @@ def mrr_at_k(ranked: Sequence[str], relevant: Mapping[str, float], k: int) -> fl
 
 def ndcg_at_k(ranked: Sequence[str], relevant: Mapping[str, float], k: int) -> float:
     """nDCG with linear gains and log2 discount (as in trec_eval / BEIR)."""
+    ranked = _ranked_at_k(ranked, k)
+    _positive(relevant)
     dcg = sum(max(relevant.get(d, 0.0), 0.0) / math.log2(rank + 1) for rank, d in enumerate(ranked[:k], start=1))
     ideal = sorted((r for r in relevant.values() if r > 0), reverse=True)[:k]
     idcg = sum(r / math.log2(rank + 1) for rank, r in enumerate(ideal, start=1))
@@ -53,6 +68,7 @@ def ndcg_at_k(ranked: Sequence[str], relevant: Mapping[str, float], k: int) -> f
 
 
 def average_precision_at_k(ranked: Sequence[str], relevant: Mapping[str, float], k: int) -> float:
+    ranked = _ranked_at_k(ranked, k)
     rel = _positive(relevant)
     if not rel:
         return 0.0
@@ -79,9 +95,13 @@ def evaluate_run(
 ) -> dict[str, float]:
     """Macro-average metrics over the queries in ``qrels`` (missing runs score 0).
 
-    Returns keys like ``"ndcg@10"``.
+    Returns keys like ``"ndcg@10"``. Repeated document IDs are deduplicated at
+    their first occurrence before applying cut-offs. Only positive-qrel queries
+    contribute to the macro average; relevance scores must be finite.
     """
     ks = sorted(set(ks))
+    if not ks or any(isinstance(k, bool) or not isinstance(k, int) or k < 1 for k in ks):
+        raise ValueError("ks must contain positive integer cut-offs")
     names = list(metrics)
     unknown = set(names) - set(_METRICS)
     if unknown:
@@ -113,14 +133,24 @@ def _rankdata(x: np.ndarray) -> np.ndarray:
 
 def pearson(x: Sequence[float], y: Sequence[float]) -> float:
     a, b = np.asarray(x, dtype=np.float64), np.asarray(y, dtype=np.float64)
-    if a.shape != b.shape or a.size < 2:
+    if a.ndim != 1 or b.ndim != 1 or a.shape != b.shape or a.size < 2:
         raise ValueError("pearson needs two equal-length sequences with >= 2 items")
+    if not np.isfinite(a).all() or not np.isfinite(b).all():
+        raise ValueError("correlation inputs must be finite")
     a, b = a - a.mean(), b - b.mean()
     denom = math.sqrt(float((a * a).sum() * (b * b).sum()))
     return float((a * b).sum() / denom) if denom else 0.0
 
 
 def spearman(x: Sequence[float], y: Sequence[float]) -> float:
-    return pearson(
-        _rankdata(np.asarray(x, dtype=np.float64)).tolist(), _rankdata(np.asarray(y, dtype=np.float64)).tolist()
-    )
+    a, b = np.asarray(x, dtype=np.float64), np.asarray(y, dtype=np.float64)
+    if (
+        a.ndim != 1
+        or b.ndim != 1
+        or a.shape != b.shape
+        or a.size < 2
+        or not np.isfinite(a).all()
+        or not np.isfinite(b).all()
+    ):
+        raise ValueError("spearman needs two finite equal-length sequences with >= 2 items")
+    return pearson(_rankdata(a).tolist(), _rankdata(b).tolist())

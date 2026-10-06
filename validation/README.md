@@ -19,6 +19,7 @@ observed differences are not the tests' enforced tolerances. These checks do not
 prove training quality, 4B/8B support, or GPU execution. They run separately to
 bound model memory and disk usage. Model weights are never uploaded as artifacts.
 
-Core probes include proposed stricter policies (for example exact decayed memory
-top-k) that may instead be resolved with an explicit documented alpha scope.
+The memory-decay probe now checks the documented bounded candidate pool and a
+larger pool that recovers its global-best fixture. Exact global decayed top-k is
+not promised by the default approximate policy. No tests are marked xfail.
 Failure counts are not counts of release blockers. See `docs/VALIDATION_STATUS.md`.

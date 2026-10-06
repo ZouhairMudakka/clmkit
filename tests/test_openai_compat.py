@@ -101,6 +101,36 @@ def test_malformed_payload(server: str) -> None:
         enc.encode("x")
 
 
+@pytest.mark.parametrize("indices", [[0, 0], [0, 2], [-1, 0], [False, True], [0.0, 1.0], ["0", "1"]])
+def test_rejects_misaligned_response_indices(monkeypatch: pytest.MonkeyPatch, indices: list) -> None:
+    enc = OpenAICompatibleEncoder("fixture", native_dim=2)
+    body = {"data": [{"index": index, "embedding": [1, 0]} for index in indices]}
+    monkeypatch.setattr(enc, "_post", lambda payload: body)
+    with pytest.raises(RemoteEncoderError, match="malformed"):
+        enc.encode(["first", "second"])
+
+
+@pytest.mark.parametrize("vector", [[float("nan"), 0], [0, float("inf")], [], [1, 2, 3]])
+def test_rejects_invalid_response_vectors(monkeypatch: pytest.MonkeyPatch, vector: list) -> None:
+    enc = OpenAICompatibleEncoder("fixture", native_dim=2)
+    monkeypatch.setattr(enc, "_post", lambda payload: {"data": [{"index": 0, "embedding": vector}]})
+    with pytest.raises(RemoteEncoderError):
+        enc.encode("text")
+
+
+def test_discovered_dimension_must_hold_across_batches(monkeypatch: pytest.MonkeyPatch) -> None:
+    enc = OpenAICompatibleEncoder("fixture", max_batch=1)
+    responses = iter(
+        [
+            {"data": [{"index": 0, "embedding": [1, 0]}]},
+            {"data": [{"index": 0, "embedding": [1, 0, 0]}]},
+        ]
+    )
+    monkeypatch.setattr(enc, "_post", lambda payload: next(responses))
+    with pytest.raises(RemoteEncoderError, match="dimension"):
+        enc.encode(["first", "second"])
+
+
 def test_unreachable_and_bad_url() -> None:
     enc = OpenAICompatibleEncoder("m", base_url="http://127.0.0.1:9/v1", native_dim=2, max_retries=0, timeout=2)
     with pytest.raises(RemoteEncoderError, match="unreachable"):

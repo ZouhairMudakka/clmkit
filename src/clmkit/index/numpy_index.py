@@ -1,4 +1,4 @@
-"""Exact (brute-force) index in numpy. Great up to ~1M vectors on a laptop; zero dependencies."""
+"""Exact (brute-force) index in numpy; memory use scales with corpus and vector dimension."""
 
 from __future__ import annotations
 
@@ -14,14 +14,16 @@ from clmkit.index.base import IndexResults, Metric, VectorIndex
 class NumpyIndex(VectorIndex):
     """Exact top-k by matrix multiplication.
 
-    Persistence uses ``.npy`` + JSON only (loaded with ``allow_pickle=False``), so a
-    saved index can never execute code when loaded.
+    Persistence uses ``.npy`` + JSON only (loaded with ``allow_pickle=False``).
+    Load trusted, complete snapshots; multi-file saves are not transactional.
     """
 
     kind = "numpy"
 
     def __init__(self, dim: int, metric: Metric = "cosine", *, query_chunk: int = 1024) -> None:
         super().__init__(dim, metric)
+        if isinstance(query_chunk, bool) or not isinstance(query_chunk, int) or query_chunk < 1:
+            raise ValueError("query_chunk must be a positive integer")
         self._vectors = np.zeros((0, self.dim), dtype=np.float32)
         self._ids: list[str] = []
         self._pos: dict[str, int] = {}
@@ -92,7 +94,7 @@ class NumpyIndex(VectorIndex):
         path.mkdir(parents=True, exist_ok=True)
         np.save(path / "vectors.npy", self._vectors, allow_pickle=False)
         (path / "ids.json").write_text(json.dumps(self._ids), encoding="utf-8")
-        self._write_meta(path)
+        self._write_meta(path, {"query_chunk": self.query_chunk})
         return path
 
     @classmethod
@@ -101,14 +103,18 @@ class NumpyIndex(VectorIndex):
         meta = cls.read_meta(path)
         if meta.get("kind") != cls.kind:
             raise ValueError(f"{path} holds a {meta.get('kind')!r} index, not {cls.kind!r}")
-        index = cls(int(meta["dim"]), meta["metric"])
+        index = cls(int(meta["dim"]), meta["metric"], query_chunk=meta.get("query_chunk", 1024))
         vectors = np.load(path / "vectors.npy", allow_pickle=False)
         ids = json.loads((path / "ids.json").read_text(encoding="utf-8"))
-        if not isinstance(ids, list) or len(ids) != vectors.shape[0]:
-            raise ValueError(f"corrupt index at {path}: ids/vectors mismatch")
         if vectors.ndim != 2 or vectors.shape[1] != index.dim:
             raise ValueError(f"corrupt index at {path}: bad vector shape {vectors.shape}")
+        if not isinstance(ids, list) or len(ids) != vectors.shape[0]:
+            raise ValueError(f"corrupt index at {path}: ids/vectors mismatch")
+        if any(not isinstance(i, str) or not i for i in ids) or len(set(ids)) != len(ids):
+            raise ValueError(f"corrupt index at {path}: invalid or duplicate ids")
         index._vectors = vectors.astype(np.float32, copy=False)
-        index._ids = [str(i) for i in ids]
+        if not np.isfinite(index._vectors).all():
+            raise ValueError(f"corrupt index at {path}: vectors contain NaN or inf")
+        index._ids = ids
         index._pos = {id_: j for j, id_ in enumerate(index._ids)}
         return index

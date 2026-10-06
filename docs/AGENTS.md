@@ -67,10 +67,16 @@ from clmkit.agents import SemanticMemory
 
 memory = SemanticMemory(encoder, recency_half_life=7 * 24 * 3600)
 memory.remember("User's name is Sam and they prefer metric units", {"type": "profile", "user": "u123"})
-memory.recall("what units should I use?", k=3, filter={"user": "u123"})   # per-user isolation via filters
+memory.recall("what units should I use?", k=3, filter={"user": "u123"})   # derive this scope from authenticated identity
 memory.forget_older_than(90 * 24 * 3600)
 memory.save("memory_store")
 ```
+
+Recency decay reorders a bounded semantic candidate pool (`candidate_multiplier=4`
+by default); it does not promise the globally best decayed score. Increase the
+multiplier to cover the corpus with an exact index when that guarantee is needed.
+Half-life and multiplier survive save/reload; clocks remain caller-supplied.
+`memory_tools(memory)` includes a write-capable `remember` tool.
 
 ## MCP
 
@@ -87,5 +93,5 @@ Works with MCP Python SDK 1.x (≥ 1.28.1) and 2.x.
 ## Security notes for agent builders
 
 - **Retrieved text is untrusted.** Documents and memories may contain prompt-injection attempts. Present tool results to the model as data (the default for tool results in the Claude and OpenAI APIs), and don't grant write tools (`allow_write=True`, `--allow-writes`) to agents that read untrusted content unless you need them.
-- **Isolate tenants** with metadata filters (`filter={"user": ...}`) or separate indexes. Don't rely on the model to scope queries.
+- **Enforce tenant scope** in authenticated application code, using metadata filters (`filter={"user": ...}`) or separate indexes. Filters alone do not authenticate users; don't rely on the model to scope queries.
 - The REST server binds to `127.0.0.1` by default. Set `CLMKIT_API_KEY` before exposing it anywhere else, and put it behind a proper gateway for rate limiting.

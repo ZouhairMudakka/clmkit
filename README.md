@@ -1,7 +1,7 @@
 # clmkit
 
 > **Development preview — validation in progress.** Independent tests have found
-> unresolved training, persistence and input-validation defects. This is not yet
+> training, persistence and input-validation defects. Fixes are undergoing verification; this is not yet
 > a verified public-alpha release. Read [current validation status](docs/VALIDATION_STATUS.md)
 > before using the training or serving paths. Historical audit claims below do
 > not override the current findings.
@@ -33,11 +33,11 @@ A **contrastive language model (CLM)** maps text to vectors so that related text
 ## Highlights
 
 - **Qwen3 presets.** Presets for 0.6B/4B/8B apply last-token pooling, left padding, the `Instruct: …\nQuery:` prompt and the `<|endoftext|>` pooling token. Independent CPU reference checks pass for the 0.6B embedding and reranker models at the tests' enforced tolerances; see [current evidence](docs/VALIDATION_STATUS.md). The 4B/8B models have not been exercised.
-- **Experimental fine-tuning.** InfoNCE with in-batch and hard negatives, false-negative masking, CoSENT, triplet and Matryoshka losses. **GradCache** supports large contrastive batches through smaller forward passes, and **LoRA** is available through `peft`. Training has unresolved correctness findings; single-GPU 8B capacity has not been measured. See [validation status](docs/VALIDATION_STATUS.md).
+- **Experimental fine-tuning.** InfoNCE with in-batch and hard negatives, false-negative masking, CoSENT, triplet and Matryoshka losses. **GradCache** supports large contrastive batches through smaller forward passes, and **LoRA** is available through `peft`. Epoch coverage, numerical guards and weighted-loss fixes have focused regressions; single-GPU 8B capacity has not been measured. See [validation status](docs/VALIDATION_STATUS.md).
 - **Agent building blocks.** `SemanticMemory` with recency decay, `SemanticRouter` for tool/intent routing, and a `ToolKit` that exports tool definitions for **Anthropic** and **OpenAI**-style function calling, plus an **MCP server** for Claude Desktop, Claude Code and IDE agents.
 - **ML pipelines.** A scikit-learn `EmbeddingTransformer`, a LangChain `Embeddings` adapter, a JSON/NumPy CLI, and IR metrics (nDCG/MRR/Recall/MAP) with BEIR loading.
 - **Serving.** An OpenAI-compatible `/v1/embeddings` endpoint (so existing SDKs work), plus `/v1/search` and `/v1/rerank`. Bearer auth, request limits, and localhost binding by default.
-- **Small and pluggable.** The core depends only on `numpy`, and heavy backends are lazy extras. A registry plus Python entry points let third-party packages add encoders, indexes, rerankers and losses. Use trusted model checkpoints and index snapshots; native FAISS and legacy checkpoint loading have separate trust requirements.
+- **Small and pluggable.** The core depends only on `numpy`, and heavy backends are lazy extras. A registry plus Python entry points let third-party packages add encoders, indexes, rerankers and losses. HF loaders require safetensors; use trusted model repositories and complete index snapshots, especially native FAISS files.
 
 ## Install
 
@@ -48,6 +48,11 @@ pip install "clmkit[all] @ git+https://github.com/ZouhairMudakka/clmkit"       #
 ```
 
 Extras: `hf`, `train`, `serve`, `mcp`, `faiss`, `yaml`, `sklearn`, `all`, `dev`. Python 3.10+.
+
+HF support starts at torch 2.13, transformers 5.17, safetensors 0.8 and
+PEFT 0.21.1 for adapters. Older stacks and legacy `.bin` weights are unsupported.
+The `configs/` and `examples/` directories are repository assets: clone this repo
+to use the recipe paths below. No PyPI release has been published.
 
 ## Quickstart
 
@@ -88,7 +93,7 @@ Data is JSONL with one example per line:
 
 ```bash
 clmkit mine  --model Qwen/Qwen3-Embedding-0.6B --train train.jsonl --corpus corpus.txt --output train_hn.jsonl
-clmkit train --config configs/qwen3-embedding-8b-lora.yaml          # LoRA + GradCache + MRL on one GPU
+clmkit train --config configs/qwen3-embedding-8b-lora.yaml          # experimental 8B recipe; GPU capacity unverified
 clmkit eval  --model runs/qwen3-embedding-8b-lora/final --data eval.jsonl
 ```
 
@@ -154,7 +159,12 @@ OpenAI(base_url="http://127.0.0.1:8000/v1", api_key="secret").embeddings.create(
 | any other HF encoder | mean (override with `pooling=`) | configurable templates | |
 | any OpenAI-compatible `/v1/embeddings` | server-side | client-side templates | vLLM, TEI, Ollama, OpenAI |
 
-Fine-tuned checkpoints save a `clmkit_config.json`. Independent tests found that configured output dimensions do not survive save/reload; see the current validation status before relying on checkpoint round trips.
+Fine-tuned checkpoints save pooling, prompts and output dimension in `clmkit_config.json`.
+Reload restores the saved dimension; `output_dim=None` explicitly selects native width.
+Checkpoints contain weights/adapters, not resumable optimizer state. Retrieval snapshots
+store a configuration fingerprint; supply `encoder_identity` for mutable/custom weights
+and use `Retriever.load(..., strict=True)` to reject mismatches. Legacy snapshots warn
+that only their old name/dimension check is available.
 
 ## Project layout
 
@@ -175,7 +185,12 @@ docs/            DESIGN · TRAINING · AGENTS · GAP_ANALYSIS · AUDIT
 
 ## Quality
 
-On the retained Windows CPU environment, 102 original tests pass and two opt-in real-model tests skip. Statement coverage is 96.81%; branch coverage is 87.33%. Ruff, mypy and bandit pass. A fresh NumPy-only wheel install passes 62 tests with 13 optional skips and two slow tests deselected. Hosted ordinary CI and the six-job installed-wheel matrix pass; independent contract tests still expose unresolved defects. Real 0.6B reference checks and a bounded CPU LoRA/save-reload probe pass. The fresh CPU dependency scan passes after updating setuptools, while the retained local environment still has cryptography advisories. See [current validation status](docs/VALIDATION_STATUS.md) and [validation harnesses](validation/README.md) for exact scope and run links.
+The original audit baseline passed 102 tests while independent probes exposed defects.
+Remediation adds regressions for those contracts and CI for the minimum supported ML
+stack. See [current validation status](docs/VALIDATION_STATUS.md) for corrected-candidate
+results, historical run links, environment advisories and untested hardware. Earlier
+coverage figures and Qwen smoke results describe their recorded commits, not every
+future change. [Validation harnesses](validation/README.md) preserve the independent checks.
 
 ## Documentation
 

@@ -26,7 +26,7 @@ class RetrievalEvaluator:
         corpus: ``{doc_id: text}``.
         qrels: ``{qid: {doc_id: relevance}}``.
         ks: cut-offs.
-        instruction: query instruction for instruction-aware models.
+        instruction: shared query instruction, or a mapping from query ID to instruction.
     """
 
     def __init__(
@@ -37,7 +37,7 @@ class RetrievalEvaluator:
         *,
         ks: Iterable[int] = (1, 5, 10),
         metrics: Iterable[str] = ("ndcg", "mrr", "recall", "map"),
-        instruction: str | None = None,
+        instruction: str | Mapping[str, str | None] | None = None,
         batch_size: int = 32,
     ) -> None:
         if not queries or not corpus:
@@ -46,6 +46,8 @@ class RetrievalEvaluator:
         self.corpus = dict(corpus)
         self.qrels = {q: dict(r) for q, r in qrels.items()}
         self.ks = sorted(set(ks))
+        if not self.ks or any(isinstance(k, bool) or not isinstance(k, int) or k < 1 for k in self.ks):
+            raise ValueError("ks must contain positive integer cut-offs")
         self.metrics = tuple(metrics)
         self.instruction = instruction
         self.batch_size = batch_size
@@ -56,16 +58,17 @@ class RetrievalEvaluator:
         doc_ids: dict[str, str] = {}
         queries: dict[str, str] = {}
         qrels: dict[str, dict[str, float]] = {}
-        insts = {ex.instruction for ex in examples}
+        instructions: dict[str, str | None] = {}
         for i, ex in enumerate(examples):
             for text in (ex.positive, *ex.negatives):
                 doc_ids.setdefault(text, f"d{len(doc_ids)}")
             qid = f"q{i}"
             queries[qid] = ex.query
+            instructions[qid] = ex.instruction
             qrels[qid] = {doc_ids[ex.positive]: 1.0}
         corpus = {did: text for text, did in doc_ids.items()}
-        if "instruction" not in kwargs and len(insts) == 1:
-            kwargs["instruction"] = next(iter(insts))
+        if "instruction" not in kwargs:
+            kwargs["instruction"] = instructions
         return cls(queries, corpus, qrels, **kwargs)  # type: ignore[arg-type]
 
     def run(self, encoder: Encoder) -> dict[str, list[str]]:
@@ -75,8 +78,11 @@ class RetrievalEvaluator:
             doc_ids, encoder.encode([self.corpus[d] for d in doc_ids], kind="document", batch_size=self.batch_size)
         )
         qids = list(self.queries)
+        instruction = (
+            [self.instruction.get(q) for q in qids] if isinstance(self.instruction, Mapping) else self.instruction
+        )
         qvecs = encoder.encode(
-            [self.queries[q] for q in qids], kind="query", instruction=self.instruction, batch_size=self.batch_size
+            [self.queries[q] for q in qids], kind="query", instruction=instruction, batch_size=self.batch_size
         )
         hits = index.search(qvecs, k=max(self.ks))
         return {q: [d for d, _ in row] for q, row in zip(qids, hits, strict=True)}

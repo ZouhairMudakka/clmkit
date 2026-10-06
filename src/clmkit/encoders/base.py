@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
+from typing import Any
 
 import numpy as np
 
@@ -104,11 +107,15 @@ class Encoder(ABC):
         if not items:
             return np.zeros((0, target_dim or self.native_dim), dtype=np.float32)
         formatted = self.format_texts(items, kind, instruction)
-        emb = np.asarray(self._encode(formatted, batch_size), dtype=np.float32)
+        raw = self._encode(formatted, batch_size)
+        with np.errstate(over="ignore", invalid="ignore"):
+            emb = np.asarray(raw, dtype=np.float32)
         if emb.shape != (len(items), self.native_dim):
             raise RuntimeError(
                 f"{type(self).__name__} returned shape {emb.shape}, expected {(len(items), self.native_dim)}"
             )
+        if not np.isfinite(emb).all():
+            raise RuntimeError(f"{type(self).__name__} returned non-finite float32 embeddings")
         emb = truncate_dims(emb, target_dim)
         if normalize:
             emb = l2_normalize(emb)
@@ -139,9 +146,27 @@ class Encoder(ABC):
         b2 = l2_normalize(np.atleast_2d(b))
         return a2 @ b2.T
 
+    def fingerprint_config(self) -> dict[str, Any]:
+        """Canonical vector configuration; subclasses should include their own settings.
+
+        This is a compatibility check, not proof of immutable model weights. Callers
+        must pin mutable/custom model state with the retriever's ``encoder_identity``.
+        Per-call query instructions are intentionally excluded.
+        """
+        return {
+            "encoder_class": f"{type(self).__module__}.{type(self).__qualname__}",
+            "name": self.name,
+            "native_dim": self.native_dim,
+            "dim": self.dim,
+            "query_template": self.query_template,
+            "document_template": self.document_template,
+            "default_instruction": self.default_instruction,
+        }
+
     def fingerprint(self) -> str:
-        """Identifier stored with indexes to catch 'indexed with model A, queried with model B'."""
-        return f"{self.name}:{self.dim}"
+        """Versioned digest of the vector-producing configuration (without credentials)."""
+        canonical = json.dumps(self.fingerprint_config(), sort_keys=True, separators=(",", ":"), allow_nan=False)
+        return "v2:" + hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
     def __repr__(self) -> str:
         return f"{type(self).__name__}(name={self.name!r}, dim={self.dim})"

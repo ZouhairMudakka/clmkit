@@ -119,9 +119,9 @@ my-encoder = "my_pkg.encoders:MyEncoder"
 |---|---|---|
 | numpy-only core, lazy torch | usable in agents and services without a 2 GB dependency; fast imports | a registry indirection |
 | Own trainer instead of HF `Trainer` / sentence-transformers | GradCache + in-batch-negative semantics are explicit; ~350 readable lines | no DDP/FSDP yet (see gap analysis) |
-| Exact NumPy index by default | zero deps, exact, fine up to ~1M vectors | O(N) per query; use FAISS/vector DB beyond that |
-| No pickle; JSON + `.npy` | loading an index can't execute code | slightly larger files |
+| Exact NumPy index by default | zero deps, exact | O(N) per query; memory depends on dimensions and query chunking (1M × 4096 float32 vectors alone need 16.384 GB) |
+| NumPy JSON + `.npy` with pickle disabled | avoids pickle deserialization for this backend | native FAISS files still require trusted provenance |
 | stdlib HTTP client for remote encoders | no `requests`/`httpx` dependency | fewer conveniences (we implement retry/backoff) |
 | Refuse HTTP redirects in the remote client | `urllib` forwards `Authorization` across hosts | a server behind a redirect needs its final URL |
-| Global lock around the model in the REST server | torch modules aren't guaranteed thread-safe | throughput limited to one forward at a time per process; scale out with workers |
+| Global lock around the model in the REST server | torch modules aren't guaranteed thread-safe | one forward at a time per process; multiple workers need an explicit shared-state/durability design |
 | fp32 on CPU for `dtype="auto"` | transformers v5 defaults to the checkpoint dtype (bf16), which is slow and less precise on CPU | more RAM on CPU |

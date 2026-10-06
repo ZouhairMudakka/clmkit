@@ -3,12 +3,36 @@
 This repository is published for development and validation. **It is not yet a
 verified public-alpha release.** No release tag is approved by these results.
 
+## Remediation candidate — 7 October 2026
+
+The current candidate fixes epoch truncation, pre-update numerical guards,
+weighted Matryoshka pairing, output-dimension reload, mixed instructions, memory
+settings, encoder fingerprints, saved-store integrity and malformed remote output.
+HF/PEFT loaders require safetensors; supported minimum ML versions are torch 2.13,
+transformers 5.17, PEFT 0.21.1 and safetensors 0.8.
+
+Local combined validation passes **253 tests and six subtests**, with two opt-in
+real-model checks skipped. Actual protocol probes pass **44/44**; additional
+LangChain/transport probes pass **10/10**. Ruff, format, mypy and Bandit pass.
+The combined run collected before one final mocked model-revision test was added;
+that test is checked separately. Hosted candidate, minimum-stack, installed-wheel
+and real-model results are pending, as is independent remediation review.
+
+Memory decay explicitly ranks within a bounded semantic candidate pool (default
+four times `k`); the independent oracle now tests both that documented limitation
+and a larger pool recovering its global-best fixture. No failure was hidden with
+xfail. Mutable weights need caller-provided `encoder_identity`; fingerprints are
+configuration checks, not authentication. Saves remain trusted, nontransactional,
+single-writer snapshots. These scope limits persist after remediation.
+
+## Historical baseline (before remediation)
+
 The original Windows CPU suite passes (102 tests, two real-model tests skipped).
 A newly downloaded NumPy-only environment passes 62 installed-wheel tests; 13
 optional tests skip and two real-model tests are deselected. Existing static and
 package checks pass. Independent contract probes expose unresolved defects.
 
-## Unresolved release findings
+### Baseline release findings
 
 - Epoch-based training can omit examples when duplicate avoidance expands the batch count.
 - Declared dependency floors permit a known unsafe legacy checkpoint-loading combination.
@@ -22,7 +46,7 @@ package checks pass. Independent contract probes expose unresolved defects.
 The independent workflow intentionally remains red while its contract assertions
 fail. The existing CI badge alone is not a release-readiness verdict.
 
-## Evidence limits
+### Baseline evidence limits
 
 Hosted checks have now executed. [Ordinary CI](https://github.com/ZouhairMudakka/clmkit/actions/runs/37529157417)
 passes all ten jobs, including the original platform matrix and security scan.

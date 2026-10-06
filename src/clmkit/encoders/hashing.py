@@ -12,6 +12,7 @@ import hashlib
 import re
 from collections.abc import Iterator
 from functools import lru_cache
+from typing import Any
 
 import numpy as np
 
@@ -66,6 +67,15 @@ class HashingEncoder(Encoder):
     @property
     def native_dim(self) -> int:
         return self._dim
+
+    def fingerprint_config(self) -> dict[str, Any]:
+        return {
+            **super().fingerprint_config(),
+            "word_ngrams": self.word_ngrams,
+            "char_ngrams": self.char_ngrams,
+            "char_weight": self.char_weight,
+            "lowercase": self.lowercase,
+        }
 
     def _features(self, text: str) -> Iterator[tuple[str, float]]:
         if self.lowercase:

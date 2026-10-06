@@ -47,3 +47,27 @@ jobs:
             reference-verification.json
             reference-requirements.txt
           retention-days: 7
+
+  training:
+    name: CPU bounded LoRA training and reload
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OMP_NUM_THREADS: "2"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HOME: ${{ github.workspace }}/.hf-cache
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -U pip setuptools wheel
+      - run: python -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install --no-cache-dir -e '.[train]'
+      - run: timeout 1200s python -u validation/real_training_smoke.py --threads 2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: real-training
+          path: validation-results/**/result.json
+          retention-days: 7

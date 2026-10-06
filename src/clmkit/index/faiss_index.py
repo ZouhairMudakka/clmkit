@@ -31,6 +31,9 @@ class FaissIndex(VectorIndex):
         filter_overfetch: int = 10,
     ) -> None:
         super().__init__(dim, metric)
+        for name, value in (("hnsw_m", hnsw_m), ("ef_search", ef_search), ("filter_overfetch", filter_overfetch)):
+            if isinstance(value, bool) or not isinstance(value, int) or value < 1:
+                raise ValueError(f"{name} must be a positive integer")
         self._faiss = require("faiss")
         if factory not in ("flat", "hnsw"):
             raise ValueError("factory must be 'flat' or 'hnsw'")
@@ -120,24 +123,58 @@ class FaissIndex(VectorIndex):
         self._faiss.write_index(self._index, str(path / "faiss.index"))
         (path / "ids.json").write_text(json.dumps({str(k): v for k, v in self._ids.items()}), encoding="utf-8")
         self._write_meta(
-            path, {"factory": self.factory, "hnsw_m": self.hnsw_m, "ef_search": self.ef_search, "next": self._next}
+            path,
+            {
+                "factory": self.factory,
+                "hnsw_m": self.hnsw_m,
+                "ef_search": self.ef_search,
+                "filter_overfetch": self.filter_overfetch,
+                "next": self._next,
+            },
         )
         return path
 
     @classmethod
     def load(cls, path: str | Path) -> FaissIndex:
+        """Load a trusted snapshot. Native FAISS deserialization is not safe for untrusted files."""
         path = Path(path)
         meta = cls.read_meta(path)
+        if meta.get("kind") != cls.kind:
+            raise ValueError(f"{path} holds a {meta.get('kind')!r} index, not {cls.kind!r}")
         index = cls(
             int(meta["dim"]),
             meta["metric"],
             factory=meta.get("factory", "flat"),
             hnsw_m=meta.get("hnsw_m", 32),
             ef_search=meta.get("ef_search", 64),
+            filter_overfetch=meta.get("filter_overfetch", 10),
         )
         index._index = index._faiss.read_index(str(path / "faiss.index"))
         raw = json.loads((path / "ids.json").read_text(encoding="utf-8"))
-        index._ids = {int(k): str(v) for k, v in raw.items()}
+        if (
+            not isinstance(raw, dict)
+            or any(not isinstance(v, str) or not v for v in raw.values())
+            or len(set(raw.values())) != len(raw)
+        ):
+            raise ValueError(f"corrupt index at {path}: invalid or duplicate ids")
+        index._ids = {int(k): v for k, v in raw.items()}
+        if not hasattr(index._index, "id_map"):
+            raise ValueError(f"corrupt index at {path}: missing native id map")
+        native_ids = index._faiss.vector_to_array(index._index.id_map).tolist()
+        if (
+            index._index.d != index.dim
+            or index._index.metric_type != index._faiss.METRIC_INNER_PRODUCT
+            or index._index.ntotal != len(native_ids)
+            or len(index._ids) != len(raw)
+            or len(native_ids) != len(set(native_ids))
+            or set(native_ids) != set(index._ids)
+            or any(n < 0 for n in index._ids)
+        ):
+            raise ValueError(f"corrupt index at {path}: native ids/dimension mismatch")
+        if any(not np.isfinite(index._index.reconstruct(n)).all() for n in native_ids):
+            raise ValueError(f"corrupt index at {path}: vectors contain NaN or inf")
         index._rev = {v: k for k, v in index._ids.items()}
         index._next = int(meta.get("next", max(index._ids, default=-1) + 1))
+        if index._next <= max(index._ids, default=-1):
+            raise ValueError(f"corrupt index at {path}: invalid next id")
         return index

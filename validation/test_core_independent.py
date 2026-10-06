@@ -172,7 +172,7 @@ class CoreAudit(unittest.TestCase):
         self.assertFalse(np.array_equal(first.encode("ABC"), changed.encode("ABC")))
         self.assertNotEqual(first.fingerprint(), changed.fingerprint())
 
-    def test_memory_decay_returns_global_best(self):
+    def test_memory_decay_candidate_budget_controls_approximation(self):
         table = {"q": [1, 0], **{f"old{i}": [1, 0] for i in range(4)}, "new": [0.6, 0.8]}
         now = [0.0]
         memory = SemanticMemory(TableEncoder(table), recency_half_life=1, clock=lambda: now[0])
@@ -180,6 +180,10 @@ class CoreAudit(unittest.TestCase):
             memory.remember(f"old{i}", id=f"old{i}")
         now[0] = 10.0
         memory.remember("new", id="new")
+        # F07 permits bounded candidate reranking for alpha. The default budget
+        # does not promise global decayed top-k; a comprehensive pool does here.
+        self.assertTrue(memory.recall("q", k=1)[0].id.startswith("old"))
+        memory.candidate_multiplier = 5
         self.assertEqual(memory.recall("q", k=1)[0].id, "new")
 
     def test_memory_persistence_preserves_decay(self):

@@ -44,12 +44,31 @@ def test_matryoshka_truncation(hashing: HashingEncoder) -> None:
         hashing.encode("x", dim=1024)
     enc = HashingEncoder(dim=128, output_dim=32)
     assert enc.dim == 32 and enc.encode("x").shape == (32,)
-    assert enc.fingerprint() == "hashing-128:32"
+    assert enc.fingerprint().startswith("v2:")
 
 
 def test_unnormalised_output(hashing: HashingEncoder) -> None:
     raw = hashing.encode("the the the the", normalize=False)
     assert np.linalg.norm(raw) > 1.0
+
+
+@pytest.mark.parametrize(
+    "changed",
+    [
+        {"lowercase": False},
+        {"word_ngrams": (1, 1)},
+        {"char_ngrams": None},
+        {"char_weight": 0.25},
+        {"document_template": "passage: {text}"},
+        {"query_template": "query: {text}"},
+        {"default_instruction": "search"},
+        {"output_dim": 16},
+    ],
+)
+def test_fingerprint_tracks_hashing_configuration(changed) -> None:  # type: ignore[no-untyped-def]
+    baseline = HashingEncoder(dim=32)
+    assert baseline.fingerprint() == HashingEncoder(dim=32).fingerprint()
+    assert baseline.fingerprint() != HashingEncoder(dim=32, **changed).fingerprint()
 
 
 def test_prompt_templates_and_instructions() -> None:
@@ -91,6 +110,24 @@ def test_custom_encoder_subclass_contract() -> None:
 
     with pytest.raises(RuntimeError, match="expected"):
         Broken().encode(["x"])
+
+
+@pytest.mark.parametrize("value", [np.nan, np.inf, -np.inf, np.finfo(np.float64).max])
+@pytest.mark.parametrize("normalize", [True, False])
+@pytest.mark.parametrize("dim", [None, 2])
+def test_custom_encoder_rejects_nonfinite_float32_output(value, normalize, dim) -> None:  # type: ignore[no-untyped-def]
+    class NonFinite(Encoder):
+        @property
+        def native_dim(self) -> int:
+            return 4
+
+        def _encode(self, texts, batch_size):  # type: ignore[no-untyped-def]
+            # A bad trailing component must be rejected even when truncation
+            # would remove it; float64 overflow must also fail at the boundary.
+            return np.tile(np.array([1, 2, 3, value], dtype=np.float64), (len(texts), 1))
+
+    with pytest.raises(RuntimeError, match="non-finite float32 embeddings"):
+        NonFinite().encode(["x"], normalize=normalize, dim=dim)
 
 
 def test_load_encoder_specs(hashing: HashingEncoder) -> None:
