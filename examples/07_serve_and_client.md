@@ -3,7 +3,7 @@
 ## REST (OpenAI-compatible)
 
 ```bash
-pip install "clmkit[hf,serve]"
+python -m pip install "clmkit[hf,serve] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
 clmkit index --model Qwen/Qwen3-Embedding-0.6B --input examples/data/docs.jsonl --output my_index
 export CLMKIT_API_KEY=change-me            # optional bearer auth (always set it off-localhost)
 clmkit serve --index my_index --port 8000  # binds 127.0.0.1 by default
@@ -34,7 +34,7 @@ Interactive docs: <http://127.0.0.1:8000/docs>.
 ## MCP (for Claude Desktop / Claude Code / IDE agents)
 
 ```bash
-pip install "clmkit[hf,mcp]"
+python -m pip install "clmkit[hf,mcp] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
 ```
 
 ```json

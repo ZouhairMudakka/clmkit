@@ -1,6 +1,6 @@
-"""Quickstart: semantic search in ~10 lines, no downloads (uses the hashing encoder).
+"""Quickstart: lexical retrieval with a hashing baseline, no model download.
 
-    pip install clmkit
+    python -m pip install "clmkit @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
     python examples/01_quickstart.py
 
 Swap `HashingEncoder(...)` for `load_encoder("Qwen/Qwen3-Embedding-0.6B")` to use a real
@@ -14,7 +14,7 @@ retriever.add(
     [
         "Contrastive learning pulls matching pairs together and pushes others apart.",
         "LoRA fine-tunes large models with small low-rank adapters.",
-        "Qwen3-Embedding-8B tops the MTEB multilingual leaderboard.",
+        "Qwen3-Embedding models produce vectors for semantic retrieval.",
         "Bananas are an excellent source of potassium.",
     ],
     metadata=[{"topic": "ml"}, {"topic": "ml"}, {"topic": "ml"}, {"topic": "food"}],

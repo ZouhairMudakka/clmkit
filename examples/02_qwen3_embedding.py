@@ -1,6 +1,6 @@
 """Use Qwen3-Embedding (0.6B / 4B / 8B) as a contrastive encoder, raw (no fine-tuning).
 
-    pip install "clmkit[hf]"
+    python -m pip install "clmkit[hf] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
     python examples/02_qwen3_embedding.py                       # 0.6B, runs on CPU
     python examples/02_qwen3_embedding.py Qwen/Qwen3-Embedding-8B  # needs a ~20 GB GPU
 

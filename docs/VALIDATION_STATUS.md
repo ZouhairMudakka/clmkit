@@ -3,7 +3,10 @@
 **The corrected framework meets the documented CPU public-alpha criteria.**
 The two P1 blockers and narrower supported-contract findings are resolved. This
 assessment does not establish production readiness, GPU capacity or quality gains.
-No tagged GitHub release or PyPI package has been published by this remediation.
+The first GitHub prerelease is `v0.1.0a1`; its release page records the tagged commit
+and release-candidate CI results. No PyPI package is published. The remediation
+evidence below refers to its recorded commits and remains distinct from release
+packaging/quickstart checks.
 
 ## Verified remediation — 7 October 2026
 

@@ -1,6 +1,6 @@
 """Contrastive embeddings as features in a classic ML pipeline (scikit-learn).
 
-    pip install "clmkit[sklearn]"
+    python -m pip install "clmkit[sklearn] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
     python examples/06_sklearn_pipeline.py
 """
 

@@ -1,6 +1,6 @@
 """Fine-tune a contrastive encoder on your own (query, positive, negatives) data.
 
-    pip install "clmkit[train]"
+    python -m pip install "clmkit[train] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
     python examples/05_finetune.py                              # Qwen3-Embedding-0.6B, CPU ok (slow)
     python examples/05_finetune.py Qwen/Qwen3-Embedding-8B lora  # LoRA on a GPU
 

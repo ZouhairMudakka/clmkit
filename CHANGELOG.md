@@ -3,7 +3,12 @@
 All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses [Semantic Versioning](https://semver.org/).
 
-## Unreleased — audit remediation (2026-10-07)
+## [0.1.0a1] - 2026-10-07
+
+First GitHub prerelease, covering the documented CPU alpha scope. NumPy-only
+quickstart and release artifacts are checked in isolated installations. GPU,
+4B/8B capacity and production reliability remain unverified; see
+[validation status](docs/VALIDATION_STATUS.md).
 
 - Correct duplicate-aware epoch coverage, weighted Matryoshka pairing and per-query evaluation instructions.
 - Reject non-finite training losses/gradients before optimizer mutation; validate remote vector indices and values.

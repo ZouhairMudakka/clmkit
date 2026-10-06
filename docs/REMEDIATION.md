@@ -39,7 +39,7 @@ results, package versions, numerical tolerances and artifact digests.
 | Identity and storage trust | Mutable/custom weights require `encoder_identity`. Safetensors is not repository authentication; native FAISS artifacts must be trusted. Snapshots require a single writer and complete files; no transaction/recovery guarantee. |
 | Production serving | Authentication-derived tenant scope, gateway/TLS, load limits, durable shared state, monitoring and recovery remain deployment work. Multiple writable workers do not share the in-memory store. |
 | Training resume / broader retrieval | Optimizer resume, distributed training, hybrid retrieval and database connectors remain optional roadmap items. |
-| Distribution / maintenance | No PyPI or tagged release is created by this remediation. Action major-version updates and SHA pinning remain maintenance work. Fresh scans do not repair the retained laptop environment's disclosed cryptography advisories. |
+| Distribution / maintenance | The subsequent v0.1.0a1 GitHub prerelease packages this work; no PyPI publication. Release preparation upgrades and SHA-pins the Actions dependencies. Fresh scans do not repair the retained laptop environment's disclosed cryptography advisories. |
 
 No client production host was used. The personal Codespace from earlier testing
 remains stopped; the corrected candidate was verified using local tests and hosted CI.

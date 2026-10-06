@@ -41,24 +41,39 @@ A **contrastive language model (CLM)** maps text to vectors so that related text
 ## Install
 
 ```bash
-pip install "clmkit @ git+https://github.com/ZouhairMudakka/clmkit"            # numpy-only core
-pip install "clmkit[hf] @ git+https://github.com/ZouhairMudakka/clmkit"        # + torch/transformers
-pip install "clmkit[all] @ git+https://github.com/ZouhairMudakka/clmkit"       # + training, serving, MCP, YAML, sklearn
+python -m pip install "clmkit @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"       # NumPy-only core
+python -m pip install "clmkit[hf] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"   # + torch/transformers
+python -m pip install "clmkit[all] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"  # + training/serving/integrations
 ```
+
+Use a fresh virtual environment (`python -m venv .venv`) and activate it before
+installing. These commands require Git. Alternatively, install the wheel from the
+[v0.1.0a1 prerelease](https://github.com/ZouhairMudakka/clmkit/releases/tag/v0.1.0a1)
+with `python -m pip install ./clmkit-0.1.0a1-py3-none-any.whl`.
 
 Extras: `hf`, `train`, `serve`, `mcp`, `faiss`, `yaml`, `sklearn`, `all`, `dev`. Python 3.10+.
 
 HF support starts at torch 2.13, transformers 5.17, safetensors 0.8 and
 PEFT 0.21.1 for adapters. Older stacks and legacy `.bin` weights are unsupported.
 The `configs/` and `examples/` directories are repository assets: clone this repo
-to use the recipe paths below. No PyPI release has been published.
+to use the recipe paths below:
+
+```bash
+git clone --branch v0.1.0a1 --depth 1 https://github.com/ZouhairMudakka/clmkit.git
+cd clmkit
+```
+
+No PyPI release has been published; use the pinned Git URL or release wheel.
 
 ## Quickstart
+
+This runs with the core install and downloads no model. Hashing is a lexical test
+baseline, useful for checking the pipeline; it is not a trained semantic encoder.
 
 ```python
 from clmkit import Retriever, load_encoder
 
-encoder = load_encoder("Qwen/Qwen3-Embedding-0.6B")   # or "Qwen/Qwen3-Embedding-8B", or "hashing" (no download)
+encoder = load_encoder("hashing")
 retriever = Retriever(encoder)
 retriever.add(["Paris is the capital of France.", "Bananas are rich in potassium."],
               metadata=[{"topic": "geo"}, {"topic": "food"}])
@@ -69,7 +84,11 @@ print(hits[0].text, hits[0].score)
 
 ### Encoding (raw model, no fine-tuning)
 
+Install the `hf` extra first. This example downloads Qwen3-Embedding-0.6B;
+the first download needs network access, disk space and sufficient RAM.
+
 ```python
+encoder = load_encoder("Qwen/Qwen3-Embedding-0.6B")
 q = encoder.encode(["What is the capital of China?"], kind="query")            # instruction added for you
 d = encoder.encode(["The capital of China is Beijing."], kind="document")      # documents: no instruction
 q_code = encoder.encode("sort a list", kind="query", instruction="Given a question, retrieve code snippets")
