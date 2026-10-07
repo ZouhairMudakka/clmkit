@@ -94,6 +94,7 @@ only-include = [
   "src/clmkit", "tests", "templates", "README.md", "LICENSE", "CHANGELOG.md",
   "validation/evidence_data.py", "validation/evidence_dx.py", "validation/evidence_metrics.py",
   "validation/evidence_report.py", "validation/evidence_run.py", "validation/evidence_suite.py",
+  "validation/benchmark_serving.py",
 ]
 
 # ---------------------------------------------------------------- tooling ---

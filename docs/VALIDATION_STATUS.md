@@ -14,7 +14,32 @@ security/correctness fixes and templates; use the audited source revision in the
 evidence below refers to its recorded commits and remains distinct from release
 packaging/quickstart checks.
 
-## Verified framework revision — 7 October 2026
+## Relevance milestone in progress — 7 October 2026
+
+Draft [PR #4](https://github.com/ZouhairMudakka/clmkit/pull/4) adds hybrid retrieval,
+label-aware training, blockwise mining and a registered public-data study.
+The independently reviewed source freeze is
+`e61cc76d6cf52f25422335d42eaf18dde44e3067`; all 10
+[standard CI jobs](https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464025)
+and nine [independent validation jobs](https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464030)
+passed on that revision, alongside all three
+[Qwen 0.6B reference jobs](https://github.com/ZouhairMudakka/clmkit/actions/runs/37673746828).
+The [retained status receipts](validation-evidence/2026-10-07-relevance/)
+record their per-job outcomes. These results do not cover later commits automatically.
+
+The additive examples passed a combined local run of 594 tests, with two opt-in
+model tests skipped, plus lint, formatting and type checks. Extending the serving
+benchmark to all four planned concurrency levels passed 17 focused tests.
+The independent review identified and corrected an installed-test packaging
+omission; the next hosted run must verify that correction.
+
+The bounded compact-model pilot passed in the personal Codespace. Development
+training/comparisons have started, but no completed held-out result is claimed
+here. See [reproduction instructions](RELEVANCE_EVIDENCE.md) and
+[review findings](RELEVANCE_REVIEW.md). This milestone is not yet a new alpha
+release or evidence of relevance improvement.
+
+## Earlier verified framework revision — 7 October 2026
 
 Audited source revision `24ea404e8e6121d4b4016484805f1584c852abb1` includes the
 framework review fixes, credential-persistence guard and tested use-case templates.

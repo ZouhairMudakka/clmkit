@@ -212,3 +212,44 @@ BANKING77 gallery. Keep missing predictions and no-match cases in their stated
 denominators. Publish unsuccessful runs and no-gain outcomes, paired uncertainty,
 seed variation and measured costs alongside any future result. The proposed
 two-percentage-point BANKING77 adaptation target is a hypothesis, not a result.
+
+Generate a development report before sealing, and a separate held-out report
+after completing the test matrix:
+
+```bash
+python -m validation.evidence_report --phase dev \
+  --output /workspaces/evidence-results/report-dev
+python -m validation.evidence_report --phase test \
+  --output /workspaces/evidence-results/report-test
+```
+
+Reports recheck prediction checksums, exact query coverage and metrics against
+the pinned judgments. Training seeds, overlap-filtered sensitivity results,
+failed attempts and resource costs remain visible. A partial development report
+is diagnostic; it cannot substitute for a complete held-out report.
+
+## Apply the workflow and measure HTTP serving
+
+The [intent-matching recipes](../templates/intent_matching/README.md) build and
+strictly reload the full BANKING77 gallery with either pinned pretrained weights
+or a registered adapted checkpoint. A separate CLINC recipe uses its own sealed
+development threshold. Existing indexes are preserved when rebuilding. Offline
+tests establish the recipes' mechanics; cloud execution and measured benchmark
+quality are separate evidence.
+
+Run the auxiliary serving measurement after other CPU jobs have finished:
+
+```bash
+timeout 630s python validation/benchmark_serving.py \
+  --output /workspaces/evidence-results/serving.json
+```
+
+It uses the already cached pinned MiniLM model, an authenticated loopback-only
+server, and 48 requests at each concurrency level 1, 4, 8 and 16. The report
+records warm p50/p95 latency, successful throughput, failures, process memory,
+thread settings and source identities. A watchdog bounds the run and cleans up
+its own server process. A short, single-query closed-loop measurement does not
+establish maximum capacity, production reliability or a service-level agreement.
+
+See the [independent implementation review](RELEVANCE_REVIEW.md) for resolved
+findings and remaining limitations.

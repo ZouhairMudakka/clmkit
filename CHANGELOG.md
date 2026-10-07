@@ -18,6 +18,10 @@ All notable changes to this project are documented here. The format follows
   runners and a direct Sentence Transformers workflow comparison. Document
   reproduction and claim limits in `docs/RELEVANCE_EVIDENCE.md`; no new benchmark
   outcome or productivity improvement is asserted by these additions.
+- Add strict full-gallery intent-matching recipes for pretrained/adapted BANKING77
+  models and separately calibrated CLINC routing, plus a bounded authenticated
+  loopback serving benchmark. Offline fixture tests cover their mechanics;
+  real-model execution and relevance results require the cloud evidence runs.
 
 - Audit framework correctness, measured overhead and developer workflows; record
   adoption limits and priorities in `docs/FRAMEWORK_REVIEW.md`.
