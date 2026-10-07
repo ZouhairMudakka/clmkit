@@ -194,15 +194,19 @@ the storage, evaluation and operations gaps.
 - The independent final agent review found no remaining P1/P2 blocker in these
   changes. Its optional benchmark-metadata clarification was applied without
   altering measured samples. This is a second-agent review, not external certification.
-- Exact-commit hosted results are attached to the implementation's GitHub commit
-  checks: [standard CI](https://github.com/ZouhairMudakka/clmkit/actions/workflows/ci.yml),
-  [independent validation](https://github.com/ZouhairMudakka/clmkit/actions/workflows/validation.yml),
-  and [manual real-model checks](https://github.com/ZouhairMudakka/clmkit/actions/workflows/real-model.yml).
-  Check the run's commit before applying its result to a checkout.
+- All **22 hosted jobs passed** on audited source revision
+  `24ea404e8e6121d4b4016484805f1584c852abb1`:
+  [standard CI](https://github.com/ZouhairMudakka/clmkit/actions/runs/37620279556)
+  **10/10**,
+  [independent validation](https://github.com/ZouhairMudakka/clmkit/actions/runs/37620279557)
+  **9/9**, and
+  [Qwen 0.6B CPU reference/training checks](https://github.com/ZouhairMudakka/clmkit/actions/runs/37620337728)
+  **3/3**. These runs cover clean installed wheels, the minimum ML stack, actual
+  MCP stdio, embedding/reranker references and bounded LoRA training/reload.
 - Local environment: Windows/Python 3.13, retained virtual environment inheriting
   system packages; CPU torch 2.13, transformers 5.17, PEFT 0.21.1. It is not a clean
-  install or a fresh dependency-security verdict. Hosted workflow results must
-  be checked on the implementation commit.
-- Prior real Qwen 0.6B reference/training evidence belongs to its recorded commits
-  in [validation status](VALIDATION_STATUS.md). This review does not transfer that
-  evidence to unexecuted GPU/CUDA or 4B/8B paths.
+  install or a fresh dependency-security verdict. The hosted runs above provide
+  separate clean-environment checks on the named source revision.
+- Historical real Qwen 0.6B evidence remains associated with its recorded commits
+  in [validation status](VALIDATION_STATUS.md). Neither the historical checks nor
+  the new CPU checks establish GPU/CUDA or 4B/8B support or held-out quality gains.

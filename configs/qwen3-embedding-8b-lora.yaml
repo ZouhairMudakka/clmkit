@@ -1,6 +1,6 @@
 # Experimental Qwen3-Embedding-8B LoRA + GradCache recipe; GPU capacity is unverified.
 #
-#   python -m pip install "clmkit[train,yaml] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
+#   python -m pip install "clmkit[train,yaml] @ git+https://github.com/ZouhairMudakka/clmkit@24ea404e8e6121d4b4016484805f1584c852abb1"
 #   clmkit train --config configs/qwen3-embedding-8b-lora.yaml
 #
 # Memory notes (bf16, max_length 512): the frozen 8B base is ~16 GB. GradCache

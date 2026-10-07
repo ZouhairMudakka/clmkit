@@ -26,12 +26,14 @@ customer questions, multilingual text, or paraphrases.
 
 ## Get the templates
 
-These templates were added **after v0.1.0a1**. Use the current repository for the
-template files and install the released core in a fresh virtual environment:
+These templates were added **after v0.1.0a1**. Use the audited source revision for
+both the template files and core library in a fresh virtual environment. The
+legacy release predates the latest security/correctness fixes and templates:
 
 ```bash
 git clone https://github.com/ZouhairMudakka/clmkit.git
 cd clmkit
+git checkout --detach 24ea404e8e6121d4b4016484805f1584c852abb1
 python -m venv .venv
 ```
 
@@ -50,7 +52,7 @@ source .venv/bin/activate
 Then install and run:
 
 ```bash
-python -m pip install "clmkit @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
+python -m pip install "clmkit @ git+https://github.com/ZouhairMudakka/clmkit@24ea404e8e6121d4b4016484805f1584c852abb1"
 python templates/support_search.py
 python templates/assistant_memory.py
 python templates/support_routing.py
@@ -146,7 +148,7 @@ The template builders accept an `Encoder`. Install the `hf` extra, then pass a
 trained model instead of the hashing baseline:
 
 ```bash
-python -m pip install "clmkit[hf] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
+python -m pip install "clmkit[hf] @ git+https://github.com/ZouhairMudakka/clmkit@24ea404e8e6121d4b4016484805f1584c852abb1"
 ```
 
 ```python

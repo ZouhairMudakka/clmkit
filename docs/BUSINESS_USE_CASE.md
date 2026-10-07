@@ -44,8 +44,8 @@ dates, exceptions, and current policy before deciding what to do.
 
 ## Run the working demo
 
-Follow the [environment setup](USE_CASES.md#get-the-templates) to clone the current
-repository and install the released `v0.1.0a1` core. Then run:
+Follow the [environment setup](USE_CASES.md#get-the-templates) to check out the
+audited source revision and install the matching core. Then run:
 
 ```bash
 python templates/retail_service_desk.py
@@ -53,8 +53,8 @@ python templates/retail_service_desk.py
 
 This prints JSON for fictional tickets. It runs locally with NumPy, without API
 credentials or model downloads. The script is standalone and can be copied into
-your application. It was added after the alpha release; get the file from `main`,
-not from the existing release archive.
+your application. It was added after the alpha release; the pinned source
+checkout above contains it, while the existing release archive does not.
 
 The demo and its regression tests cover these scenarios:
 

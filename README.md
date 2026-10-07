@@ -40,16 +40,22 @@ A **contrastive language model (CLM)** maps text to vectors so that related text
 
 ## Install
 
+The commands below pin the audited source revision
+`24ea404e8e6121d4b4016484805f1584c852abb1`, including the framework fixes and
+starter templates. All 22 hosted jobs passed for this revision; see
+[validation status](docs/VALIDATION_STATUS.md#verified-framework-revision--7-october-2026).
+
 ```bash
-python -m pip install "clmkit @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"       # NumPy-only core
-python -m pip install "clmkit[hf] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"   # + torch/transformers
-python -m pip install "clmkit[all] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"  # + training/serving/integrations
+python -m pip install "clmkit @ git+https://github.com/ZouhairMudakka/clmkit@24ea404e8e6121d4b4016484805f1584c852abb1"       # NumPy-only core
+python -m pip install "clmkit[hf] @ git+https://github.com/ZouhairMudakka/clmkit@24ea404e8e6121d4b4016484805f1584c852abb1"   # + torch/transformers
+python -m pip install "clmkit[all] @ git+https://github.com/ZouhairMudakka/clmkit@24ea404e8e6121d4b4016484805f1584c852abb1"  # + training/serving/integrations
 ```
 
 Use a fresh virtual environment (`python -m venv .venv`) and activate it before
-installing. These commands require Git. Alternatively, install the wheel from the
+installing. These commands require Git. The legacy
 [v0.1.0a1 prerelease](https://github.com/ZouhairMudakka/clmkit/releases/tag/v0.1.0a1)
-with `python -m pip install ./clmkit-0.1.0a1-py3-none-any.whl`.
+predates the latest security/correctness fixes and templates; its unchanged wheel
+and source archives do not contain them. Use the source revision above.
 
 Extras: `hf`, `train`, `serve`, `mcp`, `faiss`, `yaml`, `sklearn`, `all`, `dev`. Python 3.10+.
 
@@ -59,11 +65,12 @@ The `configs/` and `examples/` directories are repository assets: clone this rep
 to use the recipe paths below:
 
 ```bash
-git clone --branch v0.1.0a1 --depth 1 https://github.com/ZouhairMudakka/clmkit.git
+git clone https://github.com/ZouhairMudakka/clmkit.git
 cd clmkit
+git checkout --detach 24ea404e8e6121d4b4016484805f1584c852abb1
 ```
 
-No PyPI release has been published; use the pinned Git URL or release wheel.
+No PyPI release has been published; use the pinned Git URL above.
 
 ## Quickstart
 

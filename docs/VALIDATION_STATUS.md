@@ -1,16 +1,35 @@
 # Validation status — 7 October 2026
 
-The subsequent [framework review](FRAMEWORK_REVIEW.md) records post-alpha
-correctness and efficiency changes, their own verification, and developer fit.
+The [framework review](FRAMEWORK_REVIEW.md) records post-alpha correctness and
+efficiency changes, their verification, and developer fit.
 The historical remediation counts below refer only to their named commits.
 
 **The corrected framework meets the documented CPU public-alpha criteria.**
 The two P1 blockers and narrower supported-contract findings are resolved. This
 assessment does not establish production readiness, GPU capacity or quality gains.
 The first GitHub prerelease is `v0.1.0a1`; its release page records the tagged commit
-and release-candidate CI results. No PyPI package is published. The remediation
+and release-candidate CI results. That legacy release predates the latest
+security/correctness fixes and templates; use the audited source revision in the
+[install instructions](../README.md#install). No PyPI package is published. The remediation
 evidence below refers to its recorded commits and remains distinct from release
 packaging/quickstart checks.
+
+## Verified framework revision — 7 October 2026
+
+Audited source revision `24ea404e8e6121d4b4016484805f1584c852abb1` includes the
+framework review fixes, credential-persistence guard and tested use-case templates.
+All **22 hosted jobs passed on this same revision**:
+
+| Validation | Result |
+|---|---|
+| [Standard CI](https://github.com/ZouhairMudakka/clmkit/actions/runs/37620279556) | 10/10 jobs: Linux/Windows/macOS core, full CPU Python 3.10/3.12, lint/type checks and security scan. |
+| [Independent validation](https://github.com/ZouhairMudakka/clmkit/actions/runs/37620279557) | 9/9 jobs: independent contracts, six installed NumPy-only wheel jobs, actual MCP 1.x stdio and minimum supported ML stack. |
+| [Qwen 0.6B reference checks](https://github.com/ZouhairMudakka/clmkit/actions/runs/37620337728) | 3/3 jobs: embedding and reranker CPU references, bounded LoRA training and reload. |
+
+The framework review also records **427 local tests plus six subtests passed**,
+with two model-download cases deselected. Local and hosted counts overlap and
+must not be added together. These checks do not establish GPU/CUDA or 4B/8B
+capacity, held-out quality gains, production reliability or commercial ROI.
 
 ## Verified remediation — 7 October 2026
 

@@ -3,11 +3,11 @@
 `clmkit` fine-tunes any `HFEncoder`, including Qwen3-Embedding 0.6B/4B/8B, E5, BGE and GTE, with contrastive objectives.
 
 ```bash
-python -m pip install "clmkit[train,yaml] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
+python -m pip install "clmkit[train,yaml] @ git+https://github.com/ZouhairMudakka/clmkit@24ea404e8e6121d4b4016484805f1584c852abb1"
 clmkit train --config configs/qwen3-embedding-0.6b-full.yaml --set train.max_steps=20 --set encoder.device=cpu
 ```
 
-Run recipe paths from the repository root; clone the release as described in
+Run recipe paths from the repository root; check out the audited revision as described in
 the [README](../README.md#install). The 0.6B recipe uses bundled sample data.
 The 8B recipe requires your own data and its GPU capacity is unverified. For a
 mining-to-training workflow, explicitly pass the mined file and held-out split:
