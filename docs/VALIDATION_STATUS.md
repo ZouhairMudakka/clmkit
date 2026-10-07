@@ -1,5 +1,9 @@
 # Validation status — 7 October 2026
 
+The subsequent [framework review](FRAMEWORK_REVIEW.md) records post-alpha
+correctness and efficiency changes, their own verification, and developer fit.
+The historical remediation counts below refer only to their named commits.
+
 **The corrected framework meets the documented CPU public-alpha criteria.**
 The two P1 blockers and narrower supported-contract findings are resolved. This
 assessment does not establish production readiness, GPU capacity or quality gains.

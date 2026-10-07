@@ -8,6 +8,8 @@ a passing ordinary suite alone must not imply that these findings are resolved.
 - `test_core_independent.py`: synthetic retrieval, evaluation and persistence probes.
 - `run_protocol.py`: real loopback HTTP and MCP stdio exchanges.
 - `additional_probes.py`: actual LangChain integration and bounded transport checks.
+- `benchmark_framework.py`: bounded offline CPU workloads and optional paired
+  baseline/current batching measurements; see its header for reproduction commands.
 - `run_installed.py`: wheel built from sdist, installed into a new NumPy-only environment;
   checks archive contents, the README quickstart, and tests including the
   repository use-case templates copied outside the source checkout.

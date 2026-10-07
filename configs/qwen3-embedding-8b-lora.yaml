@@ -1,12 +1,13 @@
-# Fine-tune Qwen3-Embedding-8B with LoRA + GradCache on a single 24-48 GB GPU.
+# Experimental Qwen3-Embedding-8B LoRA + GradCache recipe; GPU capacity is unverified.
 #
-#   pip install "clmkit[train,yaml]"
+#   python -m pip install "clmkit[train,yaml] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
 #   clmkit train --config configs/qwen3-embedding-8b-lora.yaml
 #
 # Memory notes (bf16, max_length 512): the frozen 8B base is ~16 GB. GradCache
 # (mini_batch_size) keeps activation memory proportional to 8 sequences while the
 # contrastive loss still sees all 64 queries x (1 positive + 7 negatives).
-# Swap the model for Qwen/Qwen3-Embedding-0.6B to iterate quickly.
+# Supply data/train.jsonl and data/eval.jsonl, or override data.train/data.eval.
+# Use qwen3-embedding-0.6b-full.yaml to iterate with bundled sample data.
 
 encoder:
   type: hf

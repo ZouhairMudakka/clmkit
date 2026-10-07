@@ -1,0 +1,90 @@
+{
+  "label": "before",
+  "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "numpy": "2.4.6",
+  "fixture_seed": 42,
+  "repeats": 3,
+  "memory_scope": "tracemalloc incremental allocations; excludes imports/fixtures/process RSS",
+  "results": {
+    "shared_positive_1000": {
+      "median_seconds": 0.14813929999945685,
+      "samples_seconds": [
+        0.2249279999814462,
+        0.1362710999965202,
+        0.14813929999945685
+      ],
+      "traced_peak_bytes": 59376,
+      "result": 1000
+    },
+    "shared_positive_2000": {
+      "median_seconds": 0.7241128000023309,
+      "samples_seconds": [
+        0.7241128000023309,
+        0.6578028999792878,
+        0.868276799999876
+      ],
+      "traced_peak_bytes": 114560,
+      "result": 2000
+    },
+    "shared_positive_4000": {
+      "median_seconds": 1.7854567999893334,
+      "samples_seconds": [
+        1.7854567999893334,
+        1.7782109999970999,
+        3.007358300004853
+      ],
+      "traced_peak_bytes": 228288,
+      "result": 4000
+    },
+    "distinct_20000": {
+      "median_seconds": 0.012986099987756461,
+      "samples_seconds": [
+        0.012986099987756461,
+        0.011495599988847971,
+        0.03225910000037402
+      ],
+      "traced_peak_bytes": 969600,
+      "result": 20000
+    },
+    "numpy_2000x64_32queries_k10": {
+      "median_seconds": 0.0010503999947104603,
+      "samples_seconds": [
+        0.0006438999844249338,
+        0.0011064000136684626,
+        0.0010503999947104603
+      ],
+      "traced_peak_bytes": 534144,
+      "result": 32
+    },
+    "numpy_filter_10percent": {
+      "median_seconds": 0.00036330000148154795,
+      "samples_seconds": [
+        0.00040940000326372683,
+        0.00036330000148154795,
+        0.0003547999949660152
+      ],
+      "traced_peak_bytes": 126512,
+      "result": 32
+    },
+    "hashing_evaluator_128docs_16queries": {
+      "median_seconds": 0.006785399978980422,
+      "samples_seconds": [
+        0.0052699000225402415,
+        0.006785399978980422,
+        0.009404100012034178
+      ],
+      "traced_peak_bytes": 136097,
+      "result": {
+        "ndcg@1": 1.0,
+        "ndcg@10": 1.0,
+        "mrr@1": 1.0,
+        "mrr@10": 1.0,
+        "recall@1": 1.0,
+        "recall@10": 1.0,
+        "map@1": 1.0,
+        "map@10": 1.0
+      }
+    }
+  }
+}

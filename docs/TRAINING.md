@@ -3,9 +3,19 @@
 `clmkit` fine-tunes any `HFEncoder`, including Qwen3-Embedding 0.6B/4B/8B, E5, BGE and GTE, with contrastive objectives.
 
 ```bash
-pip install "clmkit[train,yaml]"
-clmkit train --config configs/qwen3-embedding-8b-lora.yaml
+python -m pip install "clmkit[train,yaml] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
 clmkit train --config configs/qwen3-embedding-0.6b-full.yaml --set train.max_steps=20 --set encoder.device=cpu
+```
+
+Run recipe paths from the repository root; clone the release as described in
+the [README](../README.md#install). The 0.6B recipe uses bundled sample data.
+The 8B recipe requires your own data and its GPU capacity is unverified. For a
+mining-to-training workflow, explicitly pass the mined file and held-out split:
+
+```bash
+clmkit mine --model Qwen/Qwen3-Embedding-0.6B --train train.jsonl --corpus corpus.txt --output train_hn.jsonl
+clmkit train --config configs/qwen3-embedding-8b-lora.yaml --set data.train=train_hn.jsonl --set data.eval=eval.jsonl
+clmkit eval --model runs/qwen3-embedding-8b-lora/final --data eval.jsonl
 ```
 
 ## 1. Data
@@ -42,19 +52,26 @@ Tips:
 | `cosent` | pairs with graded similarity `score` (STS-style) | `scale` (20) |
 | `triplet` | exactly one hard negative matters | `margin` |
 
-`matryoshka_dims: [4096, 1024, 256]` wraps the loss so truncated embeddings stay strong, which is useful for cheaper indexes. Qwen3-Embedding already supports MRL (32 up to the full dim), and fine-tuning with the same dims preserves that.
+`matryoshka_dims: [4096, 1024, 256]` trains the selected embedding widths jointly.
+Choose dimensions supported by your model and evaluate each width separately;
+fine-tuning does not guarantee that every truncated width retains its prior quality.
 
 **Temperature.** Lower values sharpen the softmax. Values of 0.01–0.02 suit strong LLM-based embedders; 0.05 is a safe default for smaller models.
 
 ## 3. Batch size, GradCache and memory
 
-In-batch negatives make **larger batches learn better** (more negatives per step), but activation memory grows with batch size. `mini_batch_size` enables **GradCache**:
+Larger batches supply more in-batch negatives, but quality gains depend on the data
+and activation memory grows with batch size. `mini_batch_size` enables **GradCache**:
 
 1. embed the whole batch in chunks of `mini_batch_size` without keeping graphs;
 2. compute the full-batch loss and its gradient w.r.t. every embedding;
 3. re-embed each chunk with a graph and back-propagate the cached gradient.
 
-The result is the same gradients as the full batch (asserted in the test suite), at the memory cost of one chunk, and roughly 1.3–1.5× the compute of a plain step. Enable `gradient_checkpointing: true` on top for long sequences.
+Tiny-model tests check gradient equivalence with the full batch. GradCache reduces
+retained activation memory by adding a no-gradient forward pass; full-batch
+embeddings and the loss still consume memory. Actual time and peak memory depend
+on the model, loss, chunk size and hardware. Enable `gradient_checkpointing: true`
+on top for long sequences and measure the resulting tradeoff.
 
 ## 4. LoRA for 4B / 8B
 

@@ -86,6 +86,15 @@ class Retriever:
             raise ValueError("texts, ids and metadata must have the same length")
         if not texts:
             return []
+        # Reject invalid inserts before paying for local inference or remote API
+        # requests. The index still validates again before mutating its vectors.
+        if any(not id_ for id_ in ids):
+            raise TypeError("ids must be non-empty strings")
+        if len(set(ids)) != len(ids):
+            raise ValueError("duplicate ids within one add() call")
+        duplicate = [id_ for id_ in ids if id_ in self.index]
+        if duplicate:
+            raise ValueError(f"ids already in index: {duplicate[:5]}")
         for m in metas:
             json.dumps(m)  # fail early on metadata that cannot be persisted
         vectors = self.encoder.encode(texts, kind="document", batch_size=batch_size)
@@ -160,13 +169,21 @@ class Retriever:
         """
         single = isinstance(query, str)
         queries: list[str] = [query] if isinstance(query, str) else list(query)
+        if k < 1:
+            raise ValueError("k must be >= 1")
+        if any(not isinstance(q, str) for q in queries):
+            raise TypeError("search() expects strings")
         use_rerank = self.reranker is not None if rerank is None else rerank
         if use_rerank and self.reranker is None:
             raise ValueError("rerank=True but no reranker is configured")
+        allowed = self._allowed(filter)
+        if not queries or not self.documents or allowed == set():
+            empty: list[list[SearchHit]] = [[] for _ in queries]
+            return [] if single else empty
         pool = max(k, rerank_candidates or 4 * k) if use_rerank else k
         inst = self.query_instruction if instruction is None else instruction
         qvecs = self.encoder.encode(queries, kind="query", instruction=inst)
-        raw = self.index.search(qvecs, pool, allowed_ids=self._allowed(filter))
+        raw = self.index.search(qvecs, pool, allowed_ids=allowed)
         results: list[list[SearchHit]] = []
         for q, row in zip(queries, raw, strict=True):
             hits = [self._hit(id_, score) for id_, score in row if id_ in self.documents]

@@ -104,3 +104,16 @@ def test_entry_point_plugins_are_discovered(monkeypatch: pytest.MonkeyPatch) -> 
     assert reg.get("my_plugin").__name__ == "Counter"
     assert seen_groups == ["clmkit.gadgets"]
     assert reg.names() == ["builtin", "my-plugin"]
+
+
+def test_missing_dependency_hint_works_for_unpublished_package(monkeypatch: pytest.MonkeyPatch) -> None:
+    from clmkit import utils
+
+    def unavailable(name):
+        raise ImportError(name)
+
+    monkeypatch.setattr(utils.importlib, "import_module", unavailable)
+    with pytest.raises(utils.MissingDependencyError) as error:
+        utils.require("torch")
+    assert 'python -m pip install ".[hf]"' in str(error.value)
+    assert "https://github.com/ZouhairMudakka/clmkit#install" in str(error.value)

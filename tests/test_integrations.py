@@ -35,3 +35,15 @@ def test_langchain_adapter_duck_typed() -> None:
     q = emb.embed_query("what do cats eat")
     assert len(docs) == 2 and len(docs[0]) == 32 and len(q) == 32
     assert np.dot(docs[0], q) > np.dot(docs[1], q)
+
+
+def test_sklearn_encoder_parameter_updates_take_effect() -> None:
+    pytest.importorskip("sklearn")
+    from clmkit.integrations.sklearn import EmbeddingTransformer
+
+    transformer = EmbeddingTransformer("hashing", encoder_kwargs={"dim": 8})
+    assert transformer.fit_transform(["refund policy"]).shape == (1, 8)
+    transformer.set_params(encoder_kwargs={"dim": 16})
+    assert transformer.fit_transform(["refund policy"]).shape == (1, 16)
+    transformer.set_params(encoder=HashingEncoder(dim=4), encoder_kwargs=None)
+    assert transformer.transform(["refund policy"]).shape == (1, 4)

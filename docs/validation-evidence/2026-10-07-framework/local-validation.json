@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-07",
+  "baseline_commit": "19421a547f47c3106419c275b610a5ce5b8ca975",
+  "environment": {
+    "os": "Windows 11",
+    "python": "3.13.1",
+    "numpy": "2.4.6",
+    "torch": "2.13.0+cpu",
+    "transformers": "5.17.0",
+    "peft": "0.21.1",
+    "isolated_install": false,
+    "notes": "Retained virtual environment inherits system packages. No dependency installation or model downloads."
+  },
+  "combined_suite": {
+    "passed_tests": 427,
+    "passed_subtests": 6,
+    "deselected_model_download_tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "pytest_elapsed_seconds": 34.89,
+    "junit_cases_including_subtests": 433,
+    "paths": ["tests", "validation/test_scientific_contracts.py", "validation/test_finite_loss_nonfinite_gradients.py", "validation/test_core_independent.py"]
+  },
+  "static_checks": {"ruff_lint": "passed", "ruff_format": "passed", "mypy": "passed", "bandit": "passed"},
+  "offline_examples_passed": ["examples/01_quickstart.py", "examples/03_rag_pipeline.py", "examples/04_agent_tools.py", "examples/06_sklearn_pipeline.py", "templates/support_search.py", "templates/assistant_memory.py", "templates/support_routing.py", "templates/retail_service_desk.py"],
+  "limitations": ["Not a clean installation or fresh dependency audit", "No GPU/CUDA or 4B/8B evidence", "Synthetic workloads do not establish semantic quality or commercial value"]
+}

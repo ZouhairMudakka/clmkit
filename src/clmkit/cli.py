@@ -21,6 +21,7 @@ import sys
 from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 from clmkit import __version__
 from clmkit.utils import parse_value
@@ -44,6 +45,38 @@ def _build_encoder(spec: dict[str, Any]) -> Any:
     from clmkit.encoders import load_encoder
 
     return load_encoder(spec["model"], **spec.get("kwargs", {}))
+
+
+def _validate_persisted_encoder_spec(spec: dict[str, Any]) -> None:
+    """Reject credential-bearing options before saving a reconstructible CLI spec."""
+    credential_keys = {"api_key", "token", "use_auth_token", "access_token", "password", "authorization", "headers"}
+
+    def has_credentials(value: Any) -> bool:
+        if isinstance(value, dict):
+            for key, item in value.items():
+                name = str(key).lower().replace("-", "_")
+                if name in credential_keys and item is not None:
+                    # HF token=True/False selects cached auth or disables it; no literal secret.
+                    if name in {"token", "use_auth_token"} and isinstance(item, bool):
+                        continue
+                    if item:
+                        return True
+                if name == "base_url" and isinstance(item, str):
+                    url = urlsplit(item)
+                    if url.username is not None or url.password is not None or url.query or url.fragment:
+                        return True
+                if has_credentials(item):
+                    return True
+        elif isinstance(value, list):
+            return any(has_credentials(item) for item in value)
+        return False
+
+    if has_credentials(spec):
+        raise SystemExit(
+            "error: index snapshots store encoder options; literal credentials, custom headers, and credentials "
+            "in base_url are not allowed. Use --model-arg api_key_env=ENV_NAME (OPENAI_API_KEY by default), "
+            "or HF_TOKEN/cached Hugging Face login instead of literal token options."
+        )
 
 
 def _read_texts(path: str | None, positional: Sequence[str], text_field: str) -> list[str]:
@@ -143,6 +176,7 @@ def cmd_index(args: argparse.Namespace) -> int:
                 c_metas.append({**meta, "parent_id": parent, "chunk": j})
         texts, ids, metas = c_texts, c_ids, c_metas
     spec = _encoder_spec(args)
+    _validate_persisted_encoder_spec(spec)
     encoder = _build_encoder(spec)
     retriever = Retriever(encoder, INDEXES.build(args.index_type, encoder.dim), query_instruction=args.instruction)
     retriever.add(texts, ids=ids, metadata=metas, batch_size=args.batch_size)
@@ -193,6 +227,7 @@ def cmd_mine(args: argparse.Namespace) -> int:
         num_negatives=args.num_negatives,
         skip_top=args.skip_top,
         max_relative_score=args.max_relative_score,
+        batch_size=args.batch_size,
     )
     save_examples(args.output, mined)
     print(f"wrote {len(mined)} examples with hard negatives to {args.output}", file=sys.stderr)
@@ -230,11 +265,16 @@ def cmd_eval(args: argparse.Namespace) -> int:
     ks = [int(k) for k in args.ks.split(",")]
     if args.beir:
         queries, corpus, qrels = load_beir(args.beir, args.split)
-        evaluator = RetrievalEvaluator(queries, corpus, qrels, ks=ks, instruction=args.instruction)
+        evaluator = RetrievalEvaluator(
+            queries, corpus, qrels, ks=ks, instruction=args.instruction, batch_size=args.batch_size
+        )
     elif args.data:
         from clmkit.data import load_examples
 
-        evaluator = RetrievalEvaluator.from_examples(load_examples(args.data), ks=ks, instruction=args.instruction)
+        options = {"instruction": args.instruction} if args.instruction is not None else {}
+        evaluator = RetrievalEvaluator.from_examples(
+            load_examples(args.data), ks=ks, batch_size=args.batch_size, **options
+        )
     else:
         raise SystemExit("error: pass --data or --beir")
     metrics = evaluator(_build_encoder(_encoder_spec(args)))
@@ -254,6 +294,8 @@ def cmd_serve(args: argparse.Namespace) -> int:  # pragma: no cover - long-runni
 
     if args.index:
         spec = _encoder_spec(args) if args.model else Retriever.read_meta(args.index).get("encoder_spec")
+        if spec is not None and args.allow_writes and args.save_on_exit:
+            _validate_persisted_encoder_spec(spec)
         retriever = _load_retriever(args.index, args)
         encoder, reranker = retriever.encoder, retriever.reranker
     else:
@@ -392,6 +434,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     logging.basicConfig(level=level, format="%(asctime)s %(levelname)s %(name)s: %(message)s", stream=sys.stderr)
     if args.command == "serve" and not (args.model or args.index):
         parser.error("serve needs --model or --index")
+    if getattr(args, "model_arg", None) and not args.model:
+        parser.error("--model-arg requires --model; otherwise the saved encoder spec is used")
     return int(args.func(args))
 
 

@@ -3,6 +3,9 @@
 > Historical builder assessment. The status labels below are not an independent
 > release verdict. Read [current validation status](VALIDATION_STATUS.md) and the
 > [updated remaining gaps](REMEDIATION.md#remaining-gaps) first.
+> The later [framework review](FRAMEWORK_REVIEW.md) assesses developer adoption,
+> measured overhead and current priorities. Historical scale estimates below are
+> not capacity guarantees.
 
 *Assessed against v0.1.0 (2026-09-30).* Legend: ✅ done and tested · 🟡 partial / workaround exists · ❌ not implemented.
 

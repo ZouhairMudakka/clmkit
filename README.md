@@ -101,6 +101,14 @@ Remote servers work the same way (vLLM, TEI, Ollama, OpenAI, or `clmkit serve`):
 encoder = load_encoder({"type": "openai", "model": "Qwen/Qwen3-Embedding-8B", "base_url": "http://localhost:8000/v1"})
 ```
 
+For CLI indexes, provide remote credentials through `OPENAI_API_KEY` or
+`--model-arg api_key_env=YOUR_ENV_NAME`; use `HF_TOKEN` or a cached Hugging Face
+login for private Hub models. Saved CLI encoder specs reject literal credentials,
+custom headers, and URLs containing user info, query strings, or fragments before
+loading a model. This also applies when serving with `--allow-writes --save-on-exit`.
+Custom plugin configuration remains the caller's responsibility; arbitrary
+plugin-specific secrets cannot be inferred reliably.
+
 ### Fine-tuning Qwen3-Embedding
 
 Data is JSONL with one example per line:
@@ -111,9 +119,13 @@ Data is JSONL with one example per line:
 
 ```bash
 clmkit mine  --model Qwen/Qwen3-Embedding-0.6B --train train.jsonl --corpus corpus.txt --output train_hn.jsonl
-clmkit train --config configs/qwen3-embedding-8b-lora.yaml          # experimental 8B recipe; GPU capacity unverified
+clmkit train --config configs/qwen3-embedding-8b-lora.yaml --set data.train=train_hn.jsonl --set data.eval=eval.jsonl
 clmkit eval  --model runs/qwen3-embedding-8b-lora/final --data eval.jsonl
 ```
+
+Prepare a separate `eval.jsonl` with held-out pairs before running this sequence.
+The 8B recipe is experimental; GPU capacity is unverified. Use the 0.6B config to
+start smaller and adjust its data paths in the same way.
 
 The same flow from Python:
 
@@ -225,16 +237,19 @@ docs/            DESIGN · TRAINING · AGENTS · GAP_ANALYSIS · AUDIT
 
 ## Quality
 
-All 22 final hosted jobs pass: standard CI, independent contracts, clean installed
+The recorded alpha validation passed all 22 hosted jobs: standard CI, independent contracts, clean installed
 wheels, minimum ML dependencies, and real Qwen 0.6B reference/training checks.
 The independent review found no remaining P1 blocker in the documented CPU alpha
 scope. See [current validation status](docs/VALIDATION_STATUS.md) for exact results,
 historical run links, environment advisories and untested hardware. Earlier
 coverage figures and Qwen smoke results describe their recorded commits, not every
 future change. [Validation harnesses](validation/README.md) preserve the independent checks.
+The subsequent [framework review](docs/FRAMEWORK_REVIEW.md) records newer fixes,
+their verification, measured overhead and developer adoption limits.
 
 ## Documentation
 
+- [Framework review](docs/FRAMEWORK_REVIEW.md): correctness fixes, measured efficiency, developer fit and prioritized gaps
 - [Use cases & tested templates](docs/USE_CASES.md): choose a workflow, run it, customize it, and understand its test scope
 - [Retail business workflow](docs/BUSINESS_USE_CASE.md): customer journey, working template, integration points and pilot measures
 - [Design & architecture](docs/DESIGN.md): principles, module map, data flow, extension points

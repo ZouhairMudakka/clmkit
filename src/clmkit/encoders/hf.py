@@ -131,9 +131,11 @@ class HFEncoder(Encoder):
         pooling: ``"last_token"`` | ``"mean"`` | ``"cls"``.
         device: ``"auto"``, ``"cpu"``, ``"cuda"``, ``"cuda:1"``, ``"mps"``.
         dtype: ``"auto"``, ``"float32"``, ``"bfloat16"``, ``"float16"``.
-        revision: pin a hub commit/tag (recommended for reproducibility & supply-chain safety).
+        revision: pin a base-model hub commit/tag. When omitted for a local adapter-only
+            checkpoint, use its saved base revision. Explicit values override that revision.
         trust_remote_code: off by default; only enable for repositories you trust.
         adapter: path/id of a PEFT (LoRA) adapter to load on top of the base model.
+        adapter_revision: revision of the adapter repository, separate from the base revision.
     """
 
     def __init__(
@@ -204,6 +206,8 @@ class HFEncoder(Encoder):
             if (local / "adapter_config.json").is_file() and not (local / "config.json").is_file():
                 adapter_cfg = json.loads((local / "adapter_config.json").read_text(encoding="utf-8"))
                 weights_path = adapter_cfg["base_model_name_or_path"]
+                if revision is None:
+                    revision = adapter_cfg.get("revision")
                 adapter = model_name_or_path
         if model is None:
             model = transformers.AutoModel.from_pretrained(
@@ -331,11 +335,28 @@ class HFEncoder(Encoder):
         With ``merge_adapter=True`` a PEFT model is merged into its base weights so the
         result loads as a plain checkpoint (no ``peft`` needed at inference time). The
         encoder then holds the merged model, so it stays usable for inference.
+        Repeated saves may overwrite the same checkpoint format; switching between
+        adapter-only and full weights requires a separate directory.
         """
         path = Path(path)
+        adapter_configs = getattr(self.model, "peft_config", {})
+        saves_adapter = bool(adapter_configs) and not merge_adapter
+        incompatible = "config.json" if saves_adapter else "adapter_config.json"
+        if (path / incompatible).exists():
+            raise ValueError(
+                f"{path} contains an incompatible checkpoint format ({incompatible}); "
+                "save adapter-only and full/merged checkpoints in separate directories"
+            )
         path.mkdir(parents=True, exist_ok=True)
         if merge_adapter and hasattr(self.model, "merge_and_unload"):
             self.model = self.model.merge_and_unload()
+        elif adapter_configs:
+            # Prefer the immutable snapshot actually loaded, falling back to the
+            # caller's requested revision. Never substitute the adapter revision.
+            base_revision = self.resolved_revision or self.revision
+            if base_revision is not None:
+                for config in adapter_configs.values():
+                    config.revision = base_revision
         self.model.save_pretrained(str(path), safe_serialization=True)
         self.tokenizer.save_pretrained(str(path))
         (path / CONFIG_FILENAME).write_text(json.dumps(self.config_dict(), indent=2), encoding="utf-8")

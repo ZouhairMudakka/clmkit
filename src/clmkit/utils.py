@@ -45,7 +45,13 @@ def require(module: str) -> ModuleType:
     except ImportError as exc:  # pragma: no cover - exercised only without the extra
         root = module.split(".")[0]
         extra = _EXTRAS.get(root)
-        hint = f' Install it with: pip install "clmkit[{extra}]"' if extra else ""
+        hint = (
+            f' From a clmkit checkout run: python -m pip install ".[{extra}]".'
+            " For Git/release-wheel installs, use the same version with the extra;"
+            " see https://github.com/ZouhairMudakka/clmkit#install."
+            if extra
+            else ""
+        )
         raise MissingDependencyError(f"clmkit needs the optional dependency '{root}'.{hint}") from exc
 
 
@@ -70,9 +76,21 @@ def l2_normalize(x: np.ndarray, eps: float = 1e-12) -> np.ndarray:
     """Row-wise L2 normalisation that is safe for all-zero rows."""
     x = np.asarray(x, dtype=np.float32)
     if x.ndim == 1:
-        return x / max(float(np.linalg.norm(x)), eps)
-    norms = np.linalg.norm(x, axis=1, keepdims=True)
-    return x / np.maximum(norms, eps)
+        with np.errstate(over="ignore"):
+            norm = float(np.linalg.norm(x))
+        if np.isinf(norm) and np.isfinite(x).all():
+            norm = float(np.linalg.norm(x.astype(np.float64)))
+            return np.divide(x, max(norm, eps), out=np.empty_like(x), dtype=np.float64)
+        return np.divide(x, max(norm, eps), out=np.empty_like(x))
+    with np.errstate(over="ignore"):
+        norms = np.linalg.norm(x, axis=1, keepdims=True)
+    overflow = np.isinf(norms[:, 0])
+    if overflow.any():
+        # Keep the usual float32 path cheap; only exceptional rows need a wider
+        # accumulator. Finite float32 components can overflow when squared.
+        norms = norms.astype(np.float64)
+        norms[overflow] = np.linalg.norm(x[overflow].astype(np.float64), axis=1, keepdims=True)
+    return np.divide(x, np.maximum(norms, eps), out=np.empty_like(x))
 
 
 def truncate_dims(x: np.ndarray, dim: int | None) -> np.ndarray:

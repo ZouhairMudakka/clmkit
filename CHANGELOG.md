@@ -5,6 +5,17 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+- Audit framework correctness, measured overhead and developer workflows; record
+  adoption limits and priorities in `docs/FRAMEWORK_REVIEW.md`.
+- Accelerate duplicate-heavy training batching while preserving order and coverage;
+  skip embedding calls for empty searches and invalid document IDs.
+- Preserve CLI evaluation instructions and batch sizes, refresh changed sklearn
+  encoders, and make default configuration work with all three training losses.
+- Handle large finite-vector normalization, preserve adapter base revisions and
+  reject checkpoint directory reuse across incompatible formats.
+- Improve unpublished-package installation hints and mined-data training recipes.
+- Reject literal credentials in persisted CLI encoder specs; keep environment
+  references and cached authentication supported. Existing snapshots are unchanged.
 - Add a retail service-desk business template that prepares human-reviewed case
   packets from scoped policies, order facts, preferences and request routing.
 - Add documented support search, scoped assistant memory and request routing

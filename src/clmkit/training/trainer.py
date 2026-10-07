@@ -71,7 +71,7 @@ class TrainConfig:
     warmup_ratio: float = 0.05
     max_grad_norm: float | None = 1.0
     loss: str = "infonce"
-    loss_kwargs: dict[str, Any] = field(default_factory=lambda: {"temperature": 0.05})
+    loss_kwargs: dict[str, Any] = field(default_factory=dict)
     matryoshka_dims: list[int] | None = None
     #: Hard negatives per example (the batch uses min(available, max_negatives)).
     max_negatives: int | None = 7

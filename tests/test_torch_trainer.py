@@ -121,8 +121,22 @@ def test_matryoshka_and_cosent_objectives(tmp_path, tiny_model_dir, toy_examples
     cfg = TrainConfig(output_dir=str(tmp_path / "mrl"), max_steps=2, batch_size=4, matryoshka_dims=[32, 16, 8])
     assert ContrastiveTrainer(_encoder(tiny_model_dir), cfg, toy_examples).train().global_step == 2
     scored = [ContrastiveExample(e.query, e.positive, score=float(i % 3)) for i, e in enumerate(toy_examples)]
-    cfg2 = TrainConfig(output_dir=str(tmp_path / "cosent"), max_steps=2, batch_size=6, loss="cosent", loss_kwargs={})
+    cfg2 = TrainConfig(output_dir=str(tmp_path / "cosent"), max_steps=2, batch_size=6, loss="cosent")
     assert ContrastiveTrainer(_encoder(tiny_model_dir), cfg2, scored).train().global_step == 2
+
+
+@pytest.mark.parametrize("loss", ["infonce", "cosent", "triplet"])
+def test_selected_loss_uses_its_own_defaults(tmp_path, tiny_model_dir, toy_examples, loss) -> None:
+    examples = [
+        ContrastiveExample(e.query, e.positive, [toy_examples[(i + 3) % len(toy_examples)].positive], score=float(i))
+        for i, e in enumerate(toy_examples[:4])
+    ]
+    cfg = TrainConfig(output_dir=str(tmp_path / loss), max_steps=1, batch_size=4, loss=loss)
+    trainer = ContrastiveTrainer(_encoder(tiny_model_dir), cfg, examples)
+    if loss == "infonce":
+        assert trainer.loss_fn.temperature == 0.05
+    result = trainer.train()
+    assert result.global_step == 1 and np.isfinite(result.train_loss)
 
 
 def test_config_validation(tmp_path, tiny_model_dir) -> None:  # type: ignore[no-untyped-def]

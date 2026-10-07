@@ -13,7 +13,6 @@ from __future__ import annotations
 import json
 import math
 import random
-from collections import deque
 from collections.abc import Iterator, Sequence
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -130,36 +129,83 @@ def iter_batches(
     order = list(range(len(examples)))
     if shuffle:
         random.Random(seed).shuffle(order)  # noqa: S311 - data shuffling, not crypto  # nosec B311
-    queue = deque(examples[i] for i in order)
-    waiting: list[ContrastiveExample] = []  # deferred duplicates, retried first in the next batch
+    if not avoid_duplicates or batch_size == 1:
+        for start in range(0, len(order), batch_size):
+            batch = [examples[i] for i in order[start : start + batch_size]]
+            if len(batch) == batch_size or not drop_last:
+                yield batch
+        return
 
-    while queue or waiting:
-        batch: list[ContrastiveExample] = []
-        seen: set[str] = set()
+    # Assign each example to its earliest compatible batch. This is the same
+    # ordering as repeatedly retrying deferred examples, without rescanning all
+    # of them on every batch. A text's occupied positions form a successor map:
+    # path compression skips consecutive occupied batches (e.g. a shared positive).
+    # Store a single position directly until that text occurs a second time.
+    occupied: dict[str, int | dict[int, int]] = {}
 
-        def fits(ex: ContrastiveExample, seen: set[str] = seen) -> bool:
-            return not (avoid_duplicates and (ex.query in seen or ex.positive in seen))
+    def next_free(slots: int | dict[int, int], position: int) -> int:
+        if isinstance(slots, int):
+            return position + 1 if slots == position else position
+        end = position
+        while end in slots:
+            end = slots[end]
+        while position in slots:
+            following = slots[position]
+            slots[position] = end
+            position = following
+        return end
 
-        leftovers = []
-        for ex in waiting:
-            if len(batch) < batch_size and fits(ex):
+    batches: dict[int, list[ContrastiveExample]] = {}
+    first = 0
+    seen: set[str] = set()
+    for i in order:
+        ex = examples[i]
+        # Keep the common no-conflict path as cheap as ordinary batching. Build
+        # successor maps only once there are actually deferred examples.
+        if not occupied:
+            if ex.query not in seen and ex.positive not in seen:
+                batch = batches.setdefault(first, [])
                 batch.append(ex)
                 seen.update((ex.query, ex.positive))
+                if len(batch) == batch_size:
+                    yield batches.pop(first)
+                    first += 1
+                    seen.clear()
+                continue
+            occupied.update((text, first) for text in seen)
+            seen.clear()
+        query_slots = occupied.get(ex.query, -1)
+        positive_slots = occupied.get(ex.positive, -1)
+        position = first
+        while True:
+            candidate = next_free(positive_slots, next_free(query_slots, position))
+            if len(batches.get(candidate, ())) == batch_size:
+                candidate += 1
+            if candidate == position:
+                break
+            position = candidate
+        batch = batches.setdefault(position, [])
+        batch.append(ex)
+        for text in {ex.query, ex.positive}:
+            slots = occupied.get(text)
+            if slots is None:
+                occupied[text] = position
             else:
-                leftovers.append(ex)
-        waiting = leftovers
-        while len(batch) < batch_size and queue:
-            ex = queue.popleft()
-            if fits(ex):
-                batch.append(ex)
-                seen.update((ex.query, ex.positive))
-            else:
-                waiting.append(ex)
-        # `batch` is never empty here: with an empty `seen`, the first candidate always fits.
-        if len(batch) == batch_size or not drop_last:
-            yield batch
-        elif not queue:
+                if isinstance(slots, int):
+                    slots = {slots: slots + 1}
+                    occupied[text] = slots
+                slots[position] = next_free(slots, position + 1)
+        # Emit completed leading batches immediately, preserving early iteration.
+        while first in batches and len(batches[first]) == batch_size:
+            yield batches.pop(first)
+            first += 1
+        if not batches:
+            occupied.clear()
+    for position in sorted(batches):
+        batch = batches[position]
+        if len(batch) < batch_size and drop_last:
             return
+        yield batch
 
 
 def split_examples(

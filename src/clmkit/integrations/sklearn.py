@@ -57,6 +57,12 @@ class EmbeddingTransformer(TransformerMixin, BaseEstimator):
             self.encoder_ = load_encoder(self.encoder, **(self.encoder_kwargs or {}))
         return self.encoder_
 
+    def set_params(self, **params: Any) -> EmbeddingTransformer:
+        super().set_params(**params)
+        if "encoder" in params or "encoder_kwargs" in params:
+            self.__dict__.pop("encoder_", None)
+        return self
+
     def fit(self, X: Iterable[str], y: Any = None) -> EmbeddingTransformer:
         self._encoder()
         return self
