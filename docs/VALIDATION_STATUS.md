@@ -31,7 +31,10 @@ The additive examples passed a combined local run of 594 tests, with two opt-in
 model tests skipped, plus lint, formatting and type checks. Extending the serving
 benchmark to all four planned concurrency levels passed 17 focused tests.
 The independent review identified and corrected an installed-test packaging
-omission; the next hosted run must verify that correction.
+omission. The next hosted run passed all 10 standard CI jobs but exposed an
+unmocked optional AnyIO import in the new NumPy-only serving test. An isolated
+import guard reproduced that failure and verified its correction (12 passes,
+five expected HTTPX skips); another hosted run must verify clean installation.
 
 The bounded compact-model pilot passed in the personal Codespace. Development
 training/comparisons have started, but no completed held-out result is claimed

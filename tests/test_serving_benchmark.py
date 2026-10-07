@@ -9,7 +9,7 @@ import sys
 import threading
 import time
 from pathlib import Path
-from types import SimpleNamespace
+from types import ModuleType, SimpleNamespace
 
 import pytest
 
@@ -154,6 +154,12 @@ def test_remote_guard_prevents_local_process_or_download_activity(monkeypatch, t
 
 def test_server_constructor_pins_revision_offline_loading_and_loopback_socket(monkeypatch, tmp_path):
     calls = {}
+    # This constructor test exercises no real serving dependencies. In particular,
+    # NumPy-only installed-wheel jobs do not install AnyIO transitively.
+    fake_anyio = ModuleType("anyio")
+    fake_to_thread = ModuleType("anyio.to_thread")
+    fake_to_thread.current_default_thread_limiter = lambda: SimpleNamespace(total_tokens=4)
+    fake_anyio.to_thread = fake_to_thread
     fake_torch = SimpleNamespace(
         set_num_threads=lambda n: calls.update(threads=n),
         set_num_interop_threads=lambda n: calls.update(interop=n),
@@ -170,6 +176,8 @@ def test_server_constructor_pins_revision_offline_loading_and_loopback_socket(mo
             calls["sockets"] = sockets
 
     monkeypatch.setattr(benchmark, "require_codespaces", lambda: None)
+    monkeypatch.setitem(sys.modules, "anyio", fake_anyio)
+    monkeypatch.setitem(sys.modules, "anyio.to_thread", fake_to_thread)
     monkeypatch.setitem(sys.modules, "torch", fake_torch)
     monkeypatch.setitem(
         sys.modules, "resource", SimpleNamespace(RUSAGE_SELF=0, getrusage=lambda _: SimpleNamespace(ru_maxrss=2))
