@@ -125,7 +125,8 @@ def test_queries_do_not_recompute_fingerprint(tmp_path, monkeypatch):
     assert retriever.search("document", k=1)[0].id == "doc"
 
 
-def test_legacy_shallow_load_remains_warned_and_can_be_resaved(tmp_path):
+@pytest.mark.parametrize("changed_encoder", [False, True])
+def test_legacy_shallow_load_allows_reads_but_requires_rebuild_before_mutation(tmp_path, monkeypatch, changed_encoder):
     encoder = HashingEncoder(dim=16)
     retriever = Retriever(encoder)
     retriever.add(["document"], ids=["doc"])
@@ -134,7 +135,24 @@ def test_legacy_shallow_load_remains_warned_and_can_be_resaved(tmp_path):
     meta.pop("fingerprint_version")
     meta["encoder"] = f"{encoder.name}:{encoder.dim}"
     (tmp_path / "retriever.json").write_text(json.dumps(meta), encoding="utf-8")
-    with pytest.warns(EncoderMismatchWarning, match="legacy"):
-        loaded = Retriever.load(tmp_path, encoder, strict=True)
-    loaded.save(tmp_path / "upgraded")
-    assert Retriever.read_meta(tmp_path / "upgraded")["encoder"].startswith("v2:")
+    if changed_encoder:
+        encoder = HashingEncoder(dim=16, document_template="changed {text}")
+        encoder.name = "replacement-encoder"
+    with pytest.warns(EncoderMismatchWarning):
+        loaded = Retriever.load(tmp_path, encoder, strict=not changed_encoder)
+    assert loaded.search("document", k=1)[0].id == "doc"
+
+    def unexpected_encode(*args, **kwargs):
+        pytest.fail("unverifiable vectors must not be mixed before rebuilding")
+
+    monkeypatch.setattr(encoder, "encode", unexpected_encode)
+    before = (tmp_path / "retriever.json").read_bytes()
+    with pytest.raises(ValueError, match="rebuild"):
+        loaded.add(["new text"], ids=["new"])
+    with pytest.raises(ValueError, match="rebuild"):
+        loaded.save(tmp_path)
+    with pytest.raises(ValueError, match="rebuild"):
+        loaded.save(tmp_path / "misleading-upgrade")
+    assert (tmp_path / "retriever.json").read_bytes() == before
+    assert not (tmp_path / "misleading-upgrade").exists()
+    assert loaded.index.ids() == ["doc"]

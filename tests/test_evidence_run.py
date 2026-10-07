@@ -83,6 +83,13 @@ def experiment(tmp_path, monkeypatch):
                     "first_stage_predictions_sha256": "same-candidates",
                 }
                 folder = args.results_root / "dev" / dataset / name
+                folder.mkdir(parents=True, exist_ok=True)
+                prediction_path = folder / "predictions.jsonl.gz"
+                with gzip.open(prediction_path, "wt", encoding="utf-8") as handle:
+                    handle.write(json.dumps({"query_id": "q1", "hits": []}) + "\n")
+                    handle.write(json.dumps({"query_id": "q2", "hits": []}) + "\n")
+                report["predictions_sha256"] = run.digest(prediction_path)
+                report["predictions_bytes"] = prediction_path.stat().st_size
                 run.write_json(folder / "result.json", report)
                 if dataset == "clinc150":
                     run.write_json(
@@ -158,6 +165,72 @@ def test_test_request_rejected_before_data_is_opened(experiment, monkeypatch, mu
         run.run_evaluation(args)
 
 
+@pytest.mark.parametrize("artifact", ["dev_result", "dev_predictions", "training_report", "checkpoint", "threshold"])
+@pytest.mark.parametrize("remove", [False, True])
+def test_test_gate_rechecks_all_sealed_artifacts_before_opening_queries(experiment, monkeypatch, artifact, remove):
+    args, _ = experiment
+    run.seal_protocol(args)
+    args.seal = args.output
+    args.output = args.results_root / "test-result"
+    paths = {
+        "dev_result": args.results_root / "dev" / "scifact" / "dense" / "result.json",
+        "dev_predictions": args.results_root / "dev" / "scifact" / "dense" / "predictions.jsonl.gz",
+        "training_report": args.results_root / "training" / "42" / "training-result.json",
+        "checkpoint": args.results_root / "training" / "42" / "final" / "model.safetensors",
+        "threshold": args.results_root / "dev" / "clinc150" / "bm25" / "threshold.json",
+    }
+    path = paths[artifact]
+    if remove:
+        path.unlink()
+    else:
+        path.write_bytes(b"changed synthetic artifact")
+
+    def no_test_access(*args, **kwargs):
+        pytest.fail("sealed artifact drift must be caught before opening test queries")
+
+    monkeypatch.setattr(run, "load_prepared", no_test_access)
+    with pytest.raises(ValueError):
+        run.run_evaluation(args)
+
+
+def test_seal_rejects_prediction_file_drift(experiment):
+    args, _ = experiment
+    path = args.results_root / "dev" / "banking77" / "dense" / "predictions.jsonl.gz"
+    path.write_bytes(b"changed synthetic predictions")
+    with pytest.raises(ValueError, match="predictions artifact"):
+        run.seal_protocol(args)
+
+
+def test_hybrid_receives_protocol_bm25_settings(experiment, monkeypatch):
+    from clmkit import HashingEncoder, hybrid
+
+    args, protocol = experiment
+    protocol.update({"bm25_k1": 0.9, "bm25_b": 0.3})
+    run.write_json(args.protocol, protocol)
+    args.method, args.split, args.output = "hybrid", "dev", args.results_root / "hybrid-settings"
+    monkeypatch.setattr(run, "load_model", lambda *args: (HashingEncoder(dim=16), "synthetic"))
+    monkeypatch.setattr(
+        run,
+        "load_prepared",
+        lambda *args, **kwargs: {
+            "queries": [{"id": "q1", "text": "card"}],
+            "corpus": [{"id": "d1", "text": "card support"}, {"id": "d2", "text": "moon stars"}],
+            "qrels": {"q1": {"d1": 1}},
+        },
+    )
+    actual = hybrid.HybridRetriever
+    observed = {}
+
+    def capture(encoder, **kwargs):
+        observed.update(kwargs)
+        return actual(encoder, **kwargs)
+
+    monkeypatch.setattr(hybrid, "HybridRetriever", capture)
+    assert run.run_evaluation(args)["status"] == "passed"
+    assert observed["k1"] == 0.9
+    assert observed["b"] == 0.3
+
+
 def test_candidate_coverage_measures_actual_shortlist():
     queries = [{"id": "q1"}, {"id": "q2"}, {"id": "oos"}]
     qrels = {"q1": {"a": 1, "b": 1}, "q2": {"b": 1}, "oos": {}}
@@ -201,6 +274,8 @@ def test_bm25_subset_metrics_keep_full_gallery_and_exact_selected_coverage(tmp_p
     with gzip.open(args.output / "predictions.jsonl.gz", "rt", encoding="utf-8") as handle:
         rows = [json.loads(line) for line in handle]
     assert {r["query_id"] for r in rows} == set(report["query_ids"])
+    assert report["predictions_sha256"] == run.digest(args.output / "predictions.jsonl.gz")
+    assert report["predictions_bytes"] == (args.output / "predictions.jsonl.gz").stat().st_size
     assert report["timing"]["reranker_in_latency_quantiles"] is False
     with pytest.raises(FileExistsError):
         run.run_evaluation(args)

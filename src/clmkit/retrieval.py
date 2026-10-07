@@ -72,6 +72,8 @@ class Retriever:
         new immutable ``encoder_identity``; configuration hashes cannot detect
         arbitrary weight updates. Rebuild into a separate Retriever and path.
         This method does not hash model weights or run inference.
+        Legacy snapshots have no verifiable configuration and remain read-only
+        until their documents are embedded into a new Retriever.
         """
         current = self.encoder.fingerprint()
         if len(self.index) and (
@@ -274,6 +276,8 @@ class Retriever:
         local/fine-tuned weights that configuration alone cannot identify. Legacy
         name/dimension fingerprints load with a warning and a shallow comparison.
         ``strict=False`` explicitly permits mismatches, with a warning.
+        Legacy snapshots allow warned reads but cannot add/save existing vectors:
+        rebuild their documents into a new Retriever to record full provenance.
         """
         import warnings
 
@@ -309,6 +313,11 @@ class Retriever:
         # vectors into the old space or save a misleading new fingerprint.
         if isinstance(saved, str) and saved.startswith("v2:"):
             retriever._indexed_fingerprint = saved
+        else:
+            # Name/dimension cannot establish the settings that produced old
+            # vectors, even when that shallow comparison matches. Never bless
+            # those vectors with the supplied encoder's current fingerprint.
+            retriever._indexed_fingerprint = "unverified-legacy-vector-configuration"
         retriever._indexed_identity = meta.get("encoder_identity")
         with (path / "documents.jsonl").open(encoding="utf-8") as fh:
             for line in fh:

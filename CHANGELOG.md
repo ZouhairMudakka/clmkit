@@ -5,6 +5,20 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+- Add NumPy-only BM25 and exact dense/BM25 reciprocal rank fusion, shared metadata
+  eligibility, deterministic ties, and staged document mutation APIs. Hybrid is
+  currently Python-only and in-memory.
+- Add relevance labels and effective-batch label exclusion for ordinary and
+  GradCache training; explicit negatives remain unsupported in this mode.
+- Score hard-negative mining in configurable query/corpus blocks, with optional
+  same-label exclusions; full corpus embeddings still remain resident.
+- Default CLI index loading to strict compatibility, expose immutable encoder
+  identities and an explicit mismatch override, and reject incompatible writes.
+- Add pinned public-data preparation, development/test seals, bounded relevance
+  runners and a direct Sentence Transformers workflow comparison. Document
+  reproduction and claim limits in `docs/RELEVANCE_EVIDENCE.md`; no new benchmark
+  outcome or productivity improvement is asserted by these additions.
+
 - Audit framework correctness, measured overhead and developer workflows; record
   adoption limits and priorities in `docs/FRAMEWORK_REVIEW.md`.
 - Accelerate duplicate-heavy training batching while preserving order and coverage;

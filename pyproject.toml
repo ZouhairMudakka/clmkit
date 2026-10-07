@@ -90,7 +90,11 @@ packages = ["src/clmkit"]
 [tool.hatch.build.targets.sdist]
 # Explicit root-relative selection avoids matching nested README/LICENSE/tests
 # from local audit tooling or environments elsewhere in the working tree.
-only-include = ["src/clmkit", "tests", "templates", "validation", "README.md", "LICENSE", "CHANGELOG.md"]
+only-include = [
+  "src/clmkit", "tests", "templates", "README.md", "LICENSE", "CHANGELOG.md",
+  "validation/evidence_data.py", "validation/evidence_dx.py", "validation/evidence_metrics.py",
+  "validation/evidence_report.py", "validation/evidence_run.py", "validation/evidence_suite.py",
+]
 
 # ---------------------------------------------------------------- tooling ---
 

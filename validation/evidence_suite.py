@@ -4,15 +4,32 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
+import uuid
 from pathlib import Path
 
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from validation.evidence_run import digest, require_cloud, write_json
+from validation.evidence_run import digest, require_cloud, source_identity, write_json
+
+
+def archive_incomplete(root: Path, output: Path, log: Path, name: str) -> Path:
+    """Preserve a failed attempt before retrying; never remove its artifacts."""
+    if output.is_symlink() or log.is_symlink():
+        raise ValueError("Refusing to archive a symlinked experiment path")
+    for path in (output, log):
+        path.resolve().relative_to(root.resolve())
+    archive = root / "attempts" / f"{name}-{uuid.uuid4().hex}"
+    archive.mkdir(parents=True, exist_ok=False)
+    if output.exists():
+        output.rename(archive / "output")
+    if log.exists():
+        log.rename(archive / "run.log")
+    return archive
 
 
 def commands(phase: str, root: Path, data: Path) -> list[tuple[str, list[str], int]]:
@@ -107,20 +124,38 @@ def run_suite(phase: str, root: Path, data: Path, *, max_seconds: int, resume: b
     started = time.monotonic()
     jobs = commands(phase, root, data)
     status_path = root / f"suite-{phase}.json"
+    previous = json.loads(status_path.read_text()) if status_path.exists() else None
+    if previous and previous.get("status") == "running" and previous.get("pid"):
+        try:
+            os.kill(previous["pid"], 0)
+        except ProcessLookupError:
+            pass
+        else:
+            raise RuntimeError("An invocation of this suite is still running")
     status = {
         "phase": phase,
         "status": "running",
         "jobs": [],
         "time_budget_seconds": max_seconds,
         "protocol_sha256": digest(root / "protocol.json"),
+        "source_sha256": source_identity(),
+        "pid": os.getpid(),
+        "previous_invocations": [],
     }
+    if previous:
+        history = previous.pop("previous_invocations", [])
+        status["previous_invocations"] = [*history, previous]
     write_json(status_path, status)
     for name, argv, limit in jobs:
         output = Path(argv[argv.index("--output") + 1])
         result_file = output / ("training-result.json" if argv[2] == "train" else "result.json")
         if resume and result_file.exists():
             result = json.loads(result_file.read_text())
-            if result.get("status") != "passed" or result.get("protocol_sha256") != status["protocol_sha256"]:
+            if (
+                result.get("status") != "passed"
+                or result.get("protocol_sha256") != status["protocol_sha256"]
+                or result.get("source_sha256") != status["source_sha256"]
+            ):
                 raise ValueError(f"Cannot resume mismatched result {result_file}")
             status["jobs"].append({"name": name, "status": "reused", "result": str(result_file)})
             write_json(status_path, status)
@@ -133,6 +168,10 @@ def run_suite(phase: str, root: Path, data: Path, *, max_seconds: int, resume: b
         log_path = root / "logs" / f"{name}.log"
         log_path.parent.mkdir(parents=True, exist_ok=True)
         item = {"name": name, "status": "running", "command": argv, "log": str(log_path)}
+        if output.exists() or log_path.exists():
+            if not resume:
+                raise FileExistsError("Prior attempt exists; use --resume to preserve it and retry")
+            item["previous_attempt"] = str(archive_incomplete(root, output, log_path, name))
         status["jobs"].append(item)
         write_json(status_path, status)
         print(json.dumps({"starting": name, "log": str(log_path)}), flush=True)

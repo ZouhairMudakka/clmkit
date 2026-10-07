@@ -205,6 +205,21 @@ evaluated with your chosen encoder and data. Templates were added after
 `v0.1.0a1`: get their files from the current repository, following the
 [setup and customization guide](docs/USE_CASES.md#get-the-templates).
 
+## Unreleased retrieval and evidence work
+
+The current source checkout adds `BM25Retriever` and `HybridRetriever`, with
+shared metadata eligibility, deterministic reciprocal rank fusion, and Python
+update/delete APIs. It also adds label-aware effective training batches,
+blockwise hard-negative scoring, and strict CLI index compatibility by default.
+These additions are **not included in the older audited installation revision
+above**; hybrid remains in-memory and Python-only.
+
+[Retrieval features and reproducible evidence](docs/RELEVANCE_EVIDENCE.md) documents
+the APIs, limitations and bounded Codespaces commands for BANKING77, CLINC150,
+SciFact and a direct Sentence Transformers workflow comparison. These are public
+proxy tasks and experimental tools; no new relevance, performance, business ROI
+or developer productivity improvement is claimed here.
+
 ## Supported models (presets)
 
 | Model family | Pooling | Query prompt | Notes |

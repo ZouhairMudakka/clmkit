@@ -270,6 +270,32 @@ def validate_run_request(args, protocol: dict, manifest_path: Path) -> None:
             raise ValueError("Protocol changed since the test seal")
         if not seal.get("frozen_before_test") or seal.get("source_sha256") != source_identity():
             raise ValueError("Executable source changed or was not frozen before test")
+        if seal.get("schema") != 2:
+            raise ValueError("Test requires an artifact-bound schema 2 seal")
+        expected_runs = sum(
+            len(protocol["training"]["seeds"]) if method == "adapted_dense" else 1
+            for methods in protocol["method_matrix"].values()
+            for method in methods
+        )
+        for field, count in (
+            ("development_results", expected_runs),
+            ("development_predictions", expected_runs),
+            ("training_reports", len(protocol["training"]["seeds"])),
+            ("threshold_files", 2),
+        ):
+            artifacts = seal.get(field, {})
+            if len(artifacts) != count:
+                raise ValueError(f"Incomplete sealed {field}")
+            for name, expected_hash in artifacts.items():
+                path = Path(name)
+                if not path.is_file() or digest(path) != expected_hash:
+                    raise ValueError(f"Sealed {field} artifact changed or is missing: {path}")
+        checkpoints = seal.get("sealed_checkpoints", {})
+        if len(checkpoints) != len(protocol["training"]["seeds"]):
+            raise ValueError("Incomplete sealed training checkpoints")
+        for name, expected_identity in checkpoints.items():
+            if checkpoint_identity(Path(name)) != expected_identity:
+                raise ValueError(f"Sealed training checkpoint changed: {name}")
         if args.model != "minilm":
             raise ValueError("Qwen is development-only until explicitly added to the sealed matrix")
         if args.checkpoint and checkpoint_identity(args.checkpoint) not in seal["checkpoint_identities"]:
@@ -326,7 +352,13 @@ def run_evaluation(args) -> dict:
     if args.method == "bm25":
         retriever = BM25Retriever(k1=protocol["bm25_k1"], b=protocol["bm25_b"])
     elif args.method == "hybrid":
-        retriever = HybridRetriever(encoder, candidate_depth=protocol["candidate_depth"], rrf_k=protocol["rrf_k"])
+        retriever = HybridRetriever(
+            encoder,
+            candidate_depth=protocol["candidate_depth"],
+            rrf_k=protocol["rrf_k"],
+            k1=protocol["bm25_k1"],
+            b=protocol["bm25_b"],
+        )
     else:
         retriever = Retriever(encoder, encoder_identity=identity)
     start = time.perf_counter()
@@ -473,6 +505,9 @@ def run_evaluation(args) -> dict:
     with gzip.open(args.output / "predictions.jsonl.gz", "wt", encoding="utf-8") as handle:
         for q in queries:
             handle.write(json.dumps({"query_id": q["id"], "hits": predictions[q["id"]]}, allow_nan=False) + "\n")
+    prediction_path = args.output / "predictions.jsonl.gz"
+    report["predictions_sha256"] = digest(prediction_path)
+    report["predictions_bytes"] = prediction_path.stat().st_size
     write_json(args.output / "result.json", report)
     print(
         json.dumps(
@@ -557,6 +592,8 @@ def seal_protocol(args) -> dict:
     code_hash = source_identity()
     checkpoints = []
     checkpoint_by_seed = {}
+    training_reports = {}
+    sealed_checkpoints = {}
     for seed in protocol["training"]["seeds"]:
         report_path = args.results_root / "training" / str(seed) / "training-result.json"
         report = json.loads(report_path.read_text())
@@ -573,6 +610,8 @@ def seal_protocol(args) -> dict:
             raise ValueError("Training checkpoint changed since evaluation")
         checkpoints.append(report["checkpoint_identity"])
         checkpoint_by_seed[seed] = "sha256:" + report["checkpoint_identity"]
+        training_reports[str(report_path.resolve())] = digest(report_path)
+        sealed_checkpoints[str((report_path.parent / "final").resolve())] = report["checkpoint_identity"]
     thresholds = {}
     for method in ("bm25", "dense"):
         path = args.results_root / "dev" / "clinc150" / method / "threshold.json"
@@ -592,8 +631,9 @@ def seal_protocol(args) -> dict:
             or data.get("manifest_sha256") != protocol["dataset_manifests"]["clinc150"]
         ):
             raise ValueError("Threshold is not from full development evaluation")
-        thresholds[str(path)] = digest(path)
+        thresholds[str(path.resolve())] = digest(path)
     development_results = {}
+    development_predictions = {}
     for dataset, methods in protocol["method_matrix"].items():
         manifest_path = args.data_root / dataset / "manifest.json"
         if digest(manifest_path) != protocol["dataset_manifests"][dataset]:
@@ -626,18 +666,30 @@ def seal_protocol(args) -> dict:
                     or result["evaluation"]["total_queries"] != len(expected_queries)
                 ):
                     raise ValueError("Incomplete development matrix")
-                development_results[str(path)] = digest(path)
+                predictions_path = path.parent / "predictions.jsonl.gz"
+                if (
+                    not predictions_path.is_file()
+                    or digest(predictions_path) != result.get("predictions_sha256")
+                    or predictions_path.stat().st_size != result.get("predictions_bytes")
+                ):
+                    raise ValueError("Development predictions artifact changed or is missing")
+                development_results[str(path.resolve())] = digest(path)
+                development_predictions[str(predictions_path.resolve())] = digest(predictions_path)
                 if method == "rerank":
                     baseline = json.loads((args.results_root / "dev" / dataset / "dense" / "result.json").read_text())
                     if result.get("first_stage_predictions_sha256") != baseline.get("first_stage_predictions_sha256"):
                         raise ValueError("Reranker must reuse identical dense first-stage candidate lists")
     seal = {
+        "schema": 2,
         "protocol_sha256": digest(args.protocol),
         "checkpoint_identities": checkpoints,
         "threshold_files": thresholds,
         "source_commit": runtime()["source_commit"],
         "source_sha256": code_hash,
         "development_results": development_results,
+        "development_predictions": development_predictions,
+        "training_reports": training_reports,
+        "sealed_checkpoints": sealed_checkpoints,
         "frozen_before_test": True,
     }
     if args.output.exists():
