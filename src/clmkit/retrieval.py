@@ -60,6 +60,31 @@ class Retriever:
             raise ValueError("encoder_identity must be a non-empty immutable identifier")
         self.encoder_identity = encoder_identity
         self.documents: dict[str, Document] = {}
+        # Record what produced the vectors rather than relabeling them at save.
+        # Configuration hashing happens at lifecycle boundaries, never per query.
+        self._indexed_fingerprint = encoder.fingerprint()
+        self._indexed_identity = encoder_identity
+
+    def validate_encoder(self) -> None:
+        """Check configuration/declared weights identity before reusing vectors.
+
+        Call after changing encoder settings. In-place weight changes require a
+        new immutable ``encoder_identity``; configuration hashes cannot detect
+        arbitrary weight updates. Rebuild into a separate Retriever and path.
+        This method does not hash model weights or run inference.
+        """
+        current = self.encoder.fingerprint()
+        if len(self.index) and (
+            current != self._indexed_fingerprint or self.encoder_identity != self._indexed_identity
+        ):
+            raise ValueError(
+                "encoder configuration or immutable identity changed after indexing; "
+                "rebuild all documents with the intended encoder into a new Retriever and separate path, "
+                "validate that snapshot, then switch consumers to it"
+            )
+        if not len(self.index):
+            self._indexed_fingerprint = current
+            self._indexed_identity = self.encoder_identity
 
     def __len__(self) -> int:
         return len(self.documents)
@@ -97,6 +122,7 @@ class Retriever:
             raise ValueError(f"ids already in index: {duplicate[:5]}")
         for m in metas:
             json.dumps(m)  # fail early on metadata that cannot be persisted
+        self.validate_encoder()
         vectors = self.encoder.encode(texts, kind="document", batch_size=batch_size)
         self.index.add(ids, vectors)  # validates duplicates before we touch the store
         for id_, text, meta in zip(ids, texts, metas, strict=True):
@@ -208,6 +234,7 @@ class Retriever:
         Use trusted, complete, single-writer snapshots. Multi-file writes are not
         atomic and require backups/rebuilding after interruption.
         """
+        self.validate_encoder()
         path = Path(path)
         path.mkdir(parents=True, exist_ok=True)
         self.index.save(path / "index")
@@ -217,7 +244,7 @@ class Retriever:
                 fh.write("\n")
         meta = {
             **(extra_meta or {}),
-            "encoder": self.encoder.fingerprint(),
+            "encoder": self._indexed_fingerprint,
             "fingerprint_version": 2,
             "encoder_identity": self.encoder_identity,
             "count": len(self),
@@ -264,7 +291,9 @@ class Retriever:
         if saved != current or meta.get("encoder_identity") != encoder_identity:
             msg = (
                 f"index at {path} was built with encoder {meta.get('encoder')!r} "
-                f"but is being queried with {current!r}; immutable encoder identities must also match"
+                f"but is being queried with {current!r}; immutable encoder identities must also match. "
+                "Rebuild all documents with the intended encoder into a separate index path, "
+                "validate that snapshot, then switch consumers to it"
             )
             if strict:
                 raise ValueError(msg)
@@ -276,6 +305,11 @@ class Retriever:
             query_instruction=meta.get("query_instruction"),
             encoder_identity=encoder_identity,
         )
+        # A permissive load can query after warning, but must not mix new
+        # vectors into the old space or save a misleading new fingerprint.
+        if isinstance(saved, str) and saved.startswith("v2:"):
+            retriever._indexed_fingerprint = saved
+        retriever._indexed_identity = meta.get("encoder_identity")
         with (path / "documents.jsonl").open(encoding="utf-8") as fh:
             for line in fh:
                 if line.strip():

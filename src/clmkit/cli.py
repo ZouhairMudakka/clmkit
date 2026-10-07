@@ -178,7 +178,12 @@ def cmd_index(args: argparse.Namespace) -> int:
     spec = _encoder_spec(args)
     _validate_persisted_encoder_spec(spec)
     encoder = _build_encoder(spec)
-    retriever = Retriever(encoder, INDEXES.build(args.index_type, encoder.dim), query_instruction=args.instruction)
+    retriever = Retriever(
+        encoder,
+        INDEXES.build(args.index_type, encoder.dim),
+        query_instruction=args.instruction,
+        encoder_identity=getattr(args, "encoder_identity", None),
+    )
     retriever.add(texts, ids=ids, metadata=metas, batch_size=args.batch_size)
     retriever.save(args.output, extra_meta={"encoder_spec": spec})
     print(f"indexed {len(retriever)} documents into {args.output}", file=sys.stderr)
@@ -200,7 +205,13 @@ def _load_retriever(index_dir: str, args: argparse.Namespace) -> Any:
         from clmkit.rerank import load_reranker
 
         reranker = load_reranker(args.reranker)
-    return Retriever.load(index_dir, _build_encoder(spec), reranker=reranker)
+    return Retriever.load(
+        index_dir,
+        _build_encoder(spec),
+        reranker=reranker,
+        strict=getattr(args, "strict_index", True),
+        encoder_identity=getattr(args, "encoder_identity", None),
+    )
 
 
 def cmd_search(args: argparse.Namespace) -> int:
@@ -346,6 +357,29 @@ def build_parser() -> argparse.ArgumentParser:
         )
         sp.add_argument("--batch-size", type=int, default=32)
 
+    def identity_arg(sp: argparse.ArgumentParser) -> None:
+        sp.add_argument(
+            "--encoder-identity",
+            help="immutable weights/artifact identity; use the same value at build/load; change after training",
+        )
+
+    def index_load_args(sp: argparse.ArgumentParser) -> None:
+        identity_arg(sp)
+        compatibility = sp.add_mutually_exclusive_group()
+        compatibility.add_argument(
+            "--strict-index",
+            dest="strict_index",
+            action="store_true",
+            default=True,
+            help="reject encoder configuration/identity mismatches before querying (default); rebuild a separate index",
+        )
+        compatibility.add_argument(
+            "--allow-encoder-mismatch",
+            dest="strict_index",
+            action="store_false",
+            help="permit mismatched queries with a warning; adding/saving still requires a compatible encoder",
+        )
+
     sp = sub.add_parser("info", help="show version, backends and registered components")
     sp.set_defaults(func=cmd_info)
 
@@ -362,6 +396,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = sub.add_parser("index", help="build a searchable index from documents")
     model_args(sp)
+    identity_arg(sp)
     sp.add_argument("--input", required=True, help=".txt (one doc per line) or .jsonl")
     sp.add_argument("--output", required=True)
     sp.add_argument("--text-field", default="text")
@@ -374,6 +409,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = sub.add_parser("search", help="query an index")
     model_args(sp, required=False)
+    index_load_args(sp)
     sp.add_argument("--index", required=True)
     sp.add_argument("query")
     sp.add_argument("-k", type=int, default=5)
@@ -410,6 +446,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = sub.add_parser("serve", help="run the REST API (OpenAI-compatible /v1/embeddings)")
     model_args(sp, required=False)
+    index_load_args(sp)
     sp.add_argument("--index")
     sp.add_argument("--reranker")
     sp.add_argument("--host", default="127.0.0.1")
@@ -421,6 +458,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = sub.add_parser("mcp", help="run an MCP (Model Context Protocol) server over stdio")
     model_args(sp, required=False)
+    index_load_args(sp)
     sp.add_argument("--index", required=True)
     sp.add_argument("--allow-writes", action="store_true")
     sp.set_defaults(func=cmd_mcp)

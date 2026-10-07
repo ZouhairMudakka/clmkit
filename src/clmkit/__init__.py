@@ -5,6 +5,7 @@ backends load lazily when you build them (``load_encoder("Qwen/Qwen3-Embedding-8
 """
 
 from clmkit.encoders import Encoder, HashingEncoder, load_encoder
+from clmkit.hybrid import BM25Retriever, HybridRetriever
 from clmkit.index import NumpyIndex, VectorIndex, load_index
 from clmkit.registry import ENCODERS, INDEXES, LOSSES, RERANKERS, Registry
 from clmkit.retrieval import Retriever
@@ -18,8 +19,10 @@ __all__ = [
     "INDEXES",
     "LOSSES",
     "RERANKERS",
+    "BM25Retriever",
     "Encoder",
     "HashingEncoder",
+    "HybridRetriever",
     "NumpyIndex",
     "Registry",
     "Retriever",
