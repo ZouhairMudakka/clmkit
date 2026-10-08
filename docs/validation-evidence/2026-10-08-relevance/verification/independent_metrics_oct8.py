@@ -204,6 +204,9 @@ def verify_run(folder, dataset, name, method, identity, corpus, queries, judgmen
         need(seal["threshold_files"].get(str(threshold_path.resolve())) == digest(threshold_path), "threshold_not_sealed")
         calibration = read(threshold_path)
         fields = {key: expected[key] for key in ("dataset", "method", "model", "encoder_identity", "protocol_sha256", "manifest_sha256", "query_limit")}
+        # Calibration records the registered CLI model alias even for BM25;
+        # retrieval results use model=None when no encoder runs. Identity stays None.
+        fields["model"] = "minilm"
         fields["selection_split"] = "dev"
         need(all(calibration.get(key) == value for key, value in fields.items()), "calibration_provenance_mismatch")
         threshold = calibration["selected"]["threshold"]
