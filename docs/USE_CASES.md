@@ -15,25 +15,25 @@ authorized order facts, and scoped customer preferences.
 | Support FAQ or internal knowledge search | Ranked passages, metadata filters, persistent index | [Support search template](../templates/support_search.py) | Synthetic retrieval, source references, tenant scope and reload tests |
 | Personal assistant memory | Store and retrieve facts, metadata scope, persistence | [Assistant memory template](../templates/assistant_memory.py) | Two-user separation and reload tests |
 | Support request or tool routing | Route scoring, thresholds, abstention | [Support routing template](../templates/support_routing.py) | Known intents, unmatched requests and selection-only behavior |
+| Public support-intent matching | Pinned model, full gallery, adapted index rebuild and calibrated rejection | [Intent-matching recipes](../templates/intent_matching/README.md) | BANKING77 intent proxy and separate CLINC150 rejection; see the linked evidence |
 | Retrieval-augmented generation (RAG) | Context retrieval and optional reranking before an LLM call | Support search template, then [RAG example](../examples/03_rag_pipeline.py) | Template tests cover retrieval; generated answers are not evaluated |
 | Classification or clustering | Embedding features for an ML pipeline | [scikit-learn example](../examples/06_sklearn_pipeline.py) | Requires extra dependencies and a task-specific evaluation |
-| Domain-specific embedding training | Pair loading, losses, hard negatives, LoRA and evaluation | [Training guide](TRAINING.md) | CPU contracts and Qwen 0.6B smoke checks; no demonstrated quality improvement |
+| Domain-specific embedding training | Pair loading, losses, hard negatives, LoRA and evaluation | [Training guide](TRAINING.md) | CPU contracts and Qwen 0.6B smoke checks; quality comparisons require the separate evidence protocol |
 
-The templates use synthetic data and the **NumPy-only hashing encoder**.
+The four lightweight scripts below use synthetic data and the **NumPy-only hashing encoder**.
 It is a lexical pipeline baseline, not a trained semantic model. Passing these
 tests establishes the demonstrated workflow behavior, not accuracy on real
 customer questions, multilingual text, or paraphrases.
 
 ## Get the templates
 
-These templates were added **after v0.1.0a1**. Use the audited source revision for
-both the template files and core library in a fresh virtual environment. The
-legacy release predates the latest security/correctness fixes and templates:
+Use the `v0.1.0a2` alpha tag for both the template files and core library in a
+fresh virtual environment:
 
 ```bash
 git clone https://github.com/ZouhairMudakka/clmkit.git
 cd clmkit
-git checkout --detach 24ea404e8e6121d4b4016484805f1584c852abb1
+git checkout --detach v0.1.0a2
 python -m venv .venv
 ```
 
@@ -52,7 +52,7 @@ source .venv/bin/activate
 Then install and run:
 
 ```bash
-python -m pip install "clmkit @ git+https://github.com/ZouhairMudakka/clmkit@24ea404e8e6121d4b4016484805f1584c852abb1"
+python -m pip install "clmkit @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a2"
 python templates/support_search.py
 python templates/assistant_memory.py
 python templates/support_routing.py
@@ -64,8 +64,9 @@ use temporary directories for demo snapshots; routing and the retail desk keep
 their demo data in memory. They neither contact a customer service nor
 execute business actions. The Python scripts can be copied into another project;
 they use public clmkit APIs and the standard library. Templates are repository
-assets, not modules installed by the wheel. Source archives built after this
-change include them; the existing v0.1.0a1 archives are unchanged.
+assets, not modules installed by the wheel. The `v0.1.0a2` source distribution
+includes the templates and their supporting evidence scripts; use the Git
+checkout for the full documentation and validation tooling.
 
 ## 1. Support knowledge search and RAG context
 
@@ -142,13 +143,30 @@ Before deploying: label representative requests, measure routing errors and
 abstention rate, and include ambiguous and out-of-domain requests. Give expensive
 or consequential actions a separate application-level decision check.
 
+## 4. Public support-intent matching
+
+The [intent-matching recipes](../templates/intent_matching/README.md) use prepared
+public data and a pinned pretrained model, with an optional registered adapted
+checkpoint. They build complete BANKING77 or CLINC150 training galleries and
+strictly reload snapshots in a separate query command. This workflow requires
+the HF dependencies and the [Codespaces evidence preparation](RELEVANCE_EVIDENCE.md);
+it is separate from the four no-download demonstrations above.
+
+BANKING77 matches intent labels, which do not establish a verified resolution or
+duplicate ticket. CLINC150 uses its own sealed development threshold to reject
+out-of-scope requests. Its threshold does not transfer to BANKING77 or another
+model/gallery. Both recipes return candidates and decisions without executing
+business actions. Read the [recorded evidence](validation-evidence/2026-10-08-relevance/README.md)
+and [verification guide](../validation/README.md) for study status and limitations;
+synthetic fixture tests do not establish real-data accuracy.
+
 ## Switch to a trained encoder
 
 The template builders accept an `Encoder`. Install the `hf` extra, then pass a
 trained model instead of the hashing baseline:
 
 ```bash
-python -m pip install "clmkit[hf] @ git+https://github.com/ZouhairMudakka/clmkit@24ea404e8e6121d4b4016484805f1584c852abb1"
+python -m pip install "clmkit[hf] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a2"
 ```
 
 ```python
@@ -173,14 +191,14 @@ See [serving and clients](../examples/07_serve_and_client.md) for setup.
 
 ## Run the template tests
 
-With the released core installed and the current repository checked out:
+With the `v0.1.0a2` core installed and the matching repository tag checked out:
 
 ```bash
 python -m pip install pytest
-python -m pytest -q tests/test_use_case_templates.py tests/test_retail_service_desk.py
+python -m pytest -q tests/test_use_case_templates.py tests/test_retail_service_desk.py tests/test_intent_matching_template.py
 ```
 
-Tests exercise application behavior, persistence, data scope, abstention, and
+These offline tests exercise application behavior, persistence, data scope, abstention, and
 the scripts' JSON command-line outputs. Standard CI runs them across Linux,
 Windows and macOS. The installed-wheel matrix also runs them outside the source
 checkout with only NumPy and pytest installed, covering Linux Python 3.10–3.13

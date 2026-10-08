@@ -1,0 +1,1444 @@
+{
+  "schema": 1,
+  "captured_at": "2026-10-07T19:49:22.3391093Z",
+  "source": "GitHub public Actions REST API",
+  "scope": "Status receipts only; not model outputs or benchmark measurements",
+  "runs": [
+    {
+      "run_id": 37672464025,
+      "name": "CI",
+      "head_sha": "e61cc76d6cf52f25422335d42eaf18dde44e3067",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464025",
+      "created_at": "2026-10-07T19:10:27Z",
+      "updated_at": "2026-10-07T19:12:16Z",
+      "jobs": [
+        {
+          "id": 112967423207,
+          "name": "Lint & type-check",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:29Z",
+          "completed_at": "2026-10-07T19:10:47Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464025/job/112967423207",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pip install -e \".[dev]\"",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run ruff check src tests templates validation/evidence_*.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run ruff format --check src tests templates validation/evidence_*.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run mypy",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967423410,
+          "name": "Core (no torch) / py3.10 / windows-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:30Z",
+          "completed_at": "2026-10-07T19:12:15Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464025/job/112967423410",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pip install -e \".[dev,serve,mcp,sklearn]\"",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Import must not pull in torch",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pytest -q",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967423422,
+          "name": "Full (CPU torch + transformers) / py3.12",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:30Z",
+          "completed_at": "2026-10-07T19:12:12Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464025/job/112967423422",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install -U pip setuptools wheel",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pip install torch --index-url https://download.pytorch.org/whl/cpu",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pip install -e \".[dev,train,serve,mcp,faiss,sklearn]\"",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pytest -q --cov=clmkit --cov-report=term --cov-report=xml",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967423501,
+          "name": "Security scan",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:30Z",
+          "completed_at": "2026-10-07T19:11:40Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464025/job/112967423501",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install -U pip setuptools wheel && pip install bandit pip-audit",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run bandit -q -r src/clmkit",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Audit the dependency set a fresh install resolves to",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967423517,
+          "name": "Core (no torch) / py3.13 / windows-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:30Z",
+          "completed_at": "2026-10-07T19:12:01Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464025/job/112967423517",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pip install -e \".[dev,serve,mcp,sklearn]\"",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Import must not pull in torch",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pytest -q",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967423541,
+          "name": "Full (CPU torch + transformers) / py3.10",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:30Z",
+          "completed_at": "2026-10-07T19:12:00Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464025/job/112967423541",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install -U pip setuptools wheel",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pip install torch --index-url https://download.pytorch.org/whl/cpu",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pip install -e \".[dev,train,serve,mcp,faiss,sklearn]\"",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pytest -q --cov=clmkit --cov-report=term --cov-report=xml",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "status": "completed",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967423646,
+          "name": "Core (no torch) / py3.10 / ubuntu-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:30Z",
+          "completed_at": "2026-10-07T19:11:11Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464025/job/112967423646",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pip install -e \".[dev,serve,mcp,sklearn]\"",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Import must not pull in torch",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pytest -q",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967423691,
+          "name": "Core (no torch) / py3.10 / macos-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:35Z",
+          "completed_at": "2026-10-07T19:12:03Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464025/job/112967423691",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pip install -e \".[dev,serve,mcp,sklearn]\"",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Import must not pull in torch",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pytest -q",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967423768,
+          "name": "Core (no torch) / py3.13 / macos-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:42Z",
+          "completed_at": "2026-10-07T19:12:05Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464025/job/112967423768",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pip install -e \".[dev,serve,mcp,sklearn]\"",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Import must not pull in torch",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pytest -q",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967423772,
+          "name": "Core (no torch) / py3.13 / ubuntu-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:30Z",
+          "completed_at": "2026-10-07T19:11:10Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464025/job/112967423772",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pip install -e \".[dev,serve,mcp,sklearn]\"",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Import must not pull in torch",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pytest -q",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37672464030,
+      "name": "Independent validation",
+      "head_sha": "e61cc76d6cf52f25422335d42eaf18dde44e3067",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464030",
+      "created_at": "2026-10-07T19:10:27Z",
+      "updated_at": "2026-10-07T19:12:17Z",
+      "jobs": [
+        {
+          "id": 112967422333,
+          "name": "Minimum supported ML stack / CPU",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:30Z",
+          "completed_at": "2026-10-07T19:11:45Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464030/job/112967422333",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install -U pip setuptools wheel",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install 'torch==2.13.0' --index-url https://download.pytorch.org/whl/cpu",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install -e '.[dev,train]' 'transformers==5.17.0' 'peft==0.21.1' 'safetensors==0.8.0' pip-audit",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip check",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip freeze > minimum-ml-requirements.txt",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pytest -q -m 'not slow' tests validation/test_scientific_contracts.py validation/test_finite_loss_nonfinite_gradients.py --junitxml=minimum-ml-junit.xml",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pip-audit --skip-editable",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967422459,
+          "name": "Independent scientific, core and protocol contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:29Z",
+          "completed_at": "2026-10-07T19:12:16Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464030/job/112967422459",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install -U pip setuptools wheel",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir -e '.[dev,all,faiss]' openai langchain-core",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip freeze > validation/resolved-requirements.txt",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Scientific contracts",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Core contracts",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Protocol contracts",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Additional integration and transport contracts",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967422497,
+          "name": "Installed NumPy-only wheel / ubuntu-latest / Python 3.10",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:29Z",
+          "completed_at": "2026-10-07T19:10:55Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464030/job/112967422497",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir build twine",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python validation/run_installed.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m twine check validation-results/*.whl validation-results/*.tar.gz",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967422508,
+          "name": "Installed NumPy-only wheel / ubuntu-latest / Python 3.12",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:34Z",
+          "completed_at": "2026-10-07T19:11:04Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464030/job/112967422508",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir build twine",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python validation/run_installed.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m twine check validation-results/*.whl validation-results/*.tar.gz",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967422528,
+          "name": "Installed NumPy-only wheel / windows-latest / Python 3.13",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:32Z",
+          "completed_at": "2026-10-07T19:11:54Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464030/job/112967422528",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir build twine",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python validation/run_installed.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m twine check validation-results/*.whl validation-results/*.tar.gz",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967422559,
+          "name": "MCP 1.x actual stdio",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:29Z",
+          "completed_at": "2026-10-07T19:10:51Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464030/job/112967422559",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir -e '.[serve]' 'mcp>=1.28.1,<2' openai",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -c \"import sys; sys.path.insert(0, 'validation'); from run_protocol import mcp_probe; print(mcp_probe())\"",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967422583,
+          "name": "Installed NumPy-only wheel / macos-latest / Python 3.13",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:38Z",
+          "completed_at": "2026-10-07T19:11:47Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464030/job/112967422583",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir build twine",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python validation/run_installed.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m twine check validation-results/*.whl validation-results/*.tar.gz",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967422732,
+          "name": "Installed NumPy-only wheel / ubuntu-latest / Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:29Z",
+          "completed_at": "2026-10-07T19:10:56Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464030/job/112967422732",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir build twine",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python validation/run_installed.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m twine check validation-results/*.whl validation-results/*.tar.gz",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112967422736,
+          "name": "Installed NumPy-only wheel / ubuntu-latest / Python 3.13",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:10:29Z",
+          "completed_at": "2026-10-07T19:11:01Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37672464030/job/112967422736",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir build twine",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python validation/run_installed.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m twine check validation-results/*.whl validation-results/*.tar.gz",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37673746828,
+      "name": "Qwen 0.6B reference checks",
+      "head_sha": "e61cc76d6cf52f25422335d42eaf18dde44e3067",
+      "event": "workflow_dispatch",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37673746828",
+      "created_at": "2026-10-07T19:20:32Z",
+      "updated_at": "2026-10-07T19:21:52Z",
+      "jobs": [
+        {
+          "id": 112971808312,
+          "name": "CPU reference / reranker",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:20:36Z",
+          "completed_at": "2026-10-07T19:21:51Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37673746828/job/112971808312",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install -U pip setuptools wheel",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir -e '.[hf]' pytest",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Resolve immutable checkpoint and download only inference files",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Reference comparison",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Require the intended reference test to pass without skipping",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip freeze > reference-requirements.txt",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112971808656,
+          "name": "CPU reference / embedding",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:20:37Z",
+          "completed_at": "2026-10-07T19:21:43Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37673746828/job/112971808656",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install -U pip setuptools wheel",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir -e '.[hf]' pytest",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Resolve immutable checkpoint and download only inference files",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Reference comparison",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Require the intended reference test to pass without skipping",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip freeze > reference-requirements.txt",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112971808723,
+          "name": "CPU bounded LoRA training and reload",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-07T19:20:36Z",
+          "completed_at": "2026-10-07T19:21:46Z",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37673746828/job/112971808723",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install -U pip setuptools wheel",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install --no-cache-dir -e '.[train]'",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run timeout 1200s python -u validation/real_training_smoke.py --threads 2",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

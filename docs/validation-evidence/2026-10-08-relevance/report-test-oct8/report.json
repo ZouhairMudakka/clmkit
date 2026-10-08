@@ -1,0 +1,1337 @@
+{
+  "artifact_bytes": 115669898,
+  "artifact_count": 75,
+  "artifact_inventory": {
+    "data/banking77/corpus.jsonl": {
+      "bytes": 1995983,
+      "sha256": "a92bb49daf01674a75ec8fd01dc3628595cc9d1b76d44b9b84208e2d054569ce"
+    },
+    "data/banking77/manifest.json": {
+      "bytes": 666473,
+      "sha256": "09df2d8fb6b2b565c9a05d65537dbd5828d0e1abc19353386f1f21f1ccd155aa"
+    },
+    "data/banking77/qrels/test.json": {
+      "bytes": 10346243,
+      "sha256": "c36b5ba5fb26b0c755c06b355ca2bfeb5b8e03c2923b6c53ca505cc582310906"
+    },
+    "data/banking77/queries/test.jsonl": {
+      "bytes": 747390,
+      "sha256": "f11ef7560b108bef06090e6bd2c301cc22cf64963c892d567461543b39efdc4d"
+    },
+    "data/clinc150/corpus.jsonl": {
+      "bytes": 3295484,
+      "sha256": "74132d85082ca45c76bc5f50fc6574240b2a7e05dee200109b0906ff708857cb"
+    },
+    "data/clinc150/manifest.json": {
+      "bytes": 1172873,
+      "sha256": "1c2c62a402365209f236b52da0459381280cfdf6b4a2ab950acef187ba353939"
+    },
+    "data/clinc150/qrels/test.json": {
+      "bytes": 14122503,
+      "sha256": "4d456f99efbc84aaeef3b7a3f9f31d7dba94678870f10fd61a273eccc8418ada"
+    },
+    "data/clinc150/queries/test.jsonl": {
+      "bytes": 1200559,
+      "sha256": "6d727994b8c8800c1f6b6934777d709641732cf8cbd3df27064037af2ed2fd33"
+    },
+    "data/scifact/corpus.jsonl": {
+      "bytes": 8020839,
+      "sha256": "1efa20ec30882f31022f7802ae63a99320a07903b3ec62a669dd49e4e674731d"
+    },
+    "data/scifact/manifest.json": {
+      "bytes": 115644,
+      "sha256": "3957fc151bd67276560501d30772c56dcb744f163cb5271c2703a4621cfdb733"
+    },
+    "data/scifact/qrels/test.json": {
+      "bytes": 10876,
+      "sha256": "8d4bad39e044f5a1b70f5070a1952c3c93d540450f001e5f9b3fcd23624a184c"
+    },
+    "data/scifact/queries/test.jsonl": {
+      "bytes": 63177,
+      "sha256": "0efe8837dd1dc23f19452973cbf61b41958dc0c1224cad190d4910c02234085a"
+    },
+    "results/attempts/dev-scifact-rerank-1362155307834f4083aa385caa19666d/run.log": {
+      "bytes": 147,
+      "sha256": "fa60b399c9cc29d64842adb62ee3d28521f9b8e845e017e5f782ac8cd051a425"
+    },
+    "results/dev/banking77/adapted-1729/predictions.jsonl.gz": {
+      "bytes": 2354975,
+      "sha256": "cac6dcf3e47fcd4bd95bf3701043f88dd47600f0260909a6aad111375f6f65f1"
+    },
+    "results/dev/banking77/adapted-1729/result.json": {
+      "bytes": 500744,
+      "sha256": "c3d90fc4ac3dcc3b580ff314c10f13ee2f5477380291f6d41e72e6dc163c5f23"
+    },
+    "results/dev/banking77/adapted-2026/predictions.jsonl.gz": {
+      "bytes": 2354113,
+      "sha256": "2129176acfaf1a22f4a9ad2bf2e5e33b1b75dcaca6d9f385e4fbfafaa65f1bb1"
+    },
+    "results/dev/banking77/adapted-2026/result.json": {
+      "bytes": 501282,
+      "sha256": "92057a8e5b2e8813139633f5142329e7fd33d05803ad5169b56f41fff71acacf"
+    },
+    "results/dev/banking77/adapted-42/predictions.jsonl.gz": {
+      "bytes": 2355157,
+      "sha256": "43b60e3f74d92396d844eea1ea532032d759a9cc67e1b9ae35e18dd7e44223e6"
+    },
+    "results/dev/banking77/adapted-42/result.json": {
+      "bytes": 500708,
+      "sha256": "8c3755e7912915f9d206895efbf56a04176ea8067e05499be03182f24b08dbe4"
+    },
+    "results/dev/banking77/bm25/predictions.jsonl.gz": {
+      "bytes": 2148293,
+      "sha256": "2960a1e459c31c91cb3f7cb5ddd389e9f677aa20de7305a039513a3530cb932a"
+    },
+    "results/dev/banking77/bm25/result.json": {
+      "bytes": 517963,
+      "sha256": "66157d98d571c0444293efcca69da68b9bb4b8a051c70ce40ba6a4ae68ad7d80"
+    },
+    "results/dev/banking77/dense/predictions.jsonl.gz": {
+      "bytes": 2382485,
+      "sha256": "7aefd4ce37b46c4720108fad5bf19dffce6c08ad32461783c29528bc6162f408"
+    },
+    "results/dev/banking77/dense/result.json": {
+      "bytes": 503195,
+      "sha256": "d8f40be1489b7f86c53ebe93f8040224c08e12fb2b4949dad6e1c4be7d0c51cc"
+    },
+    "results/dev/banking77/hybrid/predictions.jsonl.gz": {
+      "bytes": 1441404,
+      "sha256": "0a416d76d2e5aa7c4697eaf50f67458584c98a139dcf391fd455e1d269ac6929"
+    },
+    "results/dev/banking77/hybrid/result.json": {
+      "bytes": 507917,
+      "sha256": "3beb1bcf7660f56393fb21127f5a137c6c2fa22a2bdb08c7ea194cc76e220420"
+    },
+    "results/dev/banking77/rerank/predictions.jsonl.gz": {
+      "bytes": 2454595,
+      "sha256": "56dc5b32b51772279c3331b9ec422dd447710aed146e1f44d6d769b21efb37d1"
+    },
+    "results/dev/banking77/rerank/result.json": {
+      "bytes": 947860,
+      "sha256": "eac856270f6ace2b70ad83b53ac9f2a9c9ed0e97f77efc46bb6a64ce616bcaf3"
+    },
+    "results/dev/clinc150/bm25/predictions.jsonl.gz": {
+      "bytes": 2304547,
+      "sha256": "4bdbf9a9348dc973737a108734d8dd2c970cb2b229f79635ef29e37a6e4352b9"
+    },
+    "results/dev/clinc150/bm25/result.json": {
+      "bytes": 667085,
+      "sha256": "7053df67e30c241529b00a1f0108d2838d1f41d214dcebc300b46852d73d004e"
+    },
+    "results/dev/clinc150/bm25/threshold.json": {
+      "bytes": 757776,
+      "sha256": "df4bfa3125a764e6eb96d16f70099b0e941972f505c6e6b5a54828970d38be25"
+    },
+    "results/dev/clinc150/dense/predictions.jsonl.gz": {
+      "bytes": 3689954,
+      "sha256": "fcf6f282fa482d62e564d6b86ec4be244872da43fccb15efd51cf3faccb2cb8c"
+    },
+    "results/dev/clinc150/dense/result.json": {
+      "bytes": 655501,
+      "sha256": "daaa64ddb5183aa019a13fe968acb4f46dc68ba8f8c009f8741457c984db273f"
+    },
+    "results/dev/clinc150/dense/threshold.json": {
+      "bytes": 858092,
+      "sha256": "f3d8c112938a32e9393ee7803df0918c46d5ec3a9a5a620e0156aad8f9657dff"
+    },
+    "results/dev/scifact/bm25/predictions.jsonl.gz": {
+      "bytes": 212766,
+      "sha256": "1c790fc80aabd1ef16b1bd60bb2cc72ab65040c49bc57225ee03a8eb9f211100"
+    },
+    "results/dev/scifact/bm25/result.json": {
+      "bytes": 32038,
+      "sha256": "208d8c6b16318d04d54b63ee18cdb9b4b15be8e9fd8fd97128841b234894157f"
+    },
+    "results/dev/scifact/dense/predictions.jsonl.gz": {
+      "bytes": 221437,
+      "sha256": "89aba256c57b6ec860d7b0de10b3f8e0e6cfd93d5070c9bd529e1750dfc3c813"
+    },
+    "results/dev/scifact/dense/result.json": {
+      "bytes": 32083,
+      "sha256": "a16ad417bc372bc2cea7979e77c9ab61ff76790fb381baab77d55a7ae66730ff"
+    },
+    "results/dev/scifact/hybrid/predictions.jsonl.gz": {
+      "bytes": 141310,
+      "sha256": "aaebe93e5112b94ea51bfc32929936245c63c445819393accdc25e3455d2d1a1"
+    },
+    "results/dev/scifact/hybrid/result.json": {
+      "bytes": 32158,
+      "sha256": "b38685a38d4c2199cb876b1535db5412929202f5f7e9c8c5c418cbac2a05ddf7"
+    },
+    "results/dev/scifact/rerank/predictions.jsonl.gz": {
+      "bytes": 229946,
+      "sha256": "3c897fbbff18be522606c5ed8828dd19fac2ebc04fa1dbe68d096f581127e1c8"
+    },
+    "results/dev/scifact/rerank/result.json": {
+      "bytes": 60711,
+      "sha256": "ed630e62c6087172083e608c264964826001e09d98d56f4b15dd0e494c29099b"
+    },
+    "results/protocol.json": {
+      "bytes": 2010,
+      "sha256": "7f5627441e93f71634fc3791f57d1cc4d08bd80a2ee3f2f4ae3c56410e35fe56"
+    },
+    "results/seal.json": {
+      "bytes": 5420,
+      "sha256": "96cf2bb6332dc96458df3e3b170f05030d7e05654afe1039d26f089b9c5c3013"
+    },
+    "results/suite-dev.json": {
+      "bytes": 18291,
+      "sha256": "7660aca613868cc36432787268eee6efcdc3da4b1071e40c666d679c572f014a"
+    },
+    "results/suite-pilot.json": {
+      "bytes": 2542,
+      "sha256": "99fc68dedda84287e750c3ebae787293ea16b950e673be335e64214383e4eb1b"
+    },
+    "results/suite-test.json": {
+      "bytes": 12260,
+      "sha256": "b77925cccd0245607ea3f5feab8e2dec0e6c6a0033a99bb7072bd91f9782f844"
+    },
+    "results/test/banking77/adapted-1729/predictions.jsonl.gz": {
+      "bytes": 3623846,
+      "sha256": "dc869677d81ae292074eab21d3d6b4fdffe7a1f6a06b12e8e1f2233788822370"
+    },
+    "results/test/banking77/adapted-1729/result.json": {
+      "bytes": 762973,
+      "sha256": "b1476455018414572a35b76d4de8315c9653a41473e2826fc7218598b508aa3a"
+    },
+    "results/test/banking77/adapted-2026/predictions.jsonl.gz": {
+      "bytes": 3623042,
+      "sha256": "a5ab7038ca449bc8abb1cdeb64b81e200c72929306bb3a56b612b4cbb616d706"
+    },
+    "results/test/banking77/adapted-2026/result.json": {
+      "bytes": 762861,
+      "sha256": "d6a2312df5c986483050e9be3f39d3469a8e49e7a4433a7857e24b226be9a4aa"
+    },
+    "results/test/banking77/adapted-42/predictions.jsonl.gz": {
+      "bytes": 3623999,
+      "sha256": "5f8fbf435370b75d8ab50348f27a0c4f6286e7b1eed1fed393d2bd431f98f0d1"
+    },
+    "results/test/banking77/adapted-42/result.json": {
+      "bytes": 762418,
+      "sha256": "f12633204a910921324dd23d2ce10f8a89c15a62bdcea1da1fb46a56a243894d"
+    },
+    "results/test/banking77/bm25/predictions.jsonl.gz": {
+      "bytes": 3230023,
+      "sha256": "2b74991585f25aa38be1d9280827b53f485e751d817757e8e83e37c673b7e809"
+    },
+    "results/test/banking77/bm25/result.json": {
+      "bytes": 787877,
+      "sha256": "057dc17737cf4c5ee9de9cb5e1e29bb741047052f6057b18deda944ed44ef172"
+    },
+    "results/test/banking77/dense/predictions.jsonl.gz": {
+      "bytes": 3663822,
+      "sha256": "a802d740dd8ec66bbf664994117832cdadf63edb8700700617d523602147e3cb"
+    },
+    "results/test/banking77/dense/result.json": {
+      "bytes": 767150,
+      "sha256": "b83625849faeb90a16b057788eccef5c8b346f85b1843fb812081fada93dd328"
+    },
+    "results/test/banking77/hybrid/predictions.jsonl.gz": {
+      "bytes": 2226391,
+      "sha256": "6c8271f3475188743d4b749900cc66bdcaf3b7a3f0d68726c762dda729d7d643"
+    },
+    "results/test/banking77/hybrid/result.json": {
+      "bytes": 773583,
+      "sha256": "8c738e1593aadbf7ac4a1c43bc23c015155369e90ad6689523a887200aff3597"
+    },
+    "results/test/banking77/rerank/predictions.jsonl.gz": {
+      "bytes": 3771929,
+      "sha256": "731559ee2e2ff757dc9aa98b4ac66fa442a6eca157ef147812175d47313c321b"
+    },
+    "results/test/banking77/rerank/result.json": {
+      "bytes": 1447206,
+      "sha256": "b230966f8e513606ccf9bc47ace5d7e3086e59d3132d1c842f1270d41627691e"
+    },
+    "results/test/clinc150/bm25/predictions.jsonl.gz": {
+      "bytes": 4206535,
+      "sha256": "3986a0963463714e8a7bd0f22ce3b6f1ab0845374e53266d3620693448c00d82"
+    },
+    "results/test/clinc150/bm25/result.json": {
+      "bytes": 1034278,
+      "sha256": "9fe7450d3a7e9a7613b73424998bcfc474d51c4047169f3f69d66ea45377315c"
+    },
+    "results/test/clinc150/dense/predictions.jsonl.gz": {
+      "bytes": 6605417,
+      "sha256": "79f147f118e33625253983f1a70d2ace363a4d48fc91ffd75f40481b4bb4ffbb"
+    },
+    "results/test/clinc150/dense/result.json": {
+      "bytes": 1016405,
+      "sha256": "69f4b087d6614e5f28028636332c35e6972774940f06720fab1a87e62b380c9a"
+    },
+    "results/test/scifact/bm25/predictions.jsonl.gz": {
+      "bytes": 413130,
+      "sha256": "b0629e816cb9a69e9c7c2b7d36a180ed860fadfbbada2c65582f51bc493961fc"
+    },
+    "results/test/scifact/bm25/result.json": {
+      "bytes": 57515,
+      "sha256": "c28f55387801373d4b3342fb6e1180c6f59c58b6c7605f5964333cd52679d21e"
+    },
+    "results/test/scifact/dense/predictions.jsonl.gz": {
+      "bytes": 414973,
+      "sha256": "b6c81f67d0fb7084cce757781fddffb2e2bf518c56dfe0bd600d018bdbd7e7d8"
+    },
+    "results/test/scifact/dense/result.json": {
+      "bytes": 57598,
+      "sha256": "aa6d9eacdb8781b273128e557d3b038224021a3243e8f5736d8efc536de2ca16"
+    },
+    "results/test/scifact/hybrid/predictions.jsonl.gz": {
+      "bytes": 257145,
+      "sha256": "6a2bf1504aa451c9bc6e9e4353905b481d4c3aae9938aca7508ffaa79b914f9b"
+    },
+    "results/test/scifact/hybrid/result.json": {
+      "bytes": 57659,
+      "sha256": "eb63b51325190abb73a2c58873f068b9e844c910532fbb85113e4cb5e463ea09"
+    },
+    "results/test/scifact/rerank/predictions.jsonl.gz": {
+      "bytes": 431935,
+      "sha256": "6a433efdf072ee6964439d8e2dc0d49d891ee4a4c1904c213ecd30ea8c8bf78b"
+    },
+    "results/test/scifact/rerank/result.json": {
+      "bytes": 110159,
+      "sha256": "59ca5dbf039ee113995ece8c6cdb089b086f0c114289ee043bbddb466092b287"
+    },
+    "results/training/1729/training-result.json": {
+      "bytes": 5074,
+      "sha256": "871a6bb5c63a8b409144c46056eab6644bfa628ac0d180542d2bc89a02c80e47"
+    },
+    "results/training/2026/training-result.json": {
+      "bytes": 5074,
+      "sha256": "a95e15047bb97dfaf7d7c3fadb2a4a6df1806bdd66f7893fb1a1397f2f7e800a"
+    },
+    "results/training/42/training-result.json": {
+      "bytes": 5072,
+      "sha256": "ee92608a28d7379791398734dd91b5d321e469bbc234e4bedb522178266fa7e8"
+    }
+  },
+  "banking77_adaptation": {
+    "official": {
+      "baseline_hit@1": 0.9178571428571428,
+      "bootstrap_samples": 2000,
+      "ci95": [
+        0.002924879378827481,
+        0.015584542122379082
+      ],
+      "conclusion": "improved_below_practical_target",
+      "conditional_on_trained_seeds": true,
+      "groups": 3070,
+      "mean_adapted_hit@1": 0.9271645021645022,
+      "mean_difference": 0.009307359307359306,
+      "practical_target_absolute": 0.02,
+      "queries": 3080,
+      "seed_differences": [
+        0.01103896103896104,
+        0.008116883116883116,
+        0.008766233766233766
+      ],
+      "seed_hit@1": [
+        0.9288961038961039,
+        0.925974025974026,
+        0.9266233766233766
+      ],
+      "seed_hit@1_range": [
+        0.925974025974026,
+        0.9288961038961039
+      ],
+      "seeds": [
+        42,
+        1729,
+        2026
+      ]
+    },
+    "overlap_sensitivity": {
+      "comparison": {
+        "baseline_hit@1": 0.9173798551678736,
+        "bootstrap_samples": 2000,
+        "ci95": [
+          0.0027448171063688387,
+          0.01593225676246313
+        ],
+        "conclusion": "improved_below_practical_target",
+        "conditional_on_trained_seeds": true,
+        "groups": 3028,
+        "mean_adapted_hit@1": 0.9268158876453807,
+        "mean_difference": 0.009436032477507133,
+        "practical_target_absolute": 0.02,
+        "queries": 3038,
+        "seed_differences": [
+          0.01119157340355497,
+          0.008229098090849244,
+          0.008887425938117182
+        ],
+        "seed_hit@1": [
+          0.9285714285714286,
+          0.9256089532587228,
+          0.9262672811059908
+        ],
+        "seed_hit@1_range": [
+          0.9256089532587228,
+          0.9285714285714286
+        ],
+        "seeds": [
+          42,
+          1729,
+          2026
+        ]
+      },
+      "excluded_queries": 42,
+      "policy": "Exclude only evaluation queries grouped with training examples; retain official comparison above.",
+      "remaining_queries": 3038
+    }
+  },
+  "completed_evaluation_runs": 13,
+  "datasets": {
+    "banking77": {
+      "counts": {
+        "corpus": 8006,
+        "in_scope": {
+          "dev": 1997,
+          "test": 3080,
+          "train": 8006
+        },
+        "queries": {
+          "dev": 1997,
+          "test": 3080,
+          "train": 8006
+        }
+      },
+      "group_rule": "NFKC + casefold + Unicode word tokens; identical sorted token multisets form a group. This groups punctuation/case/spacing changes and token reorderings, retains numbers/negations, and does not claim to detect semantic paraphrases or all near duplicates.",
+      "meaning": "Same-intent support matching proxy; not verified duplicate tickets or retrieved resolutions.",
+      "methods": {
+        "adapted-1729": {
+          "candidate_coverage": null,
+          "macro_intent_hit@1": 0.9259740259740258,
+          "metrics": {
+            "hit@1": 0.925974025974026,
+            "hit@5": 0.9707792207792207,
+            "mrr@10": 0.9460392187177902,
+            "ndcg@10": 0.8941217490120205,
+            "recall@10": 0.09385680017109777,
+            "recall@100": 0.5973423045196824
+          },
+          "no_positive_queries": 0,
+          "overlap_filtered_ranking": {
+            "excluded_queries": 42,
+            "metrics": {
+              "hit@1": 0.9256089532587228,
+              "hit@5": 0.9707044107965767,
+              "mrr@10": 0.9457869630186945,
+              "ndcg@10": 0.8933358555299614,
+              "recall@10": 0.09375656456636598,
+              "recall@100": 0.5960024913916747
+            },
+            "rankable_queries": 3038
+          },
+          "peak_rss_bytes": 712228864,
+          "rankable_queries": 3080,
+          "rejection": null,
+          "timing": {
+            "batched_queries_per_second": 91.68882628690115,
+            "index_build_seconds": 36.05208992500002,
+            "latency_query_sample": 30,
+            "model_load_seconds": 4.188428971000121,
+            "reranker_in_latency_quantiles": false,
+            "reranking_seconds": 0.0,
+            "retrieval_seconds": 33.5918794549998,
+            "warm_retrieval_p50_seconds": 0.09036668849989837,
+            "warm_retrieval_p95_seconds": 0.12198565884973503
+          },
+          "total_queries": 3080
+        },
+        "adapted-2026": {
+          "candidate_coverage": null,
+          "macro_intent_hit@1": 0.9266233766233766,
+          "metrics": {
+            "hit@1": 0.9266233766233766,
+            "hit@5": 0.9707792207792207,
+            "mrr@10": 0.9461587816944961,
+            "ndcg@10": 0.8945964093450934,
+            "recall@10": 0.09379719891378223,
+            "recall@100": 0.5960709947661232
+          },
+          "no_positive_queries": 0,
+          "overlap_filtered_ranking": {
+            "excluded_queries": 42,
+            "metrics": {
+              "hit@1": 0.9262672811059908,
+              "hit@5": 0.9707044107965767,
+              "mrr@10": 0.9459081789397786,
+              "ndcg@10": 0.8938332104888407,
+              "recall@10": 0.09370055073226477,
+              "recall@100": 0.5947147388602652
+            },
+            "rankable_queries": 3038
+          },
+          "peak_rss_bytes": 712224768,
+          "rankable_queries": 3080,
+          "rejection": null,
+          "timing": {
+            "batched_queries_per_second": 93.4304181322157,
+            "index_build_seconds": 36.42418114100019,
+            "latency_query_sample": 30,
+            "model_load_seconds": 4.271267190000344,
+            "reranker_in_latency_quantiles": false,
+            "reranking_seconds": 0.0,
+            "retrieval_seconds": 32.96570925800006,
+            "warm_retrieval_p50_seconds": 0.11365781750009774,
+            "warm_retrieval_p95_seconds": 0.13291761804996438
+          },
+          "total_queries": 3080
+        },
+        "adapted-42": {
+          "candidate_coverage": null,
+          "macro_intent_hit@1": 0.9288961038961038,
+          "metrics": {
+            "hit@1": 0.9288961038961039,
+            "hit@5": 0.9720779220779221,
+            "mrr@10": 0.9472826479076479,
+            "ndcg@10": 0.8952995839847798,
+            "recall@10": 0.09401510315661622,
+            "recall@100": 0.5998890104485118
+          },
+          "no_positive_queries": 0,
+          "overlap_filtered_ranking": {
+            "excluded_queries": 42,
+            "metrics": {
+              "hit@1": 0.9285714285714286,
+              "hit@5": 0.9720210664911125,
+              "mrr@10": 0.9470475824738497,
+              "ndcg@10": 0.8945015202217157,
+              "recall@10": 0.09391299165252101,
+              "recall@100": 0.5985163801414068
+            },
+            "rankable_queries": 3038
+          },
+          "peak_rss_bytes": 711720960,
+          "rankable_queries": 3080,
+          "rejection": null,
+          "timing": {
+            "batched_queries_per_second": 92.49132239393943,
+            "index_build_seconds": 36.2772812180001,
+            "latency_query_sample": 30,
+            "model_load_seconds": 4.289150388000053,
+            "reranker_in_latency_quantiles": false,
+            "reranking_seconds": 0.0,
+            "retrieval_seconds": 33.300421274999735,
+            "warm_retrieval_p50_seconds": 0.11265001649985606,
+            "warm_retrieval_p95_seconds": 0.13289302580019466
+          },
+          "total_queries": 3080
+        },
+        "bm25": {
+          "candidate_coverage": null,
+          "macro_intent_hit@1": 0.7896103896103894,
+          "metrics": {
+            "hit@1": 0.7896103896103897,
+            "hit@5": 0.936038961038961,
+            "mrr@10": 0.8512507730364873,
+            "ndcg@10": 0.6545532436571823,
+            "recall@10": 0.06375312077820063,
+            "recall@100": 0.2890766164450271
+          },
+          "no_positive_queries": 0,
+          "overlap_filtered_ranking": {
+            "excluded_queries": 42,
+            "metrics": {
+              "hit@1": 0.7870309414088216,
+              "hit@5": 0.9354838709677419,
+              "mrr@10": 0.8494869222650658,
+              "ndcg@10": 0.6524518774445953,
+              "recall@10": 0.06350830301995523,
+              "recall@100": 0.28854337192705026
+            },
+            "rankable_queries": 3038
+          },
+          "peak_rss_bytes": 338841600,
+          "rankable_queries": 3080,
+          "rejection": null,
+          "timing": {
+            "batched_queries_per_second": 786.4210170044669,
+            "index_build_seconds": 0.1850675279999905,
+            "latency_query_sample": 30,
+            "model_load_seconds": 1.7030001799867023e-06,
+            "reranker_in_latency_quantiles": false,
+            "reranking_seconds": 0.0,
+            "retrieval_seconds": 3.916477221999912,
+            "warm_retrieval_p50_seconds": 0.0020686809999688194,
+            "warm_retrieval_p95_seconds": 0.0022548511999843867
+          },
+          "total_queries": 3080
+        },
+        "dense": {
+          "candidate_coverage": null,
+          "macro_intent_hit@1": 0.9178571428571426,
+          "metrics": {
+            "hit@1": 0.9178571428571428,
+            "hit@5": 0.9704545454545455,
+            "mrr@10": 0.9406181715110286,
+            "ndcg@10": 0.8702731949983613,
+            "recall@10": 0.0903921202063324,
+            "recall@100": 0.5025189125627723
+          },
+          "no_positive_queries": 0,
+          "overlap_filtered_ranking": {
+            "excluded_queries": 42,
+            "metrics": {
+              "hit@1": 0.9173798551678736,
+              "hit@5": 0.9700460829493087,
+              "mrr@10": 0.9402086794779355,
+              "ndcg@10": 0.8692769455279378,
+              "recall@10": 0.09026275963467209,
+              "recall@100": 0.5013129254113765
+            },
+            "rankable_queries": 3038
+          },
+          "peak_rss_bytes": 714379264,
+          "rankable_queries": 3080,
+          "rejection": null,
+          "timing": {
+            "batched_queries_per_second": 91.62221457314605,
+            "index_build_seconds": 36.47971756800007,
+            "latency_query_sample": 30,
+            "model_load_seconds": 4.665804330000128,
+            "reranker_in_latency_quantiles": false,
+            "reranking_seconds": 0.0,
+            "retrieval_seconds": 33.61630161800008,
+            "warm_retrieval_p50_seconds": 0.11464666350002517,
+            "warm_retrieval_p95_seconds": 0.12601929330000985
+          },
+          "total_queries": 3080
+        },
+        "hybrid": {
+          "candidate_coverage": null,
+          "macro_intent_hit@1": 0.9116883116883118,
+          "metrics": {
+            "hit@1": 0.9116883116883117,
+            "hit@5": 0.9737012987012987,
+            "mrr@10": 0.9384324108431251,
+            "ndcg@10": 0.8355228442802892,
+            "recall@10": 0.08499178462265582,
+            "recall@100": 0.4360170925118164
+          },
+          "no_positive_queries": 0,
+          "overlap_filtered_ranking": {
+            "excluded_queries": 42,
+            "metrics": {
+              "hit@1": 0.9107965766951942,
+              "hit@5": 0.9733377221856484,
+              "mrr@10": 0.9378006886318275,
+              "ndcg@10": 0.83453177424331,
+              "recall@10": 0.08485800222002879,
+              "recall@100": 0.4350573296400762
+            },
+            "rankable_queries": 3038
+          },
+          "peak_rss_bytes": 717037568,
+          "rankable_queries": 3080,
+          "rejection": null,
+          "timing": {
+            "batched_queries_per_second": 69.70316600380167,
+            "index_build_seconds": 35.84706884299999,
+            "latency_query_sample": 30,
+            "model_load_seconds": 4.663010225000107,
+            "reranker_in_latency_quantiles": false,
+            "reranking_seconds": 0.0,
+            "retrieval_seconds": 44.1873759340001,
+            "warm_retrieval_p50_seconds": 0.12046308650008086,
+            "warm_retrieval_p95_seconds": 0.1428223932500259
+          },
+          "total_queries": 3080
+        },
+        "rerank": {
+          "candidate_coverage": {
+            "depth": 20,
+            "hit_rate": 0.9889610389610389,
+            "mean_recall": 0.1661035556843819,
+            "rankable_queries": 3080
+          },
+          "macro_intent_hit@1": 0.9048701298701296,
+          "metrics": {
+            "hit@1": 0.9048701298701298,
+            "hit@5": 0.9711038961038961,
+            "mrr@10": 0.9339828128220985,
+            "ndcg@10": 0.8681605181475638,
+            "recall@10": 0.09030973673969513,
+            "recall@100": 0.5025189125627723
+          },
+          "no_positive_queries": 0,
+          "overlap_filtered_ranking": {
+            "excluded_queries": 42,
+            "metrics": {
+              "hit@1": 0.9038841342988808,
+              "hit@5": 0.9707044107965767,
+              "mrr@10": 0.9333170057577562,
+              "ndcg@10": 0.8670286685219717,
+              "recall@10": 0.09017793717495859,
+              "recall@100": 0.5013129254113765
+            },
+            "rankable_queries": 3038
+          },
+          "peak_rss_bytes": 752005120,
+          "rankable_queries": 3080,
+          "rejection": null,
+          "timing": {
+            "batched_queries_per_second": 91.72658169178932,
+            "combined_component_p50_seconds": 0.26931828899989796,
+            "combined_component_p95_seconds": 0.36647138744992835,
+            "combined_latency_method": "sum of paired per-query retrieval and rerank durations measured separately; excludes first-stage batching and model swap",
+            "index_build_seconds": 36.32250358500005,
+            "latency_query_sample": 30,
+            "model_load_seconds": 4.586265357000002,
+            "reranker_in_latency_quantiles": false,
+            "reranker_load_seconds": 0.565040369999906,
+            "reranking_seconds": 533.4014234160002,
+            "retrieval_seconds": 33.578052765000166,
+            "warm_retrieval_p50_seconds": 0.11517377249992933,
+            "warm_retrieval_p95_seconds": 0.12668276485004526
+          },
+          "total_queries": 3080
+        }
+      },
+      "overlap_queries": 42,
+      "rights": {
+        "attribution": "PolyAI; Casanueva et al., Efficient Intent Detection with Dual Sentence Encoders (2020)",
+        "license": "CC BY 4.0",
+        "limitation": "Intent labels are relevance proxies; collection is not verified production ticket data.",
+        "notice_files": [
+          "LICENSE"
+        ],
+        "source": "https://github.com/PolyAI-LDN/task-specific-datasets"
+      }
+    },
+    "clinc150": {
+      "counts": {
+        "corpus": 15000,
+        "in_scope": {
+          "dev": 3000,
+          "test": 4500,
+          "train": 15000
+        },
+        "queries": {
+          "dev": 3100,
+          "test": 5500,
+          "train": 15100
+        }
+      },
+      "group_rule": "NFKC + casefold + Unicode word tokens; identical sorted token multisets form a group. This groups punctuation/case/spacing changes and token reorderings, retains numbers/negations, and does not claim to detect semantic paraphrases or all near duplicates.",
+      "meaning": "Supported-intent routing and explicit out-of-scope rejection; not document answer absence.",
+      "methods": {
+        "bm25": {
+          "candidate_coverage": null,
+          "macro_intent_hit@1": 0.8317777777777778,
+          "metrics": {
+            "hit@1": 0.8317777777777777,
+            "hit@5": 0.9453333333333334,
+            "mrr@10": 0.8819954144620812,
+            "ndcg@10": 0.7599588885091465,
+            "recall@10": 0.0739311111111111,
+            "recall@100": 0.3897577777777778
+          },
+          "no_positive_queries": 1000,
+          "overlap_filtered_ranking": {
+            "excluded_queries": 52,
+            "metrics": {
+              "hit@1": 0.8302607913669064,
+              "hit@5": 0.9446942446043165,
+              "mrr@10": 0.880840684595181,
+              "ndcg@10": 0.7588510211524743,
+              "recall@10": 0.07383318345323742,
+              "recall@100": 0.38974595323741007
+            },
+            "rankable_queries": 4448
+          },
+          "peak_rss_bytes": 419287040,
+          "rankable_queries": 4500,
+          "rejection": {
+            "accepted_in_scope": 2421,
+            "accepted_in_scope_accuracy": 0.919454770755886,
+            "accepted_out_of_scope": 67,
+            "in_scope_coverage": 0.538,
+            "in_scope_queries": 4500,
+            "out_of_scope_false_acceptance": 0.067,
+            "out_of_scope_queries": 1000,
+            "out_of_scope_rejection_recall": 0.933,
+            "threshold": 18.14321605391373
+          },
+          "timing": {
+            "batched_queries_per_second": 739.6294180048134,
+            "index_build_seconds": 0.21901397999999972,
+            "latency_query_sample": 30,
+            "model_load_seconds": 1.8539999473432545e-06,
+            "reranker_in_latency_quantiles": false,
+            "reranking_seconds": 0.0,
+            "retrieval_seconds": 7.4361563590000515,
+            "warm_retrieval_p50_seconds": 0.0029414949999591045,
+            "warm_retrieval_p95_seconds": 0.0033492072001081396
+          },
+          "total_queries": 5500
+        },
+        "dense": {
+          "candidate_coverage": null,
+          "macro_intent_hit@1": 0.8802222222222222,
+          "metrics": {
+            "hit@1": 0.8802222222222222,
+            "hit@5": 0.9608888888888889,
+            "mrr@10": 0.9143307760141094,
+            "ndcg@10": 0.850863131197731,
+            "recall@10": 0.08427333333333333,
+            "recall@100": 0.6194044444444445
+          },
+          "no_positive_queries": 1000,
+          "overlap_filtered_ranking": {
+            "excluded_queries": 52,
+            "metrics": {
+              "hit@1": 0.8792715827338129,
+              "hit@5": 0.960431654676259,
+              "mrr@10": 0.9135540674603175,
+              "ndcg@10": 0.8500956537515386,
+              "recall@10": 0.08420188848920863,
+              "recall@100": 0.6195863309352518
+            },
+            "rankable_queries": 4448
+          },
+          "peak_rss_bytes": 797605888,
+          "rankable_queries": 4500,
+          "rejection": {
+            "accepted_in_scope": 3945,
+            "accepted_in_scope_accuracy": 0.9125475285171103,
+            "accepted_out_of_scope": 75,
+            "in_scope_coverage": 0.8766666666666667,
+            "in_scope_queries": 4500,
+            "out_of_scope_false_acceptance": 0.075,
+            "out_of_scope_queries": 1000,
+            "out_of_scope_rejection_recall": 0.925,
+            "threshold": 0.6381174325942994
+          },
+          "timing": {
+            "batched_queries_per_second": 134.28657774227122,
+            "index_build_seconds": 49.74091311099983,
+            "latency_query_sample": 30,
+            "model_load_seconds": 4.609809944000062,
+            "reranker_in_latency_quantiles": false,
+            "reranking_seconds": 0.0,
+            "retrieval_seconds": 40.95718345399973,
+            "warm_retrieval_p50_seconds": 0.11502010100002735,
+            "warm_retrieval_p95_seconds": 0.13479236374996614
+          },
+          "total_queries": 5500
+        }
+      },
+      "overlap_queries": 52,
+      "rights": {
+        "attribution": "Larson et al., An Evaluation Dataset for Intent Classification and Out-of-Scope Prediction (2019)",
+        "license": "CC BY 3.0",
+        "limitation": "Crowdworker intent examples; OOS is never a semantic positive class.",
+        "notice_files": [
+          "LICENSE"
+        ],
+        "source": "https://github.com/clinc/oos-eval"
+      }
+    },
+    "scifact": {
+      "counts": {
+        "corpus": 5183,
+        "in_scope": {
+          "dev": 162,
+          "test": 300,
+          "train": 647
+        },
+        "queries": {
+          "dev": 162,
+          "test": 300,
+          "train": 647
+        }
+      },
+      "group_rule": "NFKC + casefold + Unicode word tokens; identical sorted token multisets form a group. This groups punctuation/case/spacing changes and token reorderings, retains numbers/negations, and does not claim to detect semantic paraphrases or all near duplicates.",
+      "meaning": "Retrieval of judged scientific evidence; not scientific truth or medical decision accuracy.",
+      "methods": {
+        "bm25": {
+          "candidate_coverage": null,
+          "macro_intent_hit@1": null,
+          "metrics": {
+            "hit@1": 0.5433333333333333,
+            "hit@5": 0.7466666666666667,
+            "mrr@10": 0.6327804232804233,
+            "ndcg@10": 0.6646598637127541,
+            "recall@10": 0.7849444444444444,
+            "recall@100": 0.8892222222222221
+          },
+          "no_positive_queries": 0,
+          "overlap_filtered_ranking": {
+            "excluded_queries": 0,
+            "metrics": {
+              "hit@1": 0.5433333333333333,
+              "hit@5": 0.7466666666666667,
+              "mrr@10": 0.6327804232804233,
+              "ndcg@10": 0.6646598637127541,
+              "recall@10": 0.7849444444444444,
+              "recall@100": 0.8892222222222221
+            },
+            "rankable_queries": 300
+          },
+          "peak_rss_bytes": 327241728,
+          "rankable_queries": 300,
+          "rejection": null,
+          "timing": {
+            "batched_queries_per_second": 917.9944622724083,
+            "index_build_seconds": 0.9578294660000211,
+            "latency_query_sample": 30,
+            "model_load_seconds": 2.093999682983849e-06,
+            "reranker_in_latency_quantiles": false,
+            "reranking_seconds": 0.0,
+            "retrieval_seconds": 0.3267993569997998,
+            "warm_retrieval_p50_seconds": 0.0015989195001111511,
+            "warm_retrieval_p95_seconds": 0.0017628825000883805
+          },
+          "total_queries": 300
+        },
+        "dense": {
+          "candidate_coverage": null,
+          "macro_intent_hit@1": null,
+          "metrics": {
+            "hit@1": 0.5033333333333333,
+            "hit@5": 0.7533333333333333,
+            "mrr@10": 0.6047248677248678,
+            "ndcg@10": 0.6450816521455774,
+            "recall@10": 0.7833333333333333,
+            "recall@100": 0.925
+          },
+          "no_positive_queries": 0,
+          "overlap_filtered_ranking": {
+            "excluded_queries": 0,
+            "metrics": {
+              "hit@1": 0.5033333333333333,
+              "hit@5": 0.7533333333333333,
+              "mrr@10": 0.6047248677248678,
+              "ndcg@10": 0.6450816521455776,
+              "recall@10": 0.7833333333333333,
+              "recall@100": 0.925
+            },
+            "rankable_queries": 300
+          },
+          "peak_rss_bytes": 805711872,
+          "rankable_queries": 300,
+          "rejection": null,
+          "timing": {
+            "batched_queries_per_second": 71.54433117848455,
+            "index_build_seconds": 294.26901668699975,
+            "latency_query_sample": 30,
+            "model_load_seconds": 4.68227403200035,
+            "reranker_in_latency_quantiles": false,
+            "reranking_seconds": 0.0,
+            "retrieval_seconds": 4.193204339999738,
+            "warm_retrieval_p50_seconds": 0.11614990049997687,
+            "warm_retrieval_p95_seconds": 0.13339652089982793
+          },
+          "total_queries": 300
+        },
+        "hybrid": {
+          "candidate_coverage": null,
+          "macro_intent_hit@1": null,
+          "metrics": {
+            "hit@1": 0.5466666666666666,
+            "hit@5": 0.7766666666666666,
+            "mrr@10": 0.6484497354497355,
+            "ndcg@10": 0.6865246195512299,
+            "recall@10": 0.8178888888888889,
+            "recall@100": 0.9543333333333334
+          },
+          "no_positive_queries": 0,
+          "overlap_filtered_ranking": {
+            "excluded_queries": 0,
+            "metrics": {
+              "hit@1": 0.5466666666666666,
+              "hit@5": 0.7766666666666666,
+              "mrr@10": 0.6484497354497355,
+              "ndcg@10": 0.6865246195512299,
+              "recall@10": 0.8178888888888889,
+              "recall@100": 0.9543333333333334
+            },
+            "rankable_queries": 300
+          },
+          "peak_rss_bytes": 875581440,
+          "rankable_queries": 300,
+          "rejection": null,
+          "timing": {
+            "batched_queries_per_second": 64.2409987466005,
+            "index_build_seconds": 298.05985964499996,
+            "latency_query_sample": 30,
+            "model_load_seconds": 4.788400212000397,
+            "reranker_in_latency_quantiles": false,
+            "reranking_seconds": 0.0,
+            "retrieval_seconds": 4.669914943000094,
+            "warm_retrieval_p50_seconds": 0.1227005390001068,
+            "warm_retrieval_p95_seconds": 0.14425704345014764
+          },
+          "total_queries": 300
+        },
+        "rerank": {
+          "candidate_coverage": {
+            "depth": 20,
+            "hit_rate": 0.8466666666666667,
+            "mean_recall": 0.8373333333333333,
+            "rankable_queries": 300
+          },
+          "macro_intent_hit@1": null,
+          "metrics": {
+            "hit@1": 0.5666666666666667,
+            "hit@5": 0.77,
+            "mrr@10": 0.6478531746031746,
+            "ndcg@10": 0.6803742779395812,
+            "recall@10": 0.8028888888888889,
+            "recall@100": 0.925
+          },
+          "no_positive_queries": 0,
+          "overlap_filtered_ranking": {
+            "excluded_queries": 0,
+            "metrics": {
+              "hit@1": 0.5666666666666667,
+              "hit@5": 0.77,
+              "mrr@10": 0.6478531746031746,
+              "ndcg@10": 0.6803742779395812,
+              "recall@10": 0.8028888888888889,
+              "recall@100": 0.925
+            },
+            "rankable_queries": 300
+          },
+          "peak_rss_bytes": 805859328,
+          "rankable_queries": 300,
+          "rejection": null,
+          "timing": {
+            "batched_queries_per_second": 78.4405509958082,
+            "combined_component_p50_seconds": 1.2643478519999007,
+            "combined_component_p95_seconds": 1.363461270900052,
+            "combined_latency_method": "sum of paired per-query retrieval and rerank durations measured separately; excludes first-stage batching and model swap",
+            "index_build_seconds": 293.77585851899994,
+            "latency_query_sample": 30,
+            "model_load_seconds": 4.695976948999942,
+            "reranker_in_latency_quantiles": false,
+            "reranker_load_seconds": 0.5374317149999115,
+            "reranking_seconds": 351.3196615400002,
+            "retrieval_seconds": 3.824552431000029,
+            "warm_retrieval_p50_seconds": 0.12054915249996156,
+            "warm_retrieval_p95_seconds": 0.13872617805018306
+          },
+          "total_queries": 300
+        }
+      },
+      "overlap_queries": 0,
+      "rights": {
+        "attribution": "Wadden et al., Fact or Fiction (2020); Thakur et al., BEIR (2021)",
+        "license": "Claims/annotations CC BY 4.0; abstracts ODC-By 1.0; upstream code Apache-2.0",
+        "limitation": "Judged evidence retrieval only; unjudged documents are not established negatives.",
+        "notice_files": [
+          "LICENSE.md"
+        ],
+        "source": "https://github.com/allenai/scifact"
+      }
+    }
+  },
+  "expected_evaluation_runs": 13,
+  "failures": [
+    "suite-dev: running (previous invocation)",
+    "dev-scifact-rerank: running (previous invocation)"
+  ],
+  "held_out_evidence": true,
+  "limitations": [
+    "Development findings are parameter-selection evidence; only the sealed full test matrix is held-out evidence.",
+    "Public benchmark exposure during model pretraining is unknown.",
+    "CPU Codespaces timing is observational and host-dependent; single sequential runs do not establish an SLA.",
+    "Warm latency quantiles use a small query sample; batched throughput is a separate measurement.",
+    "Reranker component durations are measured separately; their sum is not a measured end-to-end request.",
+    "Bootstrap intervals are conditional on the registered trained seeds and supplied duplicate groups.",
+    "Overlap filtering is a sensitivity analysis under the documented lexical grouping rule, not a replacement score.",
+    "CLINC rejection thresholds apply only to their registered gallery/model and do not validate BANKING77 rejection.",
+    "No results establish private-customer accuracy, business ROI, developer productivity or production readiness."
+  ],
+  "missing": [],
+  "phase": "test",
+  "protocol_sha256": "7f5627441e93f71634fc3791f57d1cc4d08bd80a2ee3f2f4ae3c56410e35fe56",
+  "schema": 1,
+  "status": "complete",
+  "suite_invocations": [
+    {
+      "elapsed_seconds": 162.60358031300007,
+      "historical": false,
+      "jobs": [
+        {
+          "elapsed_seconds": 78.29156790399998,
+          "name": "pilot-dense",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 55.253206584999816,
+          "name": "pilot-rerank",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 29.05590709399985,
+          "name": "pilot-training",
+          "status": "passed"
+        }
+      ],
+      "phase": "pilot",
+      "status": "passed",
+      "time_budget_seconds": 2700
+    },
+    {
+      "elapsed_seconds": null,
+      "historical": true,
+      "jobs": [
+        {
+          "elapsed_seconds": 452.45577327399997,
+          "name": "train-42",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 442.341978981,
+          "name": "train-1729",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 484.962880435,
+          "name": "train-2026",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 7.39166245899969,
+          "name": "dev-banking77-bm25",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 74.67686459799961,
+          "name": "dev-banking77-dense",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 81.28459155899964,
+          "name": "dev-banking77-hybrid",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 433.1322321690004,
+          "name": "dev-banking77-rerank",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 69.35637345199939,
+          "name": "dev-banking77-adapted-42",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 69.55844761800017,
+          "name": "dev-banking77-adapted-1729",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 69.33342860099947,
+          "name": "dev-banking77-adapted-2026",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 9.740986724999857,
+          "name": "dev-clinc150-bm25",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 83.25646429400058,
+          "name": "dev-clinc150-dense",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 2.8239083230000688,
+          "name": "dev-scifact-bm25",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 304.08872571400025,
+          "name": "dev-scifact-dense",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 309.9461978770005,
+          "name": "dev-scifact-hybrid",
+          "status": "passed"
+        },
+        {
+          "name": "dev-scifact-rerank",
+          "status": "running"
+        }
+      ],
+      "phase": "dev",
+      "status": "running",
+      "time_budget_seconds": 5400
+    },
+    {
+      "elapsed_seconds": 537.736711596,
+      "historical": false,
+      "jobs": [
+        {
+          "name": "train-42",
+          "status": "reused"
+        },
+        {
+          "name": "train-1729",
+          "status": "reused"
+        },
+        {
+          "name": "train-2026",
+          "status": "reused"
+        },
+        {
+          "name": "dev-banking77-bm25",
+          "status": "reused"
+        },
+        {
+          "name": "dev-banking77-dense",
+          "status": "reused"
+        },
+        {
+          "name": "dev-banking77-hybrid",
+          "status": "reused"
+        },
+        {
+          "name": "dev-banking77-rerank",
+          "status": "reused"
+        },
+        {
+          "name": "dev-banking77-adapted-42",
+          "status": "reused"
+        },
+        {
+          "name": "dev-banking77-adapted-1729",
+          "status": "reused"
+        },
+        {
+          "name": "dev-banking77-adapted-2026",
+          "status": "reused"
+        },
+        {
+          "name": "dev-clinc150-bm25",
+          "status": "reused"
+        },
+        {
+          "name": "dev-clinc150-dense",
+          "status": "reused"
+        },
+        {
+          "name": "dev-scifact-bm25",
+          "status": "reused"
+        },
+        {
+          "name": "dev-scifact-dense",
+          "status": "reused"
+        },
+        {
+          "name": "dev-scifact-hybrid",
+          "status": "reused"
+        },
+        {
+          "elapsed_seconds": 536.816401526,
+          "name": "dev-scifact-rerank",
+          "previous_attempt": "attempts/dev-scifact-rerank-1362155307834f4083aa385caa19666d",
+          "status": "passed"
+        }
+      ],
+      "phase": "dev",
+      "status": "passed",
+      "time_budget_seconds": 1200
+    },
+    {
+      "elapsed_seconds": 2464.673820643,
+      "historical": false,
+      "jobs": [
+        {
+          "elapsed_seconds": 10.054284418999941,
+          "name": "test-banking77-bm25",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 83.95376584399992,
+          "name": "test-banking77-dense",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 94.3176890069999,
+          "name": "test-banking77-hybrid",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 617.6664651570002,
+          "name": "test-banking77-rerank",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 82.59507946200029,
+          "name": "test-banking77-adapted-42",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 82.37111266099964,
+          "name": "test-banking77-adapted-1729",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 82.48404286599998,
+          "name": "test-banking77-adapted-2026",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 16.46821522099981,
+          "name": "test-clinc150-bm25",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 107.31877899499978,
+          "name": "test-clinc150-dense",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 3.5740779489997294,
+          "name": "test-scifact-bm25",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 309.113138874,
+          "name": "test-scifact-dense",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 314.09235098399995,
+          "name": "test-scifact-hybrid",
+          "status": "passed"
+        },
+        {
+          "elapsed_seconds": 660.6423932860002,
+          "name": "test-scifact-rerank",
+          "status": "passed"
+        }
+      ],
+      "phase": "test",
+      "status": "passed",
+      "time_budget_seconds": 3600
+    }
+  ],
+  "training": {
+    "1729": {
+      "checkpoint_identity": "0e7ecb2df4ca67f7934305813965feb6a260474c31b226e663d66c6856626b17",
+      "elapsed_seconds": 434.68154106099973,
+      "peak_rss_bytes": 2182189056,
+      "steps": 200,
+      "training_examples": 8006
+    },
+    "2026": {
+      "checkpoint_identity": "6b695fe9db8257e0f00803b00ac6331fee8d9418439a41e8c0e7a9a4e385fc4b",
+      "elapsed_seconds": 477.4882933859999,
+      "peak_rss_bytes": 2130911232,
+      "steps": 200,
+      "training_examples": 8006
+    },
+    "42": {
+      "checkpoint_identity": "899ef9c3813c9a224cd20c51334b2c6d921ac4049ba148216fba4bbd3b341c48",
+      "elapsed_seconds": 444.65400479499976,
+      "peak_rss_bytes": 2178539520,
+      "steps": 200,
+      "training_examples": 8006
+    }
+  }
+}

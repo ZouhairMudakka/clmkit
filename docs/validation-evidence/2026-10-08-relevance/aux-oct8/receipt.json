@@ -1,0 +1,787 @@
+{
+  "elapsed_seconds": 152.43054998200023,
+  "environment": {
+    "BLIS_NUM_THREADS": "4",
+    "HF_DATASETS_OFFLINE": "1",
+    "HF_HUB_OFFLINE": "1",
+    "MKL_NUM_THREADS": "4",
+    "NUMEXPR_NUM_THREADS": "4",
+    "OMP_NUM_THREADS": "4",
+    "OPENBLAS_NUM_THREADS": "4",
+    "PYTHONPATH": "/workspaces/clmkit-evidence-aux/src:/workspaces/clmkit-evidence-aux:/workspaces/evidence-extra",
+    "TOKENIZERS_PARALLELISM": "false",
+    "TRANSFORMERS_OFFLINE": "1",
+    "VECLIB_MAXIMUM_THREADS": "4"
+  },
+  "finished_utc": "2026-10-08T05:31:11.297786+00:00",
+  "jobs": [
+    {
+      "command": [
+        "/workspaces/clmkit/.venv-validation/bin/python",
+        "-u",
+        "validation/evidence_dx.py",
+        "--data-dir",
+        "/workspaces/evidence-data/banking77",
+        "--output",
+        "/workspaces/evidence-results/aux-oct8/dx.json",
+        "--revision",
+        "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "--max-length",
+        "128",
+        "--documents",
+        "100",
+        "--queries",
+        "20",
+        "--repeats",
+        "3",
+        "--threads",
+        "2"
+      ],
+      "elapsed_seconds": 14.727973287999703,
+      "exit_code": 0,
+      "logs": {
+        "dx.stderr.log": {
+          "bytes": 294,
+          "sha256": "c7e324df131f7aafdabac4176100e22f112ccc833ab8b8e795a9fec27cda6bd8"
+        },
+        "dx.stdout.log": {
+          "bytes": 1204,
+          "sha256": "63933df842be9500bdcafe99d51e33c44e78df83ace70adbe63385e96926186c"
+        }
+      },
+      "name": "dx",
+      "pid": 52681,
+      "report": {
+        "bytes": 26804,
+        "path": "/workspaces/evidence-results/aux-oct8/dx.json",
+        "sha256": "8f9c32706f22c5b32efdf278e8dae4557476c6644b98fc845d1a3a08ff0b1113"
+      },
+      "result": {
+        "checks": {
+          "clmkit_reload_rank_ids_equal": true,
+          "clmkit_wrong_identity": true,
+          "direct_reload_rank_ids_equal": true,
+          "direct_wrong_identity": true,
+          "document_vectors": true,
+          "filter_contains_only_allowed_ids": true,
+          "filter_rank_ids_equal": true,
+          "query_vectors": true,
+          "top_k_rank_ids_equal": true
+        },
+        "document_ids": [
+          "banking77-train-00199",
+          "banking77-train-00248",
+          "banking77-train-00547",
+          "banking77-train-00672",
+          "banking77-train-00819",
+          "banking77-train-00838",
+          "banking77-train-01036",
+          "banking77-train-01055",
+          "banking77-train-01101",
+          "banking77-train-01102",
+          "banking77-train-01307",
+          "banking77-train-01465",
+          "banking77-train-01604",
+          "banking77-train-01763",
+          "banking77-train-01781",
+          "banking77-train-01832",
+          "banking77-train-01963",
+          "banking77-train-01964",
+          "banking77-train-02179",
+          "banking77-train-02558",
+          "banking77-train-02662",
+          "banking77-train-02884",
+          "banking77-train-02986",
+          "banking77-train-03005",
+          "banking77-train-03083",
+          "banking77-train-03158",
+          "banking77-train-03249",
+          "banking77-train-03254",
+          "banking77-train-03372",
+          "banking77-train-03446",
+          "banking77-train-03457",
+          "banking77-train-03821",
+          "banking77-train-03914",
+          "banking77-train-03950",
+          "banking77-train-03956",
+          "banking77-train-04045",
+          "banking77-train-04062",
+          "banking77-train-04225",
+          "banking77-train-04391",
+          "banking77-train-04406",
+          "banking77-train-04511",
+          "banking77-train-04949",
+          "banking77-train-05115",
+          "banking77-train-05163",
+          "banking77-train-05172",
+          "banking77-train-05242",
+          "banking77-train-05274",
+          "banking77-train-05275",
+          "banking77-train-05320",
+          "banking77-train-05333",
+          "banking77-train-05505",
+          "banking77-train-05507",
+          "banking77-train-05533",
+          "banking77-train-05553",
+          "banking77-train-05616",
+          "banking77-train-05621",
+          "banking77-train-05641",
+          "banking77-train-05743",
+          "banking77-train-05980",
+          "banking77-train-06077",
+          "banking77-train-06163",
+          "banking77-train-06460",
+          "banking77-train-06732",
+          "banking77-train-06787",
+          "banking77-train-06828",
+          "banking77-train-06911",
+          "banking77-train-06918",
+          "banking77-train-06976",
+          "banking77-train-07000",
+          "banking77-train-07008",
+          "banking77-train-07135",
+          "banking77-train-07209",
+          "banking77-train-07436",
+          "banking77-train-07455",
+          "banking77-train-07578",
+          "banking77-train-07741",
+          "banking77-train-07768",
+          "banking77-train-07831",
+          "banking77-train-07851",
+          "banking77-train-07868",
+          "banking77-train-07899",
+          "banking77-train-07918",
+          "banking77-train-08284",
+          "banking77-train-08321",
+          "banking77-train-08578",
+          "banking77-train-08784",
+          "banking77-train-08875",
+          "banking77-train-08878",
+          "banking77-train-08894",
+          "banking77-train-08898",
+          "banking77-train-09251",
+          "banking77-train-09276",
+          "banking77-train-09667",
+          "banking77-train-09679",
+          "banking77-train-09681",
+          "banking77-train-09720",
+          "banking77-train-09774",
+          "banking77-train-09788",
+          "banking77-train-09821",
+          "banking77-train-09952"
+        ],
+        "elapsed_seconds": 13.421145317999617,
+        "query_ids": [
+          "banking77-train-00117",
+          "banking77-train-00221",
+          "banking77-train-00310",
+          "banking77-train-00923",
+          "banking77-train-01361",
+          "banking77-train-01504",
+          "banking77-train-01582",
+          "banking77-train-01615",
+          "banking77-train-02575",
+          "banking77-train-03430",
+          "banking77-train-03432",
+          "banking77-train-04823",
+          "banking77-train-05442",
+          "banking77-train-06421",
+          "banking77-train-06968",
+          "banking77-train-06972",
+          "banking77-train-07566",
+          "banking77-train-08352",
+          "banking77-train-08384",
+          "banking77-train-09439"
+        ],
+        "timing_summary": {
+          "clmkit": {
+            "max_total_s": 0.7866490660007912,
+            "median_total_s": 0.71831723699961,
+            "min_total_s": 0.6920898489997853
+          },
+          "sentence_transformers_numpy": {
+            "max_total_s": 0.6475408759997663,
+            "median_total_s": 0.6356393120004213,
+            "min_total_s": 0.6350096060004944
+          }
+        }
+      },
+      "status": "passed",
+      "stderr": "/workspaces/evidence-results/aux-oct8/logs/dx.stderr.log",
+      "stdout": "/workspaces/evidence-results/aux-oct8/logs/dx.stdout.log",
+      "timeout_seconds": 600
+    },
+    {
+      "command": [
+        "/workspaces/clmkit/.venv-validation/bin/python",
+        "-u",
+        "validation/benchmark_serving.py",
+        "--output",
+        "/workspaces/evidence-results/aux-oct8/serving.json",
+        "--requests",
+        "48",
+        "--max-seconds",
+        "600"
+      ],
+      "elapsed_seconds": 10.600503043000572,
+      "exit_code": 0,
+      "logs": {
+        "serving.stderr.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "serving.stdout.log": {
+          "bytes": 85,
+          "sha256": "dfc55c37592e4babb0126b7fdff956a2fcc446f69c80a07fda8d73abc4f95121"
+        }
+      },
+      "name": "serving",
+      "pid": 52911,
+      "report": {
+        "bytes": 7274,
+        "path": "/workspaces/evidence-results/aux-oct8/serving.json",
+        "sha256": "7d583cf83383ed593d61b8bb0f740bd2c6dce5adad33377f7e3ebca741a0d98a"
+      },
+      "result": {
+        "measurements": [
+          {
+            "all_request_p50_seconds": 0.012960291000581492,
+            "all_request_p95_seconds": 0.02309488349942512,
+            "completed": 48,
+            "concurrency": 1,
+            "elapsed_seconds": 0.7009514600003968,
+            "error_counts": {},
+            "failed": 0,
+            "not_started": 0,
+            "requested": 48,
+            "successful": 48,
+            "successful_request_p50_seconds": 0.012960291000581492,
+            "successful_request_p95_seconds": 0.02309488349942512,
+            "successful_requests_per_second": 68.47835084040317
+          },
+          {
+            "all_request_p50_seconds": 0.05526206300010017,
+            "all_request_p95_seconds": 0.0666950918501243,
+            "completed": 48,
+            "concurrency": 4,
+            "elapsed_seconds": 0.6857748820002598,
+            "error_counts": {},
+            "failed": 0,
+            "not_started": 0,
+            "requested": 48,
+            "successful": 48,
+            "successful_request_p50_seconds": 0.05526206300010017,
+            "successful_request_p95_seconds": 0.0666950918501243,
+            "successful_requests_per_second": 69.99381467573467
+          },
+          {
+            "all_request_p50_seconds": 0.11244752350057752,
+            "all_request_p95_seconds": 0.14235058865056088,
+            "completed": 48,
+            "concurrency": 8,
+            "elapsed_seconds": 0.6716101029996935,
+            "error_counts": {},
+            "failed": 0,
+            "not_started": 0,
+            "requested": 48,
+            "successful": 48,
+            "successful_request_p50_seconds": 0.11244752350057752,
+            "successful_request_p95_seconds": 0.14235058865056088,
+            "successful_requests_per_second": 71.47003862153322
+          },
+          {
+            "all_request_p50_seconds": 0.1981931010000153,
+            "all_request_p95_seconds": 0.26903346240019343,
+            "completed": 48,
+            "concurrency": 16,
+            "elapsed_seconds": 0.6809419210003398,
+            "error_counts": {},
+            "failed": 0,
+            "not_started": 0,
+            "requested": 48,
+            "successful": 48,
+            "successful_request_p50_seconds": 0.1981931010000153,
+            "successful_request_p95_seconds": 0.26903346240019343,
+            "successful_requests_per_second": 70.49059327921162
+          }
+        ],
+        "server": {
+          "embedding_dimension": 384,
+          "encoder_configuration": {
+            "adapter": null,
+            "adapter_revision": null,
+            "attention_implementation": "sdpa",
+            "default_instruction": null,
+            "dim": 384,
+            "document_template": "{text}",
+            "dtype": "torch.float32",
+            "encoder_class": "clmkit.encoders.hf.HFEncoder",
+            "ensure_eos": false,
+            "eos_token": null,
+            "max_length": 128,
+            "mrl_range": null,
+            "name": "sentence-transformers/all-MiniLM-L6-v2",
+            "native_dim": 384,
+            "output_dim": null,
+            "padding_side": "right",
+            "pooling": "mean",
+            "query_template": "{text}",
+            "resolved_adapter_revision": null,
+            "resolved_revision": null,
+            "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+            "tokenizer": "15c2dec25cd551c9a249f31288fcb00c9bd669fd98f26953c50cbd35593eac31"
+          },
+          "http_worker_thread_limit": 4,
+          "max_length": 128,
+          "model_load_seconds": 4.345153878000019,
+          "thread_environment": {
+            "BLIS_NUM_THREADS": "4",
+            "MKL_NUM_THREADS": "4",
+            "NUMEXPR_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "4",
+            "OPENBLAS_NUM_THREADS": "4",
+            "VECLIB_MAXIMUM_THREADS": "4"
+          },
+          "threadpool_info": [
+            {
+              "filepath": "/workspaces/clmkit/.venv-validation/lib/python3.12/site-packages/torch/lib/libgomp.so.1",
+              "internal_api": "openmp",
+              "num_threads": 4,
+              "prefix": "libgomp",
+              "user_api": "openmp",
+              "version": null
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "/workspaces/clmkit/.venv-validation/lib/python3.12/site-packages/numpy.libs/libscipy_openblas64_-f48b354e.so",
+              "internal_api": "openblas",
+              "num_threads": 4,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.34.106.0"
+            },
+            {
+              "filepath": "/workspaces/clmkit/.venv-validation/lib/python3.12/site-packages/scikit_learn.libs/libgomp-e985bcbb.so.1.0.0",
+              "internal_api": "openmp",
+              "num_threads": 4,
+              "prefix": "libgomp",
+              "user_api": "openmp",
+              "version": null
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "/workspaces/clmkit/.venv-validation/lib/python3.12/site-packages/scipy.libs/libscipy_openblas-5f890258.so",
+              "internal_api": "openblas",
+              "num_threads": 4,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.31.dev"
+            }
+          ],
+          "torch_interop_threads": 1,
+          "torch_threads": 4
+        },
+        "status": "passed",
+        "total_elapsed_seconds": 10.343217388000085
+      },
+      "status": "passed",
+      "stderr": "/workspaces/evidence-results/aux-oct8/logs/serving.stderr.log",
+      "stdout": "/workspaces/evidence-results/aux-oct8/logs/serving.stdout.log",
+      "timeout_seconds": 630
+    },
+    {
+      "command": [
+        "/workspaces/clmkit/.venv-validation/bin/python",
+        "-u",
+        "templates/intent_matching/intent_matching.py",
+        "build",
+        "--data-root",
+        "/workspaces/evidence-data",
+        "--protocol",
+        "/workspaces/evidence-results/protocol.json",
+        "--dataset",
+        "banking77",
+        "--model",
+        "minilm",
+        "--index",
+        "/workspaces/intent-indexes/aux-oct8/banking77-frozen"
+      ],
+      "elapsed_seconds": 32.24500826399981,
+      "exit_code": 0,
+      "logs": {
+        "banking77-frozen-build.stderr.log": {
+          "bytes": 147,
+          "sha256": "c6f5dab88585ac99bbc172b4e63d56aa5bc18d16a1370f44239601bb0def16a9"
+        },
+        "banking77-frozen-build.stdout.log": {
+          "bytes": 196,
+          "sha256": "f0866da68ca655f99d699be6c547d7fd0bc3d720a70ad56830646b5e42f34552"
+        }
+      },
+      "name": "banking77-frozen-build",
+      "pid": 53085,
+      "result": {
+        "encoder_identity": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "gallery_documents": 8006,
+        "index": "/workspaces/intent-indexes/aux-oct8/banking77-frozen"
+      },
+      "status": "passed",
+      "stderr": "/workspaces/evidence-results/aux-oct8/logs/banking77-frozen-build.stderr.log",
+      "stdout": "/workspaces/evidence-results/aux-oct8/logs/banking77-frozen-build.stdout.log",
+      "timeout_seconds": 1200
+    },
+    {
+      "command": [
+        "/workspaces/clmkit/.venv-validation/bin/python",
+        "-u",
+        "templates/intent_matching/intent_matching.py",
+        "query",
+        "--data-root",
+        "/workspaces/evidence-data",
+        "--protocol",
+        "/workspaces/evidence-results/protocol.json",
+        "--dataset",
+        "banking77",
+        "--model",
+        "minilm",
+        "--index",
+        "/workspaces/intent-indexes/aux-oct8/banking77-frozen",
+        "--text",
+        "How can I replace my lost card?"
+      ],
+      "elapsed_seconds": 6.839967600999444,
+      "exit_code": 0,
+      "logs": {
+        "banking77-frozen-query.stderr.log": {
+          "bytes": 147,
+          "sha256": "add857c71cee38e2226b334b01649718aa19f0b1caeb117c17958eeecfe983ee"
+        },
+        "banking77-frozen-query.stdout.log": {
+          "bytes": 1144,
+          "sha256": "f8a31bb1c4a04cfeb6cae6e0c22616ef61eb7395aabc70269e38014dbae8aca9"
+        }
+      },
+      "name": "banking77-frozen-query",
+      "pid": 53472,
+      "result": {
+        "action_executed": false,
+        "dataset": "banking77",
+        "encoder_identity": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "gallery_documents": 8006,
+        "intent": "card_about_to_expire",
+        "matches": [
+          {
+            "id": "banking77-train-09616",
+            "label": "card_about_to_expire",
+            "score": 0.9077674150466919
+          },
+          {
+            "id": "banking77-train-01479",
+            "label": "lost_or_stolen_card",
+            "score": 0.8571673631668091
+          },
+          {
+            "id": "banking77-train-01553",
+            "label": "lost_or_stolen_card",
+            "score": 0.8571518659591675
+          },
+          {
+            "id": "banking77-train-01533",
+            "label": "lost_or_stolen_card",
+            "score": 0.8554331064224243
+          },
+          {
+            "id": "banking77-train-01508",
+            "label": "lost_or_stolen_card",
+            "score": 0.8463724851608276
+          }
+        ],
+        "status": "matched",
+        "threshold": null
+      },
+      "status": "passed",
+      "stderr": "/workspaces/evidence-results/aux-oct8/logs/banking77-frozen-query.stderr.log",
+      "stdout": "/workspaces/evidence-results/aux-oct8/logs/banking77-frozen-query.stdout.log",
+      "timeout_seconds": 180
+    },
+    {
+      "command": [
+        "/workspaces/clmkit/.venv-validation/bin/python",
+        "-u",
+        "templates/intent_matching/intent_matching.py",
+        "build",
+        "--data-root",
+        "/workspaces/evidence-data",
+        "--protocol",
+        "/workspaces/evidence-results/protocol.json",
+        "--dataset",
+        "banking77",
+        "--model",
+        "checkpoint",
+        "--index",
+        "/workspaces/intent-indexes/aux-oct8/banking77-adapted-42",
+        "--checkpoint",
+        "/workspaces/evidence-results/training/42/final"
+      ],
+      "elapsed_seconds": 32.519771486000536,
+      "exit_code": 0,
+      "logs": {
+        "banking77-adapted-42-build.stderr.log": {
+          "bytes": 147,
+          "sha256": "dbac74db36d22c228afa56a8072c98717774fc734b7abaf1c6a703af361b7aa0"
+        },
+        "banking77-adapted-42-build.stdout.log": {
+          "bytes": 192,
+          "sha256": "53155b7bb65178f73fc313a96e74c713c5b203336c8903478a64bb2236906fb6"
+        }
+      },
+      "name": "banking77-adapted-42-build",
+      "pid": 53539,
+      "result": {
+        "encoder_identity": "sha256:899ef9c3813c9a224cd20c51334b2c6d921ac4049ba148216fba4bbd3b341c48",
+        "gallery_documents": 8006,
+        "index": "/workspaces/intent-indexes/aux-oct8/banking77-adapted-42"
+      },
+      "status": "passed",
+      "stderr": "/workspaces/evidence-results/aux-oct8/logs/banking77-adapted-42-build.stderr.log",
+      "stdout": "/workspaces/evidence-results/aux-oct8/logs/banking77-adapted-42-build.stdout.log",
+      "timeout_seconds": 1200
+    },
+    {
+      "command": [
+        "/workspaces/clmkit/.venv-validation/bin/python",
+        "-u",
+        "templates/intent_matching/intent_matching.py",
+        "query",
+        "--data-root",
+        "/workspaces/evidence-data",
+        "--protocol",
+        "/workspaces/evidence-results/protocol.json",
+        "--dataset",
+        "banking77",
+        "--model",
+        "checkpoint",
+        "--index",
+        "/workspaces/intent-indexes/aux-oct8/banking77-adapted-42",
+        "--checkpoint",
+        "/workspaces/evidence-results/training/42/final",
+        "--text",
+        "How can I replace my lost card?"
+      ],
+      "elapsed_seconds": 6.988350946000537,
+      "exit_code": 0,
+      "logs": {
+        "banking77-adapted-42-query.stderr.log": {
+          "bytes": 147,
+          "sha256": "492fa998cb50ef042ce5a3fb160d5975b9ce4effc03b7cba3a06761318af67c3"
+        },
+        "banking77-adapted-42-query.stdout.log": {
+          "bytes": 1121,
+          "sha256": "120495058db19ffadd60f79cc28b0ee423fd8d99fe89c5412e549ae480d6a40f"
+        }
+      },
+      "name": "banking77-adapted-42-query",
+      "pid": 53856,
+      "result": {
+        "action_executed": false,
+        "dataset": "banking77",
+        "encoder_identity": "sha256:899ef9c3813c9a224cd20c51334b2c6d921ac4049ba148216fba4bbd3b341c48",
+        "gallery_documents": 8006,
+        "intent": "lost_or_stolen_card",
+        "matches": [
+          {
+            "id": "banking77-train-01529",
+            "label": "lost_or_stolen_card",
+            "score": 0.8701503872871399
+          },
+          {
+            "id": "banking77-train-09616",
+            "label": "card_about_to_expire",
+            "score": 0.8613940477371216
+          },
+          {
+            "id": "banking77-train-01553",
+            "label": "lost_or_stolen_card",
+            "score": 0.8597002625465393
+          },
+          {
+            "id": "banking77-train-01533",
+            "label": "lost_or_stolen_card",
+            "score": 0.8576115965843201
+          },
+          {
+            "id": "banking77-train-01544",
+            "label": "lost_or_stolen_card",
+            "score": 0.851222574710846
+          }
+        ],
+        "status": "matched",
+        "threshold": null
+      },
+      "status": "passed",
+      "stderr": "/workspaces/evidence-results/aux-oct8/logs/banking77-adapted-42-query.stderr.log",
+      "stdout": "/workspaces/evidence-results/aux-oct8/logs/banking77-adapted-42-query.stdout.log",
+      "timeout_seconds": 180
+    },
+    {
+      "command": [
+        "/workspaces/clmkit/.venv-validation/bin/python",
+        "-u",
+        "templates/intent_matching/intent_matching.py",
+        "build",
+        "--data-root",
+        "/workspaces/evidence-data",
+        "--protocol",
+        "/workspaces/evidence-results/protocol.json",
+        "--dataset",
+        "clinc150",
+        "--model",
+        "minilm",
+        "--index",
+        "/workspaces/intent-indexes/aux-oct8/clinc150-frozen"
+      ],
+      "elapsed_seconds": 41.3590883880006,
+      "exit_code": 0,
+      "logs": {
+        "clinc150-frozen-build.stderr.log": {
+          "bytes": 147,
+          "sha256": "110abda1d988902be78bd35052225bbd2ee47f89d52392ef06b2c4d7bb76716a"
+        },
+        "clinc150-frozen-build.stdout.log": {
+          "bytes": 196,
+          "sha256": "8774186272b077eaace138d5437960cbe047af93b8ee569ab67c8bdd59efb647"
+        }
+      },
+      "name": "clinc150-frozen-build",
+      "pid": 53972,
+      "result": {
+        "encoder_identity": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "gallery_documents": 15000,
+        "index": "/workspaces/intent-indexes/aux-oct8/clinc150-frozen"
+      },
+      "status": "passed",
+      "stderr": "/workspaces/evidence-results/aux-oct8/logs/clinc150-frozen-build.stderr.log",
+      "stdout": "/workspaces/evidence-results/aux-oct8/logs/clinc150-frozen-build.stdout.log",
+      "timeout_seconds": 1200
+    },
+    {
+      "command": [
+        "/workspaces/clmkit/.venv-validation/bin/python",
+        "-u",
+        "templates/intent_matching/intent_matching.py",
+        "query",
+        "--data-root",
+        "/workspaces/evidence-data",
+        "--protocol",
+        "/workspaces/evidence-results/protocol.json",
+        "--dataset",
+        "clinc150",
+        "--model",
+        "minilm",
+        "--index",
+        "/workspaces/intent-indexes/aux-oct8/clinc150-frozen",
+        "--text",
+        "What is my account balance?",
+        "--threshold",
+        "/workspaces/evidence-results/dev/clinc150/dense/threshold.json",
+        "--seal",
+        "/workspaces/evidence-results/seal.json"
+      ],
+      "elapsed_seconds": 7.135214375999567,
+      "exit_code": 0,
+      "logs": {
+        "clinc150-frozen-query.stderr.log": {
+          "bytes": 147,
+          "sha256": "72a828665f2d746e11f79a402ae3360156e5bcd994757eaa9bba152972f26216"
+        },
+        "clinc150-frozen-query.stdout.log": {
+          "bytes": 1115,
+          "sha256": "1597c718b684affaf22a51a631e49e408ae541a2d56ea08abacd995d37984eb5"
+        }
+      },
+      "name": "clinc150-frozen-query",
+      "pid": 54393,
+      "result": {
+        "action_executed": false,
+        "dataset": "clinc150",
+        "encoder_identity": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "gallery_documents": 15000,
+        "intent": "balance",
+        "matches": [
+          {
+            "id": "clinc150-train-02568",
+            "label": "balance",
+            "score": 0.9784604907035828
+          },
+          {
+            "id": "clinc150-train-02566",
+            "label": "balance",
+            "score": 0.8862884640693665
+          },
+          {
+            "id": "clinc150-train-02546",
+            "label": "balance",
+            "score": 0.8828543424606323
+          },
+          {
+            "id": "clinc150-train-02520",
+            "label": "balance",
+            "score": 0.8802408576011658
+          },
+          {
+            "id": "clinc150-train-02512",
+            "label": "balance",
+            "score": 0.8793151378631592
+          }
+        ],
+        "status": "accepted",
+        "threshold": 0.6381174325942994
+      },
+      "status": "passed",
+      "stderr": "/workspaces/evidence-results/aux-oct8/logs/clinc150-frozen-query.stderr.log",
+      "stdout": "/workspaces/evidence-results/aux-oct8/logs/clinc150-frozen-query.stdout.log",
+      "timeout_seconds": 180
+    }
+  ],
+  "privacy": "Matched corpus text remains in private stdout logs; public matches retain only IDs/labels/scores",
+  "provenance": {
+    "adapted_identity": "sha256:899ef9c3813c9a224cd20c51334b2c6d921ac4049ba148216fba4bbd3b341c48",
+    "clinc_threshold": 0.6381174325942994,
+    "completed_test_suite_sha256": "b77925cccd0245607ea3f5feab8e2dec0e6c6a0033a99bb7072bd91f9782f844",
+    "core_git_tree": "7e80596e1bce3e2cbab61c376cb2a8f9e818c758",
+    "frozen_core_commit": "e61cc76d6cf52f25422335d42eaf18dde44e3067",
+    "frozen_identity": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "galleries": {
+      "banking77": {
+        "corpus_sha256": "a92bb49daf01674a75ec8fd01dc3628595cc9d1b76d44b9b84208e2d054569ce",
+        "documents": 8006,
+        "manifest_sha256": "09df2d8fb6b2b565c9a05d65537dbd5828d0e1abc19353386f1f21f1ccd155aa"
+      },
+      "clinc150": {
+        "corpus_sha256": "74132d85082ca45c76bc5f50fc6574240b2a7e05dee200109b0906ff708857cb",
+        "documents": 15000,
+        "manifest_sha256": "1c2c62a402365209f236b52da0459381280cfdf6b4a2ab950acef187ba353939"
+      }
+    },
+    "orchestrator_sha256": "970d2e711a030ec91f0f05dcf0daa45cd9df1e016d136451daedd8dc5e09d5ac",
+    "protocol_sha256": "7f5627441e93f71634fc3791f57d1cc4d08bd80a2ee3f2f4ae3c56410e35fe56",
+    "script_sha256": {
+      "templates/intent_matching/intent_matching.py": "50cb17cbad699072d0e88f3456550ad9a59649b1d17d037b413b7ad2afc8352e",
+      "validation/benchmark_serving.py": "4d40e206ffca38ce60baec98057c07ed946c107cf0fb89d315f542c89da8b21c",
+      "validation/evidence_data.py": "d06440664f9396315e23b6816e2b968c8028855751883ff51977630390169ad7",
+      "validation/evidence_dx.py": "476b369cb38343db08ffc89bfbfed9901ac2f7a05e9ddd7a6aa8a12f8cf0cb94",
+      "validation/evidence_metrics.py": "b9c5949679ddb752d71913c737590d8e1723c363d011d063368ee80d979e1e05",
+      "validation/evidence_report.py": "476b984ea061c27201521dc50931e5476dc45b326eb421567392362721e969ef",
+      "validation/evidence_run.py": "66d7652c9e44f730f4bc9994e00be76ac240679a6aca373260dc6c41792482e0",
+      "validation/evidence_suite.py": "ca3c0a91b676c58a27f1b827d46f5698db3def65a0dc6f1ff05969512659209b"
+    },
+    "seal_sha256": "96cf2bb6332dc96458df3e3b170f05030d7e05654afe1039d26f089b9c5c3013",
+    "source_commit": "7e6a7f5bc75f2e2a7e527304a816472947783e63"
+  },
+  "scope": "Auxiliary deployment/workflow checks after completed held-out evaluation; no new quality claims",
+  "started_utc": "2026-10-08T05:28:38.867191+00:00",
+  "status": "passed",
+  "total_budget_seconds": 3600
+}

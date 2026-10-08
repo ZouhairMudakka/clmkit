@@ -1,0 +1,212 @@
+{
+  "auth": "ephemeral synthetic bearer; unauthenticated request checked",
+  "bind": "127.0.0.1",
+  "concurrency_order": [
+    1,
+    4,
+    8,
+    16
+  ],
+  "device": "cpu",
+  "dtype": "float32",
+  "http_worker_thread_limit": 4,
+  "internal_deadline_seconds": 600,
+  "limitations": [
+    "Closed-loop clients, one outstanding request per client; no open-loop arrival schedule.",
+    "Fixed ascending concurrency order, one repetition, one short query; no production SLA.",
+    "create_app serializes encoder forward calls with its shared lock.",
+    "Client and server share the Codespace; underlying host resources may be shared.",
+    "Run after all training and relevance jobs; do not overlap these workloads.",
+    "Model is loaded from the retained local cache; no download time is measured."
+  ],
+  "max_length": 128,
+  "measurements": [
+    {
+      "all_request_p50_seconds": 0.012960291000581492,
+      "all_request_p95_seconds": 0.02309488349942512,
+      "completed": 48,
+      "concurrency": 1,
+      "elapsed_seconds": 0.7009514600003968,
+      "error_counts": {},
+      "failed": 0,
+      "not_started": 0,
+      "requested": 48,
+      "successful": 48,
+      "successful_request_p50_seconds": 0.012960291000581492,
+      "successful_request_p95_seconds": 0.02309488349942512,
+      "successful_requests_per_second": 68.47835084040317
+    },
+    {
+      "all_request_p50_seconds": 0.05526206300010017,
+      "all_request_p95_seconds": 0.0666950918501243,
+      "completed": 48,
+      "concurrency": 4,
+      "elapsed_seconds": 0.6857748820002598,
+      "error_counts": {},
+      "failed": 0,
+      "not_started": 0,
+      "requested": 48,
+      "successful": 48,
+      "successful_request_p50_seconds": 0.05526206300010017,
+      "successful_request_p95_seconds": 0.0666950918501243,
+      "successful_requests_per_second": 69.99381467573467
+    },
+    {
+      "all_request_p50_seconds": 0.11244752350057752,
+      "all_request_p95_seconds": 0.14235058865056088,
+      "completed": 48,
+      "concurrency": 8,
+      "elapsed_seconds": 0.6716101029996935,
+      "error_counts": {},
+      "failed": 0,
+      "not_started": 0,
+      "requested": 48,
+      "successful": 48,
+      "successful_request_p50_seconds": 0.11244752350057752,
+      "successful_request_p95_seconds": 0.14235058865056088,
+      "successful_requests_per_second": 71.47003862153322
+    },
+    {
+      "all_request_p50_seconds": 0.1981931010000153,
+      "all_request_p95_seconds": 0.26903346240019343,
+      "completed": 48,
+      "concurrency": 16,
+      "elapsed_seconds": 0.6809419210003398,
+      "error_counts": {},
+      "failed": 0,
+      "not_started": 0,
+      "requested": 48,
+      "successful": 48,
+      "successful_request_p50_seconds": 0.1981931010000153,
+      "successful_request_p95_seconds": 0.26903346240019343,
+      "successful_requests_per_second": 70.49059327921162
+    }
+  ],
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "parent_thread_environment": {
+    "BLIS_NUM_THREADS": "4",
+    "MKL_NUM_THREADS": "4",
+    "NUMEXPR_NUM_THREADS": "4",
+    "OMP_NUM_THREADS": "4",
+    "OPENBLAS_NUM_THREADS": "4",
+    "VECLIB_MAXIMUM_THREADS": "4"
+  },
+  "port": 39847,
+  "provenance": {
+    "benchmark_sha256": "4d40e206ffca38ce60baec98057c07ed946c107cf0fb89d315f542c89da8b21c",
+    "core_source_sha256": "7268e94808ecc01ccb43f4324ce33b1b7897dbd2c9deef6ddbb9f1c1f2c026ce",
+    "cpu_count": 4,
+    "platform": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.39",
+    "product_commit": "7e6a7f5bc75f2e2a7e527304a816472947783e63",
+    "python": "3.12.3",
+    "versions": {
+      "fastapi": "0.142.2",
+      "httpx": "0.28.1",
+      "numpy": "2.5.3",
+      "starlette": "1.7.0",
+      "torch": "2.14.1+cpu",
+      "transformers": "5.19.0",
+      "uvicorn": "0.54.0"
+    }
+  },
+  "query_sha256": "81b26bb51b12339f98c3340d93c6e14c7bcb31056ba92589642d3c09f2f2549a",
+  "request_input": "one fixed short synthetic query; text intentionally omitted",
+  "request_timeout_seconds": 10,
+  "requests_per_level": 48,
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "scope": "auxiliary deployment measurement, separate from relevance matrix",
+  "server": {
+    "embedding_dimension": 384,
+    "encoder_configuration": {
+      "adapter": null,
+      "adapter_revision": null,
+      "attention_implementation": "sdpa",
+      "default_instruction": null,
+      "dim": 384,
+      "document_template": "{text}",
+      "dtype": "torch.float32",
+      "encoder_class": "clmkit.encoders.hf.HFEncoder",
+      "ensure_eos": false,
+      "eos_token": null,
+      "max_length": 128,
+      "mrl_range": null,
+      "name": "sentence-transformers/all-MiniLM-L6-v2",
+      "native_dim": 384,
+      "output_dim": null,
+      "padding_side": "right",
+      "pooling": "mean",
+      "query_template": "{text}",
+      "resolved_adapter_revision": null,
+      "resolved_revision": null,
+      "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "tokenizer": "15c2dec25cd551c9a249f31288fcb00c9bd669fd98f26953c50cbd35593eac31"
+    },
+    "http_worker_thread_limit": 4,
+    "max_length": 128,
+    "model_load_seconds": 4.345153878000019,
+    "thread_environment": {
+      "BLIS_NUM_THREADS": "4",
+      "MKL_NUM_THREADS": "4",
+      "NUMEXPR_NUM_THREADS": "4",
+      "OMP_NUM_THREADS": "4",
+      "OPENBLAS_NUM_THREADS": "4",
+      "VECLIB_MAXIMUM_THREADS": "4"
+    },
+    "threadpool_info": [
+      {
+        "filepath": "/workspaces/clmkit/.venv-validation/lib/python3.12/site-packages/torch/lib/libgomp.so.1",
+        "internal_api": "openmp",
+        "num_threads": 4,
+        "prefix": "libgomp",
+        "user_api": "openmp",
+        "version": null
+      },
+      {
+        "architecture": "Haswell",
+        "filepath": "/workspaces/clmkit/.venv-validation/lib/python3.12/site-packages/numpy.libs/libscipy_openblas64_-f48b354e.so",
+        "internal_api": "openblas",
+        "num_threads": 4,
+        "prefix": "libscipy_openblas",
+        "threading_layer": "pthreads",
+        "user_api": "blas",
+        "version": "0.3.34.106.0"
+      },
+      {
+        "filepath": "/workspaces/clmkit/.venv-validation/lib/python3.12/site-packages/scikit_learn.libs/libgomp-e985bcbb.so.1.0.0",
+        "internal_api": "openmp",
+        "num_threads": 4,
+        "prefix": "libgomp",
+        "user_api": "openmp",
+        "version": null
+      },
+      {
+        "architecture": "Haswell",
+        "filepath": "/workspaces/clmkit/.venv-validation/lib/python3.12/site-packages/scipy.libs/libscipy_openblas-5f890258.so",
+        "internal_api": "openblas",
+        "num_threads": 4,
+        "prefix": "libscipy_openblas",
+        "threading_layer": "pthreads",
+        "user_api": "blas",
+        "version": "0.3.31.dev"
+      }
+    ],
+    "torch_interop_threads": 1,
+    "torch_threads": 4
+  },
+  "server_processes": 1,
+  "server_returncode": -15,
+  "server_thread_environment_before_import": {
+    "BLIS_NUM_THREADS": "4",
+    "MKL_NUM_THREADS": "4",
+    "NUMEXPR_NUM_THREADS": "4",
+    "OMP_NUM_THREADS": "4",
+    "OPENBLAS_NUM_THREADS": "4",
+    "VECLIB_MAXIMUM_THREADS": "4"
+  },
+  "startup_until_health_seconds": 6.634634269999879,
+  "status": "passed",
+  "torch_threads": 4,
+  "total_elapsed_seconds": 10.343217388000085,
+  "warmup_requests": 4,
+  "warmup_seconds": 0.07160105399998429
+}

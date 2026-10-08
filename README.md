@@ -5,7 +5,7 @@
 > [validation status and limits](docs/VALIDATION_STATUS.md) before using training
 > or serving paths. GPU/4B/8B capacity and production reliability remain unverified.
 
-**A lightweight, pluggable skeleton framework for Contrastive Language Models.**
+**A lightweight Python framework for contrastive embedding models.**
 Encode, fine-tune, index, retrieve, rerank, evaluate and serve text-embedding models, and drop them into ML pipelines or AI agents.
 
 [![CI](https://github.com/ZouhairMudakka/clmkit/actions/workflows/ci.yml/badge.svg)](https://github.com/ZouhairMudakka/clmkit/actions/workflows/ci.yml)
@@ -15,9 +15,11 @@ Encode, fine-tune, index, retrieve, rerank, evaluate and serve text-embedding mo
 
 ---
 
-A **contrastive language model (CLM)** maps text to vectors so that related texts land close together. It's trained by pulling matching pairs together and pushing non-matching ones apart (InfoNCE and friends). Examples include [Qwen3-Embedding](https://huggingface.co/Qwen/Qwen3-Embedding-8B) (0.6B / 4B / 8B), E5, BGE and GTE. These models power semantic search, RAG, agent memory, tool routing, deduplication, clustering and classification.
+Here, **CLM** is shorthand for a contrastively trained text-embedding model, not causal language modeling. Contrastive training pulls matching examples closer together and separates non-matches. The encoder turns texts into vectors; an index compares them to retrieve and rank existing items. Supported presets include [Qwen3-Embedding](https://huggingface.co/Qwen/Qwen3-Embedding-8B) (0.6B / 4B / 8B), E5, BGE and GTE.
 
-`clmkit` gives you the whole loop in one small, readable codebase:
+Use this workflow when an application repeatedly needs relevant items from a collection: support examples, documents, memories or routing candidates. Store document embeddings, encode each new query, and retrieve a shortlist. Search results can be the output themselves, or supply context for an LLM in a RAG application. Keyword search, metadata constraints and an optional reranker remain useful parts of that workflow; relevance must be evaluated on the intended task.
+
+`clmkit` brings model conventions, retrieval, adaptation, evaluation and application interfaces into one readable codebase:
 
 ```
           ┌──────────── raw or fine-tuned ────────────┐
@@ -40,22 +42,23 @@ A **contrastive language model (CLM)** maps text to vectors so that related text
 
 ## Install
 
-The commands below pin the audited source revision
-`24ea404e8e6121d4b4016484805f1584c852abb1`, including the framework fixes and
-starter templates. All 22 hosted jobs passed for this revision; see
-[validation status](docs/VALIDATION_STATUS.md#verified-framework-revision--7-october-2026).
+The commands below pin the `v0.1.0a2` public alpha, including the audited fixes,
+hybrid retrieval and tested templates. The
+[release record](https://github.com/ZouhairMudakka/clmkit/releases/tag/v0.1.0a2)
+identifies its exact commit, artifacts and checks; see also
+[validation status](docs/VALIDATION_STATUS.md).
 
 ```bash
-python -m pip install "clmkit @ git+https://github.com/ZouhairMudakka/clmkit@24ea404e8e6121d4b4016484805f1584c852abb1"       # NumPy-only core
-python -m pip install "clmkit[hf] @ git+https://github.com/ZouhairMudakka/clmkit@24ea404e8e6121d4b4016484805f1584c852abb1"   # + torch/transformers
-python -m pip install "clmkit[all] @ git+https://github.com/ZouhairMudakka/clmkit@24ea404e8e6121d4b4016484805f1584c852abb1"  # + training/serving/integrations
+python -m pip install "clmkit @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a2"       # NumPy-only core
+python -m pip install "clmkit[hf] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a2"   # + torch/transformers
+python -m pip install "clmkit[all] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a2"  # + training/serving/integrations
 ```
 
 Use a fresh virtual environment (`python -m venv .venv`) and activate it before
 installing. These commands require Git. The legacy
 [v0.1.0a1 prerelease](https://github.com/ZouhairMudakka/clmkit/releases/tag/v0.1.0a1)
-predates the latest security/correctness fixes and templates; its unchanged wheel
-and source archives do not contain them. Use the source revision above.
+predates later security/correctness fixes and templates; its unchanged wheel
+and source archives do not contain them. Use the new alpha above.
 
 Extras: `hf`, `train`, `serve`, `mcp`, `faiss`, `yaml`, `sklearn`, `all`, `dev`. Python 3.10+.
 
@@ -67,7 +70,7 @@ to use the recipe paths below:
 ```bash
 git clone https://github.com/ZouhairMudakka/clmkit.git
 cd clmkit
-git checkout --detach 24ea404e8e6121d4b4016484805f1584c852abb1
+git checkout --detach v0.1.0a2
 ```
 
 No PyPI release has been published; use the pinned Git URL above.
@@ -201,9 +204,35 @@ OpenAI(base_url="http://127.0.0.1:8000/v1", api_key="secret").embeddings.create(
 
 They use synthetic data and a NumPy-only hashing baseline, so no model download
 or API key is needed. Tests check workflow behavior; semantic accuracy must be
-evaluated with your chosen encoder and data. Templates were added after
-`v0.1.0a1`: get their files from the current repository, following the
+evaluated with your chosen encoder and data. Get the templates from the
+`v0.1.0a2` checkout, following the
 [setup and customization guide](docs/USE_CASES.md#get-the-templates).
+
+## Retrieval and measured evidence
+
+This alpha adds `BM25Retriever` and `HybridRetriever`, with
+shared metadata eligibility, deterministic reciprocal rank fusion, and Python
+update/delete APIs. It also adds label-aware effective training batches,
+blockwise hard-negative scoring, and strict CLI index compatibility by default.
+Hybrid remains in-memory and Python-only.
+
+[Retrieval features and reproducible evidence](docs/RELEVANCE_EVIDENCE.md) documents
+the APIs, limitations and bounded Codespaces commands for BANKING77, CLINC150,
+SciFact and a direct Sentence Transformers workflow comparison. Read the
+[results and costs](docs/RELEVANCE_RESULTS.md) and
+[evidence-to-claims ledger](docs/CLAIMS_LEDGER.md) before choosing a retrieval
+method. These public tasks do not establish private-customer accuracy, business
+ROI or human developer productivity. The
+[intent-matching recipes](templates/intent_matching/README.md) show full-gallery
+indexing, adaptation/rebuilding and separately calibrated rejection.
+
+On the fixed BANKING77 test, pretrained MiniLM reached **91.79% Hit@1**, versus
+**78.96%** for BM25. Three adapted seeds averaged **92.72%**: a gain below the
+registered two-point practical target. On SciFact, hybrid had the highest observed
+nDCG@10 (**0.6865**) among the four tested methods. CLINC's development-calibrated
+5% false-acceptance target did not transfer to test: dense retrieval accepted 7.5% of
+unsupported requests. These results support evaluating each stage for the task;
+they are MiniLM study results, not Qwen or customer-policy accuracy estimates.
 
 ## Supported models (presets)
 
@@ -256,6 +285,9 @@ their verification, measured overhead and developer adoption limits.
 
 ## Documentation
 
+- [Retrieval results and costs](docs/RELEVANCE_RESULTS.md): task comparisons, uncertainty and no-gain outcomes
+- [Reproduce the study](docs/RELEVANCE_EVIDENCE.md): pinned public data, models, protocol and bounded CPU commands
+- [Claims ledger](docs/CLAIMS_LEDGER.md): which evidence supports each public claim
 - [Framework review](docs/FRAMEWORK_REVIEW.md): correctness fixes, measured efficiency, developer fit and prioritized gaps
 - [Use cases & tested templates](docs/USE_CASES.md): choose a workflow, run it, customize it, and understand its test scope
 - [Retail business workflow](docs/BUSINESS_USE_CASE.md): customer journey, working template, integration points and pilot measures

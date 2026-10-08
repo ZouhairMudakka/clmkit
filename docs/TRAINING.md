@@ -3,11 +3,11 @@
 `clmkit` fine-tunes any `HFEncoder`, including Qwen3-Embedding 0.6B/4B/8B, E5, BGE and GTE, with contrastive objectives.
 
 ```bash
-python -m pip install "clmkit[train,yaml] @ git+https://github.com/ZouhairMudakka/clmkit@24ea404e8e6121d4b4016484805f1584c852abb1"
+python -m pip install "clmkit[train,yaml] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a2"
 clmkit train --config configs/qwen3-embedding-0.6b-full.yaml --set train.max_steps=20 --set encoder.device=cpu
 ```
 
-Run recipe paths from the repository root; check out the audited revision as described in
+Run recipe paths from the repository root; check out `v0.1.0a2` as described in
 the [README](../README.md#install). The 0.6B recipe uses bundled sample data.
 The 8B recipe requires your own data and its GPU capacity is unverified. For a
 mining-to-training workflow, explicitly pass the mined file and held-out split:
@@ -36,6 +36,7 @@ One JSON object per line:
 | `negatives` (alias `neg`, `hard_negatives`) | no | string or list; the batch uses `min(available, max_negatives)` per example |
 | `instruction` | no | overrides the model's default query instruction (Qwen3 is instruction-aware) |
 | `score` | no | graded label for `loss: cosent` |
+| `label` | no | non-empty string identifying the shared relevance class of the query and positive; distinct from the numeric `score` |
 
 Tips:
 
@@ -43,6 +44,108 @@ Tips:
 - **Mine hard negatives with a good model**, and filter false negatives. `clmkit mine` skips the positive, optionally skips the top-N, and drops candidates scoring above `0.95 × sim(query, positive)` (positive-aware mining).
 - **Deduplicate.** Batches are built so the same query or positive never appears twice in a batch. A duplicate would become a false in-batch negative.
 - Hold out an eval split (`data.eval` or `data.eval_fraction`) and pick checkpoints with `metric_for_best: ndcg@10`.
+
+### Label-aware intent pairs
+
+The label-aware options in this section are part of the `v0.1.0a2` alpha API.
+Ordinary unlabeled examples
+and explicit-negative training retain their existing behavior: `label` defaults
+to `None`, and `avoid_same_label` defaults to `False`.
+
+For intent matching, two different texts with the same label can form a positive
+pair. Give the pair one string label:
+
+```json
+{"query": "I lost my payment card", "positive": "How can I replace a missing card?", "label": "lost_card"}
+```
+
+With an already configured trainable `encoder`, enable label-aware sampling:
+
+```python
+from clmkit.data import load_examples
+from clmkit.training import ContrastiveTrainer, TrainConfig
+
+examples = load_examples("intent-train.jsonl")
+trainer = ContrastiveTrainer(
+    encoder,
+    TrainConfig(
+        output_dir="runs/intent",
+        batch_size=32,
+        mini_batch_size=8,
+        avoid_same_label=True,
+        max_negatives=0,
+    ),
+    examples,
+)
+```
+
+Every example must have a label. The sampler permits at most one example per
+label across the **whole effective loss batch**, including all GradCache chunks.
+It also keeps duplicate query/positive texts out of that batch, even if
+`avoid_duplicates=False`. Direct calls to `training_step` validate these
+conditions before computing gradients. There may be fewer examples than the
+requested batch size when labels conflict; a singleton InfoNCE batch without
+explicit negatives has no contrastive learning signal.
+
+Use `max_negatives=0` for this workflow. Explicit negatives would enter every
+query's candidate set, and their labels are not carried into the loss. The
+trainer therefore rejects labelled examples containing explicit negatives when
+`avoid_same_label=True`, unless `max_negatives=0` disables those negatives.
+Labels alone do not enable this protection; the flag must be set. Do not label
+all out-of-scope requests as one positive semantic class.
+
+See the [support-intent recipes](../templates/intent_matching/README.md) for
+training-gallery preparation, adapted checkpoint use, and full index rebuilding.
+Their public dataset labels are relevance proxies; follow the
+[evidence protocol](RELEVANCE_EVIDENCE.md) for split and evaluation controls.
+
+### Blockwise mining and label exclusions
+
+The Python mining API supports both label exclusions and independently bounded
+query/corpus score blocks. Given labelled `examples` and `training_gallery`
+records containing `text` and `label`, use:
+
+```python
+from clmkit.data import mine_hard_negatives
+
+corpus = [row["text"] for row in training_gallery]
+corpus_labels = [row["label"] for row in training_gallery]
+mined = mine_hard_negatives(
+    encoder,
+    examples,
+    corpus,
+    corpus_labels=corpus_labels,
+    num_negatives=4,
+    batch_size=32,
+    query_block_size=128,
+    corpus_block_size=4096,
+)
+```
+
+`corpus_labels` must align with the input corpus before deduplication. If any
+example has a label, supply labels for every example and every corpus text.
+Same-label candidates are excluded; conflicting labels for identical text are
+rejected. Existing negatives must occur in the corpus with a known label
+different from their own example's label. Use only the training gallery for
+pair construction and mining; keep validation and test texts out of both.
+
+Mining preserves the example's label, but it does **not** attach negative-label
+metadata usable by the trainer. Its output cannot be used as explicit negatives
+with label-aware training; `max_negatives=0` still disables them. The example
+above is a mining call, not a change to that training restriction. Unlabeled
+mining and training continue to support explicit negatives.
+
+`batch_size` controls encoder batches. `query_block_size` and
+`corpus_block_size` control score computation; their defaults are 128 and 4096.
+This avoids a full query-by-corpus score matrix, but corpus embeddings remain
+resident, along with the current query/positive block and retained candidates.
+Measure total process memory as well as the score-buffer size.
+
+Ties follow first occurrence in the deduplicated corpus. The miner inspects at
+most `skip_top + 3 * num_negatives + 1` ranked candidates before exclusions, so
+it may return fewer negatives than requested. The positive-aware score filter
+and `skip_top` still apply. Aligned labels and block-size controls are Python
+API options; the CLI mining command does not expose them.
 
 ## 2. Objectives
 
@@ -129,6 +232,47 @@ result = trainer.train()
 
 Custom losses need only the call signature `(query, positive, negatives=None, scores=None) -> Tensor`. Pass one with `loss_fn=` or register it in `clmkit.LOSSES`.
 
+## 7. Rebuild retrieval indexes after training
+
+Fine-tuning changes the vector space. Re-encode every gallery document with the
+adapted encoder into a new `Retriever` and a separate snapshot path before using
+that encoder for retrieval. An index created with the earlier weights cannot be
+made compatible by changing its model name or identity metadata.
+
+For local or fine-tuned weights, supply an immutable `encoder_identity` at both
+construction and reload. In this example, `checkpoint_manifest_sha256` is a
+caller-computed digest of the checkpoint artifact manifest, covering the weights
+and any adapters; `adapted_encoder`, `corpus`, `doc_ids` and `doc_metadata` are
+the intended encoder and complete gallery:
+
+```python
+from clmkit import Retriever
+
+identity = "sha256:" + checkpoint_manifest_sha256
+rebuilt = Retriever(adapted_encoder, encoder_identity=identity)
+rebuilt.add(corpus, ids=doc_ids, metadata=doc_metadata)
+snapshot = rebuilt.save("indexes/intent-adapted-v2")
+checked = Retriever.load(
+    snapshot, adapted_encoder, encoder_identity=identity, strict=True
+)
+checked.validate_encoder()
+```
+
+The caller must generate and update the identity; the trainer does not produce
+this manifest automatically, and the retriever does not verify arbitrary weight
+changes by hashing tensors. The configuration fingerprint is a separate check.
+Call `validate_encoder()` after changing a live encoder's settings or declared
+identity; `add()` and `save()` also validate. Search does not recompute the
+fingerprint for every request. Prefer a separate encoder instance for adaptation
+so an active retriever keeps its original weights until replacement.
+
+Validate the rebuilt snapshot and its retrieval behavior, then switch consumers
+to it while retaining the previous complete snapshot. Saving these multi-file
+snapshots is not an atomic replacement or a transactional deployment mechanism.
+Python `Retriever.load` defaults to a warned permissive load (`strict=False`);
+use `strict=True` as above to reject mismatches. See [Design](DESIGN.md) for the
+configuration and legacy-snapshot contract.
+
 ## Training contracts and limits
 
 Without `max_steps`, an epoch consumes every duplicate-aware batch. The scheduler
@@ -144,4 +288,8 @@ must be unique positive integers and weights finite, nonnegative with positive s
 
 HF checkpoint loading requires safetensors. Saved weights/adapters are inference
 checkpoints, not resumable optimizer/scheduler state. 4B/8B capacity, CUDA mixed
-precision, multi-GPU training and held-out quality improvement remain unverified.
+precision and multi-GPU training remain unverified. Training mechanics do not
+establish a quality gain. See the [validation status](VALIDATION_STATUS.md) and
+[recorded relevance evidence](validation-evidence/2026-10-08-relevance/README.md)
+for the scope and limitations of each study. Recorded experiment source identities
+remain distinct from the release version used to install the library.

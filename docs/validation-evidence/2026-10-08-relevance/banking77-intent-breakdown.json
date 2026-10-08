@@ -1,0 +1,474 @@
+{
+  "status": "complete",
+  "scope": "Descriptive per-intent held-out breakdown; mean of three fixed seeds, not an ensemble or new tuning experiment",
+  "source_result_sha256": {
+    "dense": "b83625849faeb90a16b057788eccef5c8b346f85b1843fb812081fada93dd328",
+    "adapted-42": "f12633204a910921324dd23d2ce10f8a89c15a62bdcea1da1fb46a56a243894d",
+    "adapted-1729": "b1476455018414572a35b76d4de8315c9653a41473e2826fc7218598b508aa3a",
+    "adapted-2026": "d6a2312df5c986483050e9be3f39d3469a8e49e7a4433a7857e24b226be9a4aa"
+  },
+  "intents": [
+    {
+      "intent": "top_up_failed",
+      "frozen_hit_at_1": 0.75,
+      "mean_adapted_hit_at_1": 0.8333333333333334,
+      "change": 0.08333333333333337
+    },
+    {
+      "intent": "card_payment_not_recognised",
+      "frozen_hit_at_1": 0.775,
+      "mean_adapted_hit_at_1": 0.8166666666666668,
+      "change": 0.04166666666666674
+    },
+    {
+      "intent": "pending_transfer",
+      "frozen_hit_at_1": 0.775,
+      "mean_adapted_hit_at_1": 0.7333333333333334,
+      "change": -0.04166666666666663
+    },
+    {
+      "intent": "balance_not_updated_after_bank_transfer",
+      "frozen_hit_at_1": 0.8,
+      "mean_adapted_hit_at_1": 0.7583333333333333,
+      "change": -0.04166666666666674
+    },
+    {
+      "intent": "card_arrival",
+      "frozen_hit_at_1": 0.8,
+      "mean_adapted_hit_at_1": 0.8249999999999998,
+      "change": 0.0249999999999998
+    },
+    {
+      "intent": "compromised_card",
+      "frozen_hit_at_1": 0.8,
+      "mean_adapted_hit_at_1": 0.8666666666666667,
+      "change": 0.06666666666666665
+    },
+    {
+      "intent": "transfer_not_received_by_recipient",
+      "frozen_hit_at_1": 0.8,
+      "mean_adapted_hit_at_1": 0.8166666666666668,
+      "change": 0.01666666666666672
+    },
+    {
+      "intent": "declined_transfer",
+      "frozen_hit_at_1": 0.825,
+      "mean_adapted_hit_at_1": 0.8249999999999998,
+      "change": -1.1102230246251565e-16
+    },
+    {
+      "intent": "pending_cash_withdrawal",
+      "frozen_hit_at_1": 0.825,
+      "mean_adapted_hit_at_1": 0.8916666666666666,
+      "change": 0.06666666666666665
+    },
+    {
+      "intent": "pin_blocked",
+      "frozen_hit_at_1": 0.825,
+      "mean_adapted_hit_at_1": 0.875,
+      "change": 0.050000000000000044
+    },
+    {
+      "intent": "direct_debit_payment_not_recognised",
+      "frozen_hit_at_1": 0.85,
+      "mean_adapted_hit_at_1": 0.875,
+      "change": 0.025000000000000022
+    },
+    {
+      "intent": "fiat_currency_support",
+      "frozen_hit_at_1": 0.85,
+      "mean_adapted_hit_at_1": 0.8416666666666667,
+      "change": -0.008333333333333304
+    },
+    {
+      "intent": "get_disposable_virtual_card",
+      "frozen_hit_at_1": 0.85,
+      "mean_adapted_hit_at_1": 0.8333333333333334,
+      "change": -0.016666666666666607
+    },
+    {
+      "intent": "top_up_reverted",
+      "frozen_hit_at_1": 0.85,
+      "mean_adapted_hit_at_1": 0.8333333333333334,
+      "change": -0.016666666666666607
+    },
+    {
+      "intent": "topping_up_by_card",
+      "frozen_hit_at_1": 0.85,
+      "mean_adapted_hit_at_1": 0.8666666666666667,
+      "change": 0.01666666666666672
+    },
+    {
+      "intent": "transfer_into_account",
+      "frozen_hit_at_1": 0.85,
+      "mean_adapted_hit_at_1": 0.9250000000000002,
+      "change": 0.07500000000000018
+    },
+    {
+      "intent": "get_physical_card",
+      "frozen_hit_at_1": 0.875,
+      "mean_adapted_hit_at_1": 0.975,
+      "change": 0.09999999999999998
+    },
+    {
+      "intent": "top_up_by_bank_transfer_charge",
+      "frozen_hit_at_1": 0.875,
+      "mean_adapted_hit_at_1": 0.9,
+      "change": 0.025000000000000022
+    },
+    {
+      "intent": "top_up_by_card_charge",
+      "frozen_hit_at_1": 0.875,
+      "mean_adapted_hit_at_1": 0.9499999999999998,
+      "change": 0.07499999999999984
+    },
+    {
+      "intent": "transfer_fee_charged",
+      "frozen_hit_at_1": 0.875,
+      "mean_adapted_hit_at_1": 0.9,
+      "change": 0.025000000000000022
+    },
+    {
+      "intent": "verify_my_identity",
+      "frozen_hit_at_1": 0.875,
+      "mean_adapted_hit_at_1": 0.85,
+      "change": -0.025000000000000022
+    },
+    {
+      "intent": "card_acceptance",
+      "frozen_hit_at_1": 0.9,
+      "mean_adapted_hit_at_1": 0.9083333333333333,
+      "change": 0.008333333333333304
+    },
+    {
+      "intent": "card_delivery_estimate",
+      "frozen_hit_at_1": 0.9,
+      "mean_adapted_hit_at_1": 0.9,
+      "change": 0.0
+    },
+    {
+      "intent": "card_payment_fee_charged",
+      "frozen_hit_at_1": 0.9,
+      "mean_adapted_hit_at_1": 0.9083333333333333,
+      "change": 0.008333333333333304
+    },
+    {
+      "intent": "declined_cash_withdrawal",
+      "frozen_hit_at_1": 0.9,
+      "mean_adapted_hit_at_1": 0.9166666666666666,
+      "change": 0.016666666666666607
+    },
+    {
+      "intent": "exchange_via_app",
+      "frozen_hit_at_1": 0.9,
+      "mean_adapted_hit_at_1": 0.9250000000000002,
+      "change": 0.025000000000000133
+    },
+    {
+      "intent": "lost_or_stolen_card",
+      "frozen_hit_at_1": 0.9,
+      "mean_adapted_hit_at_1": 0.9250000000000002,
+      "change": 0.025000000000000133
+    },
+    {
+      "intent": "top_up_by_cash_or_cheque",
+      "frozen_hit_at_1": 0.9,
+      "mean_adapted_hit_at_1": 0.9166666666666666,
+      "change": 0.016666666666666607
+    },
+    {
+      "intent": "transfer_timing",
+      "frozen_hit_at_1": 0.9,
+      "mean_adapted_hit_at_1": 0.9250000000000002,
+      "change": 0.025000000000000133
+    },
+    {
+      "intent": "Refund_not_showing_up",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9499999999999998,
+      "change": 0.0249999999999998
+    },
+    {
+      "intent": "activate_my_card",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9583333333333334,
+      "change": 0.033333333333333326
+    },
+    {
+      "intent": "balance_not_updated_after_cheque_or_cash_deposit",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9583333333333334,
+      "change": 0.033333333333333326
+    },
+    {
+      "intent": "card_payment_wrong_exchange_rate",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9333333333333332,
+      "change": 0.008333333333333193
+    },
+    {
+      "intent": "contactless_not_working",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9250000000000002,
+      "change": 1.1102230246251565e-16
+    },
+    {
+      "intent": "disposable_card_limits",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9250000000000002,
+      "change": 1.1102230246251565e-16
+    },
+    {
+      "intent": "extra_charge_on_statement",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9666666666666667,
+      "change": 0.04166666666666663
+    },
+    {
+      "intent": "failed_transfer",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9166666666666666,
+      "change": -0.008333333333333415
+    },
+    {
+      "intent": "pending_top_up",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9333333333333332,
+      "change": 0.008333333333333193
+    },
+    {
+      "intent": "receiving_money",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9250000000000002,
+      "change": 1.1102230246251565e-16
+    },
+    {
+      "intent": "reverted_card_payment?",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9666666666666667,
+      "change": 0.04166666666666663
+    },
+    {
+      "intent": "supported_cards_and_currencies",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.975,
+      "change": 0.04999999999999993
+    },
+    {
+      "intent": "virtual_card_not_working",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9,
+      "change": -0.025000000000000022
+    },
+    {
+      "intent": "why_verify_identity",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9,
+      "change": -0.025000000000000022
+    },
+    {
+      "intent": "wrong_amount_of_cash_received",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.9250000000000002,
+      "change": 1.1102230246251565e-16
+    },
+    {
+      "intent": "wrong_exchange_rate_for_cash_withdrawal",
+      "frozen_hit_at_1": 0.925,
+      "mean_adapted_hit_at_1": 0.975,
+      "change": 0.04999999999999993
+    },
+    {
+      "intent": "automatic_top_up",
+      "frozen_hit_at_1": 0.95,
+      "mean_adapted_hit_at_1": 0.9416666666666668,
+      "change": -0.008333333333333193
+    },
+    {
+      "intent": "card_not_working",
+      "frozen_hit_at_1": 0.95,
+      "mean_adapted_hit_at_1": 0.9166666666666666,
+      "change": -0.033333333333333326
+    },
+    {
+      "intent": "card_swallowed",
+      "frozen_hit_at_1": 0.95,
+      "mean_adapted_hit_at_1": 0.9666666666666667,
+      "change": 0.01666666666666672
+    },
+    {
+      "intent": "declined_card_payment",
+      "frozen_hit_at_1": 0.95,
+      "mean_adapted_hit_at_1": 0.9416666666666668,
+      "change": -0.008333333333333193
+    },
+    {
+      "intent": "exchange_charge",
+      "frozen_hit_at_1": 0.95,
+      "mean_adapted_hit_at_1": 0.9250000000000002,
+      "change": -0.0249999999999998
+    },
+    {
+      "intent": "exchange_rate",
+      "frozen_hit_at_1": 0.95,
+      "mean_adapted_hit_at_1": 0.9499999999999998,
+      "change": -1.1102230246251565e-16
+    },
+    {
+      "intent": "getting_virtual_card",
+      "frozen_hit_at_1": 0.95,
+      "mean_adapted_hit_at_1": 0.9583333333333334,
+      "change": 0.008333333333333415
+    },
+    {
+      "intent": "order_physical_card",
+      "frozen_hit_at_1": 0.95,
+      "mean_adapted_hit_at_1": 0.9499999999999998,
+      "change": -1.1102230246251565e-16
+    },
+    {
+      "intent": "pending_card_payment",
+      "frozen_hit_at_1": 0.95,
+      "mean_adapted_hit_at_1": 0.9583333333333334,
+      "change": 0.008333333333333415
+    },
+    {
+      "intent": "request_refund",
+      "frozen_hit_at_1": 0.95,
+      "mean_adapted_hit_at_1": 0.9499999999999998,
+      "change": -1.1102230246251565e-16
+    },
+    {
+      "intent": "visa_or_mastercard",
+      "frozen_hit_at_1": 0.95,
+      "mean_adapted_hit_at_1": 0.9499999999999998,
+      "change": -1.1102230246251565e-16
+    },
+    {
+      "intent": "atm_support",
+      "frozen_hit_at_1": 0.975,
+      "mean_adapted_hit_at_1": 1.0,
+      "change": 0.025000000000000022
+    },
+    {
+      "intent": "beneficiary_not_allowed",
+      "frozen_hit_at_1": 0.975,
+      "mean_adapted_hit_at_1": 0.9083333333333333,
+      "change": -0.06666666666666665
+    },
+    {
+      "intent": "cancel_transfer",
+      "frozen_hit_at_1": 0.975,
+      "mean_adapted_hit_at_1": 0.975,
+      "change": 0.0
+    },
+    {
+      "intent": "card_about_to_expire",
+      "frozen_hit_at_1": 0.975,
+      "mean_adapted_hit_at_1": 0.975,
+      "change": 0.0
+    },
+    {
+      "intent": "cash_withdrawal_charge",
+      "frozen_hit_at_1": 0.975,
+      "mean_adapted_hit_at_1": 0.9499999999999998,
+      "change": -0.025000000000000133
+    },
+    {
+      "intent": "cash_withdrawal_not_recognised",
+      "frozen_hit_at_1": 0.975,
+      "mean_adapted_hit_at_1": 0.9499999999999998,
+      "change": -0.025000000000000133
+    },
+    {
+      "intent": "getting_spare_card",
+      "frozen_hit_at_1": 0.975,
+      "mean_adapted_hit_at_1": 0.975,
+      "change": 0.0
+    },
+    {
+      "intent": "lost_or_stolen_phone",
+      "frozen_hit_at_1": 0.975,
+      "mean_adapted_hit_at_1": 0.975,
+      "change": 0.0
+    },
+    {
+      "intent": "unable_to_verify_identity",
+      "frozen_hit_at_1": 0.975,
+      "mean_adapted_hit_at_1": 0.975,
+      "change": 0.0
+    },
+    {
+      "intent": "age_limit",
+      "frozen_hit_at_1": 1.0,
+      "mean_adapted_hit_at_1": 1.0,
+      "change": 0.0
+    },
+    {
+      "intent": "apple_pay_or_google_pay",
+      "frozen_hit_at_1": 1.0,
+      "mean_adapted_hit_at_1": 1.0,
+      "change": 0.0
+    },
+    {
+      "intent": "card_linking",
+      "frozen_hit_at_1": 1.0,
+      "mean_adapted_hit_at_1": 0.975,
+      "change": -0.025000000000000022
+    },
+    {
+      "intent": "change_pin",
+      "frozen_hit_at_1": 1.0,
+      "mean_adapted_hit_at_1": 1.0,
+      "change": 0.0
+    },
+    {
+      "intent": "country_support",
+      "frozen_hit_at_1": 1.0,
+      "mean_adapted_hit_at_1": 0.975,
+      "change": -0.025000000000000022
+    },
+    {
+      "intent": "edit_personal_details",
+      "frozen_hit_at_1": 1.0,
+      "mean_adapted_hit_at_1": 1.0,
+      "change": 0.0
+    },
+    {
+      "intent": "passcode_forgotten",
+      "frozen_hit_at_1": 1.0,
+      "mean_adapted_hit_at_1": 1.0,
+      "change": 0.0
+    },
+    {
+      "intent": "terminate_account",
+      "frozen_hit_at_1": 1.0,
+      "mean_adapted_hit_at_1": 1.0,
+      "change": 0.0
+    },
+    {
+      "intent": "top_up_limits",
+      "frozen_hit_at_1": 1.0,
+      "mean_adapted_hit_at_1": 1.0,
+      "change": 0.0
+    },
+    {
+      "intent": "transaction_charged_twice",
+      "frozen_hit_at_1": 1.0,
+      "mean_adapted_hit_at_1": 1.0,
+      "change": 0.0
+    },
+    {
+      "intent": "verify_source_of_funds",
+      "frozen_hit_at_1": 1.0,
+      "mean_adapted_hit_at_1": 1.0,
+      "change": 0.0
+    },
+    {
+      "intent": "verify_top_up",
+      "frozen_hit_at_1": 1.0,
+      "mean_adapted_hit_at_1": 1.0,
+      "change": 0.0
+    }
+  ]
+}

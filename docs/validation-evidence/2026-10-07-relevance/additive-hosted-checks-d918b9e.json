@@ -1,0 +1,159 @@
+{
+  "captured_at": "2026-10-07T20:01:51.8910384Z",
+  "scope": "Public hosted status receipts only",
+  "runs": [
+    {
+      "run_id": 37678401741,
+      "name": "CI",
+      "head_sha": "d918b9e8b71dd8faff0a1150ddd114a4bbeb811b",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401741",
+      "jobs": [
+        {
+          "id": 112987768841,
+          "name": "Security scan",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401741/job/112987768841"
+        },
+        {
+          "id": 112987769329,
+          "name": "Lint & type-check",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401741/job/112987769329"
+        },
+        {
+          "id": 112987769437,
+          "name": "Core (no torch) / py3.10 / ubuntu-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401741/job/112987769437"
+        },
+        {
+          "id": 112987769445,
+          "name": "Core (no torch) / py3.13 / ubuntu-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401741/job/112987769445"
+        },
+        {
+          "id": 112987769459,
+          "name": "Full (CPU torch + transformers) / py3.10",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401741/job/112987769459"
+        },
+        {
+          "id": 112987769461,
+          "name": "Core (no torch) / py3.10 / windows-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401741/job/112987769461"
+        },
+        {
+          "id": 112987769485,
+          "name": "Core (no torch) / py3.10 / macos-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401741/job/112987769485"
+        },
+        {
+          "id": 112987769495,
+          "name": "Core (no torch) / py3.13 / windows-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401741/job/112987769495"
+        },
+        {
+          "id": 112987769520,
+          "name": "Core (no torch) / py3.13 / macos-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401741/job/112987769520"
+        },
+        {
+          "id": 112987769606,
+          "name": "Full (CPU torch + transformers) / py3.12",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401741/job/112987769606"
+        }
+      ]
+    },
+    {
+      "run_id": 37678401849,
+      "name": "Independent validation",
+      "head_sha": "d918b9e8b71dd8faff0a1150ddd114a4bbeb811b",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401849",
+      "jobs": [
+        {
+          "id": 112987769449,
+          "name": "Minimum supported ML stack / CPU",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401849/job/112987769449"
+        },
+        {
+          "id": 112987769675,
+          "name": "Independent scientific, core and protocol contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401849/job/112987769675"
+        },
+        {
+          "id": 112987769768,
+          "name": "Installed NumPy-only wheel / ubuntu-latest / Python 3.12",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401849/job/112987769768"
+        },
+        {
+          "id": 112987769803,
+          "name": "Installed NumPy-only wheel / ubuntu-latest / Python 3.13",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401849/job/112987769803"
+        },
+        {
+          "id": 112987769846,
+          "name": "Installed NumPy-only wheel / macos-latest / Python 3.13",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401849/job/112987769846"
+        },
+        {
+          "id": 112987769864,
+          "name": "MCP 1.x actual stdio",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401849/job/112987769864"
+        },
+        {
+          "id": 112987769886,
+          "name": "Installed NumPy-only wheel / ubuntu-latest / Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401849/job/112987769886"
+        },
+        {
+          "id": 112987769907,
+          "name": "Installed NumPy-only wheel / ubuntu-latest / Python 3.10",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401849/job/112987769907"
+        },
+        {
+          "id": 112987769914,
+          "name": "Installed NumPy-only wheel / windows-latest / Python 3.13",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401849/job/112987769914"
+        }
+      ]
+    }
+  ]
+}

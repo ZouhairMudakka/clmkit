@@ -3,12 +3,17 @@
 from __future__ import annotations
 
 import re
+import sys
 from pathlib import Path
 
 import pytest
 
 from clmkit import HashingEncoder
 from clmkit.data import ContrastiveExample
+
+# Repository evidence modules are test support, not part of the installed wheel.
+# Keep console-script pytest and isolated installed-wheel tests equivalent.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 # A toy paired dataset with clear topical structure (animals / space / cooking / sports / code).
 TOY_PAIRS = [

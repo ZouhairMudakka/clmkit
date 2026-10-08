@@ -1,0 +1,533 @@
+{
+  "elapsed_seconds": 537.736711596,
+  "jobs": [
+    {
+      "name": "train-42",
+      "result": "/workspaces/evidence-results/training/42/training-result.json",
+      "status": "reused"
+    },
+    {
+      "name": "train-1729",
+      "result": "/workspaces/evidence-results/training/1729/training-result.json",
+      "status": "reused"
+    },
+    {
+      "name": "train-2026",
+      "result": "/workspaces/evidence-results/training/2026/training-result.json",
+      "status": "reused"
+    },
+    {
+      "name": "dev-banking77-bm25",
+      "result": "/workspaces/evidence-results/dev/banking77/bm25/result.json",
+      "status": "reused"
+    },
+    {
+      "name": "dev-banking77-dense",
+      "result": "/workspaces/evidence-results/dev/banking77/dense/result.json",
+      "status": "reused"
+    },
+    {
+      "name": "dev-banking77-hybrid",
+      "result": "/workspaces/evidence-results/dev/banking77/hybrid/result.json",
+      "status": "reused"
+    },
+    {
+      "name": "dev-banking77-rerank",
+      "result": "/workspaces/evidence-results/dev/banking77/rerank/result.json",
+      "status": "reused"
+    },
+    {
+      "name": "dev-banking77-adapted-42",
+      "result": "/workspaces/evidence-results/dev/banking77/adapted-42/result.json",
+      "status": "reused"
+    },
+    {
+      "name": "dev-banking77-adapted-1729",
+      "result": "/workspaces/evidence-results/dev/banking77/adapted-1729/result.json",
+      "status": "reused"
+    },
+    {
+      "name": "dev-banking77-adapted-2026",
+      "result": "/workspaces/evidence-results/dev/banking77/adapted-2026/result.json",
+      "status": "reused"
+    },
+    {
+      "name": "dev-clinc150-bm25",
+      "result": "/workspaces/evidence-results/dev/clinc150/bm25/result.json",
+      "status": "reused"
+    },
+    {
+      "name": "dev-clinc150-dense",
+      "result": "/workspaces/evidence-results/dev/clinc150/dense/result.json",
+      "status": "reused"
+    },
+    {
+      "name": "dev-scifact-bm25",
+      "result": "/workspaces/evidence-results/dev/scifact/bm25/result.json",
+      "status": "reused"
+    },
+    {
+      "name": "dev-scifact-dense",
+      "result": "/workspaces/evidence-results/dev/scifact/dense/result.json",
+      "status": "reused"
+    },
+    {
+      "name": "dev-scifact-hybrid",
+      "result": "/workspaces/evidence-results/dev/scifact/hybrid/result.json",
+      "status": "reused"
+    },
+    {
+      "command": [
+        "/workspaces/clmkit/.venv-validation/bin/python",
+        "validation/evidence_run.py",
+        "run",
+        "--data-root",
+        "/workspaces/evidence-data",
+        "--protocol",
+        "/workspaces/evidence-results/protocol.json",
+        "--results-root",
+        "/workspaces/evidence-results",
+        "--dataset",
+        "scifact",
+        "--method",
+        "rerank",
+        "--split",
+        "dev",
+        "--output",
+        "/workspaces/evidence-results/dev/scifact/rerank"
+      ],
+      "elapsed_seconds": 536.816401526,
+      "log": "/workspaces/evidence-results/logs/dev-scifact-rerank.log",
+      "name": "dev-scifact-rerank",
+      "previous_attempt": "/workspaces/evidence-results/attempts/dev-scifact-rerank-1362155307834f4083aa385caa19666d",
+      "result": "/workspaces/evidence-results/dev/scifact/rerank/result.json",
+      "status": "passed"
+    }
+  ],
+  "phase": "dev",
+  "pid": 4289,
+  "previous_invocations": [
+    {
+      "jobs": [
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "train",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--seed",
+            "42",
+            "--output",
+            "/workspaces/evidence-results/training/42"
+          ],
+          "elapsed_seconds": 452.45577327399997,
+          "log": "/workspaces/evidence-results/logs/train-42.log",
+          "name": "train-42",
+          "result": "/workspaces/evidence-results/training/42/training-result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "train",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--seed",
+            "1729",
+            "--output",
+            "/workspaces/evidence-results/training/1729"
+          ],
+          "elapsed_seconds": 442.341978981,
+          "log": "/workspaces/evidence-results/logs/train-1729.log",
+          "name": "train-1729",
+          "result": "/workspaces/evidence-results/training/1729/training-result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "train",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--seed",
+            "2026",
+            "--output",
+            "/workspaces/evidence-results/training/2026"
+          ],
+          "elapsed_seconds": 484.962880435,
+          "log": "/workspaces/evidence-results/logs/train-2026.log",
+          "name": "train-2026",
+          "result": "/workspaces/evidence-results/training/2026/training-result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "run",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--dataset",
+            "banking77",
+            "--method",
+            "bm25",
+            "--split",
+            "dev",
+            "--output",
+            "/workspaces/evidence-results/dev/banking77/bm25"
+          ],
+          "elapsed_seconds": 7.39166245899969,
+          "log": "/workspaces/evidence-results/logs/dev-banking77-bm25.log",
+          "name": "dev-banking77-bm25",
+          "result": "/workspaces/evidence-results/dev/banking77/bm25/result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "run",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--dataset",
+            "banking77",
+            "--method",
+            "dense",
+            "--split",
+            "dev",
+            "--output",
+            "/workspaces/evidence-results/dev/banking77/dense"
+          ],
+          "elapsed_seconds": 74.67686459799961,
+          "log": "/workspaces/evidence-results/logs/dev-banking77-dense.log",
+          "name": "dev-banking77-dense",
+          "result": "/workspaces/evidence-results/dev/banking77/dense/result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "run",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--dataset",
+            "banking77",
+            "--method",
+            "hybrid",
+            "--split",
+            "dev",
+            "--output",
+            "/workspaces/evidence-results/dev/banking77/hybrid"
+          ],
+          "elapsed_seconds": 81.28459155899964,
+          "log": "/workspaces/evidence-results/logs/dev-banking77-hybrid.log",
+          "name": "dev-banking77-hybrid",
+          "result": "/workspaces/evidence-results/dev/banking77/hybrid/result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "run",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--dataset",
+            "banking77",
+            "--method",
+            "rerank",
+            "--split",
+            "dev",
+            "--output",
+            "/workspaces/evidence-results/dev/banking77/rerank"
+          ],
+          "elapsed_seconds": 433.1322321690004,
+          "log": "/workspaces/evidence-results/logs/dev-banking77-rerank.log",
+          "name": "dev-banking77-rerank",
+          "result": "/workspaces/evidence-results/dev/banking77/rerank/result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "run",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--dataset",
+            "banking77",
+            "--method",
+            "dense",
+            "--split",
+            "dev",
+            "--output",
+            "/workspaces/evidence-results/dev/banking77/adapted-42",
+            "--checkpoint",
+            "/workspaces/evidence-results/training/42/final"
+          ],
+          "elapsed_seconds": 69.35637345199939,
+          "log": "/workspaces/evidence-results/logs/dev-banking77-adapted-42.log",
+          "name": "dev-banking77-adapted-42",
+          "result": "/workspaces/evidence-results/dev/banking77/adapted-42/result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "run",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--dataset",
+            "banking77",
+            "--method",
+            "dense",
+            "--split",
+            "dev",
+            "--output",
+            "/workspaces/evidence-results/dev/banking77/adapted-1729",
+            "--checkpoint",
+            "/workspaces/evidence-results/training/1729/final"
+          ],
+          "elapsed_seconds": 69.55844761800017,
+          "log": "/workspaces/evidence-results/logs/dev-banking77-adapted-1729.log",
+          "name": "dev-banking77-adapted-1729",
+          "result": "/workspaces/evidence-results/dev/banking77/adapted-1729/result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "run",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--dataset",
+            "banking77",
+            "--method",
+            "dense",
+            "--split",
+            "dev",
+            "--output",
+            "/workspaces/evidence-results/dev/banking77/adapted-2026",
+            "--checkpoint",
+            "/workspaces/evidence-results/training/2026/final"
+          ],
+          "elapsed_seconds": 69.33342860099947,
+          "log": "/workspaces/evidence-results/logs/dev-banking77-adapted-2026.log",
+          "name": "dev-banking77-adapted-2026",
+          "result": "/workspaces/evidence-results/dev/banking77/adapted-2026/result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "run",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--dataset",
+            "clinc150",
+            "--method",
+            "bm25",
+            "--split",
+            "dev",
+            "--output",
+            "/workspaces/evidence-results/dev/clinc150/bm25"
+          ],
+          "elapsed_seconds": 9.740986724999857,
+          "log": "/workspaces/evidence-results/logs/dev-clinc150-bm25.log",
+          "name": "dev-clinc150-bm25",
+          "result": "/workspaces/evidence-results/dev/clinc150/bm25/result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "run",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--dataset",
+            "clinc150",
+            "--method",
+            "dense",
+            "--split",
+            "dev",
+            "--output",
+            "/workspaces/evidence-results/dev/clinc150/dense"
+          ],
+          "elapsed_seconds": 83.25646429400058,
+          "log": "/workspaces/evidence-results/logs/dev-clinc150-dense.log",
+          "name": "dev-clinc150-dense",
+          "result": "/workspaces/evidence-results/dev/clinc150/dense/result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "run",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--dataset",
+            "scifact",
+            "--method",
+            "bm25",
+            "--split",
+            "dev",
+            "--output",
+            "/workspaces/evidence-results/dev/scifact/bm25"
+          ],
+          "elapsed_seconds": 2.8239083230000688,
+          "log": "/workspaces/evidence-results/logs/dev-scifact-bm25.log",
+          "name": "dev-scifact-bm25",
+          "result": "/workspaces/evidence-results/dev/scifact/bm25/result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "run",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--dataset",
+            "scifact",
+            "--method",
+            "dense",
+            "--split",
+            "dev",
+            "--output",
+            "/workspaces/evidence-results/dev/scifact/dense"
+          ],
+          "elapsed_seconds": 304.08872571400025,
+          "log": "/workspaces/evidence-results/logs/dev-scifact-dense.log",
+          "name": "dev-scifact-dense",
+          "result": "/workspaces/evidence-results/dev/scifact/dense/result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "run",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--dataset",
+            "scifact",
+            "--method",
+            "hybrid",
+            "--split",
+            "dev",
+            "--output",
+            "/workspaces/evidence-results/dev/scifact/hybrid"
+          ],
+          "elapsed_seconds": 309.9461978770005,
+          "log": "/workspaces/evidence-results/logs/dev-scifact-hybrid.log",
+          "name": "dev-scifact-hybrid",
+          "result": "/workspaces/evidence-results/dev/scifact/hybrid/result.json",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/workspaces/clmkit/.venv-validation/bin/python",
+            "validation/evidence_run.py",
+            "run",
+            "--data-root",
+            "/workspaces/evidence-data",
+            "--protocol",
+            "/workspaces/evidence-results/protocol.json",
+            "--results-root",
+            "/workspaces/evidence-results",
+            "--dataset",
+            "scifact",
+            "--method",
+            "rerank",
+            "--split",
+            "dev",
+            "--output",
+            "/workspaces/evidence-results/dev/scifact/rerank"
+          ],
+          "log": "/workspaces/evidence-results/logs/dev-scifact-rerank.log",
+          "name": "dev-scifact-rerank",
+          "status": "running"
+        }
+      ],
+      "phase": "dev",
+      "pid": 20463,
+      "protocol_sha256": "7f5627441e93f71634fc3791f57d1cc4d08bd80a2ee3f2f4ae3c56410e35fe56",
+      "source_sha256": "29b9e8b0258b9b47b9fe906006c28ee136be89b3d3b9b59abd36979c2ccafc6c",
+      "status": "running",
+      "time_budget_seconds": 5400
+    }
+  ],
+  "protocol_sha256": "7f5627441e93f71634fc3791f57d1cc4d08bd80a2ee3f2f4ae3c56410e35fe56",
+  "source_sha256": "29b9e8b0258b9b47b9fe906006c28ee136be89b3d3b9b59abd36979c2ccafc6c",
+  "status": "passed",
+  "time_budget_seconds": 1200
+}

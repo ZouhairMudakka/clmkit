@@ -87,6 +87,9 @@ class TrainConfig:
     save_every: int | None = None
     #: Evaluator metric used to keep ``output_dir/best`` (higher is better), e.g. ``"ndcg@10"``.
     metric_for_best: str | None = None
+    #: Require labels and at most one relevance class per effective batch.
+    #: Explicit negatives are unsupported in this mode; set max_negatives=0.
+    avoid_same_label: bool = False
 
     def __post_init__(self) -> None:
         if self.epochs < 1 and self.max_steps is None:
@@ -138,6 +141,7 @@ class ContrastiveTrainer:
         self.encoder = encoder
         self.config = config
         self.examples = list(train_examples)
+        self._validate_label_examples(self.examples)
         self.evaluator = evaluator
         self.callbacks = list(callbacks)
         set_seed(config.seed)
@@ -214,13 +218,32 @@ class ContrastiveTrainer:
             shuffle=True,
             seed=self.config.seed + epoch,
             avoid_duplicates=self.config.avoid_duplicates,
+            avoid_same_label=self.config.avoid_same_label,
         )
+
+    def _validate_label_examples(self, examples: Sequence[ContrastiveExample]) -> None:
+        if not self.config.avoid_same_label:
+            return
+        if any(ex.label is None for ex in examples):
+            raise ValueError("avoid_same_label requires a label on every example")
+        if self.config.max_negatives != 0 and any(ex.negatives for ex in examples):
+            raise ValueError("avoid_same_label does not support explicit negatives; set max_negatives=0")
 
     def _check_finite_loss(self, loss: torch.Tensor) -> None:
         if not math.isfinite(float(loss.detach())):
             raise FloatingPointError(f"non-finite loss at step {self.global_step + 1}")
 
     def _prepare(self, batch: list[ContrastiveExample]) -> tuple[list[str], list[str | None], list[str], int, Any]:
+        # Also protect direct training_step callers before either gradient path.
+        self._validate_label_examples(batch)
+        if self.config.avoid_same_label:
+            if len({ex.label for ex in batch}) != len(batch):
+                raise ValueError("avoid_same_label requires distinct labels across the entire effective batch")
+            seen: set[str] = set()
+            for ex in batch:
+                if ex.query in seen or ex.positive in seen:
+                    raise ValueError("avoid_same_label requires distinct texts across the entire effective batch")
+                seen.update((ex.query, ex.positive))
         n_per = min(len(ex.negatives) for ex in batch)
         if self.config.max_negatives is not None:
             n_per = min(n_per, self.config.max_negatives)

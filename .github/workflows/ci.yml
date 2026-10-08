@@ -23,8 +23,8 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -e ".[dev]"
-      - run: ruff check src tests templates
-      - run: ruff format --check src tests templates
+      - run: ruff check src tests templates validation/evidence_*.py validation/benchmark_serving.py
+      - run: ruff format --check src tests templates validation/evidence_*.py validation/benchmark_serving.py
       - run: mypy
 
   core:

@@ -29,6 +29,8 @@ with tempfile.TemporaryDirectory(prefix="clmkit-build-") as build_folder:
         unexpected = [str(path) for path in paths if not (
             str(path) in allowed_root or path.is_relative_to("src/clmkit") or path.is_relative_to("tests")
             or path.is_relative_to("templates")
+            or path == PurePosixPath("validation/benchmark_serving.py")
+            or (path.parent == PurePosixPath("validation") and path.name.startswith("evidence_") and path.suffix == ".py")
         ) or ".." in path.parts]
         assert not unexpected, f"Unexpected sdist files: {unexpected}"
         assert not any(member.issym() or member.islnk() for member in members), "sdist must not contain links"
@@ -63,6 +65,10 @@ with tempfile.TemporaryDirectory(prefix="clmkit-installed-") as folder:
     shutil.copytree(root / "tests", work / "tests")
     # Repository recipes run against the installed wheel, outside the checkout.
     shutil.copytree(root / "templates", work / "templates")
+    (work / "validation").mkdir()
+    for evidence_module in (root / "validation").glob("evidence_*.py"):
+        shutil.copy2(evidence_module, work / "validation" / evidence_module.name)
+    shutil.copy2(root / "validation" / "benchmark_serving.py", work / "validation" / "benchmark_serving.py")
     shutil.copy2(root / "pyproject.toml", work / "pyproject.toml")
     result = subprocess.run([str(python), "-I", "-m", "pytest", "-q", "-m", "not slow",
                              "--import-mode=importlib", "--basetemp", str(work / "tmp"),

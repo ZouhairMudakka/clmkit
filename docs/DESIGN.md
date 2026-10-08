@@ -67,7 +67,7 @@ Subclasses implement two things: `native_dim` and `_encode(formatted_texts, batc
 - **asymmetric prompts**: `query_template` / `document_template` with `{instruction}` / `{text}`; per-call or per-example instructions;
 - **Matryoshka truncation** (`dim=` per call or `output_dim` per encoder) followed by **L2 normalisation**, so dot product equals cosine;
 - input validation, `str` vs `list[str]`, empty input, shape checks;
-- `fingerprint()`, stored with indexes so querying with a different model raises a warning or error.
+- a versioned `fingerprint()` of vector-producing configuration, stored with indexes and checked at lifecycle boundaries; it does not hash weights on every query.
 
 Implementations: `HFEncoder` (transformers), `OpenAICompatibleEncoder` (stdlib HTTP), and `HashingEncoder` (deterministic feature hashing, a zero-download baseline for tests, CI and demos).
 
@@ -83,13 +83,71 @@ The index stores `(id, vector)` pairs only; text and metadata live in the `Retri
 
 Encoder + index + document store, with an optional reranker. Metadata filters can be an equality dict or a predicate. Reranking over-fetches `rerank_candidates` (default `4k`) and keeps the first-stage score in `metadata["retrieval_score"]`. Persistence is a directory (`index/`, `documents.jsonl`, `retriever.json`).
 
+The retriever records the configuration fingerprint and optional
+`encoder_identity` that produced its vectors. The fingerprint includes model
+configuration, dimensions and query/document formatting; the HF encoder adds
+revision, adapter, tokenizer, pooling and truncation settings. It cannot prove
+that mutable local weights or an in-memory model have remained unchanged.
+`encoder_identity` is a caller-supplied immutable artifact identifier, such as
+a digest of a weights/adapter manifest. Supply the same value at construction
+and reload, and generate a new value whenever those artifacts change. clmkit
+compares the identifier; it does not establish its authenticity or derive it
+automatically from training updates.
+
+`validate_encoder()` compares the current configuration and declared identity
+with the indexed values. `add()` and `save()` invoke this check; callers should
+also invoke it after changing a live encoder. Search does not repeat the
+configuration hash on each request. A mismatch on a nonempty index requires
+re-encoding all documents into a new retriever at a separate snapshot path.
+Validate that snapshot, then switch consumers while retaining the previous
+complete version. Relabeling the saved metadata is not a rebuild, and multi-file
+snapshot writes are not atomic.
+
+`Retriever.load(path, encoder, encoder_identity=identity, strict=True)` rejects
+configuration or identity mismatches. The Python default remains `strict=False`,
+which permits warned reads; the CLI uses strict index checks by default. A
+permissive load preserves the original vector provenance, so it cannot silently
+append new vectors or save the old ones under a changed encoder identity.
+Legacy snapshots with only a name/dimension fingerprint receive a shallow
+comparison and warning; even a matching legacy snapshot needs a rebuild before
+adding or saving existing vectors with current provenance. See the
+[training guide](TRAINING.md#7-rebuild-retrieval-indexes-after-training) for the
+rebuild workflow.
+
 ### Training (`losses.py`, `training/`)
 
 - All losses share `loss(query, positive, negatives=None, scores=None)`, so the trainer is loss-agnostic. `MatryoshkaLoss` wraps any of them.
 - `info_nce` builds candidates from in-batch positives plus **all** hard negatives in the batch. It optionally masks suspected false negatives (candidates scoring more than `margin` above the positive) and optionally adds the symmetric document→query term.
-- `iter_batches` keeps duplicate queries and positives out of the same batch, because a duplicate positive becomes a guaranteed false negative.
+- `iter_batches` keeps duplicate queries and positives out of the same batch by default, because a duplicate positive becomes a guaranteed false negative.
+- `ContrastiveExample.label` is an optional non-empty string describing the query/positive relevance class. `avoid_same_label=True` in `TrainConfig` or `iter_batches` requires every example to have a label and permits at most one of each label in an effective batch. It also retains text deduplication. Label-aware training rejects explicit negatives unless `max_negatives=0` disables them; their labels are not available to protect the entire loss candidate set. Unlabeled workflows retain their defaults.
 - **GradCache**: (1) embed all chunks without a graph, saving RNG state; (2) compute the full-batch loss on detached embeddings to get ∂L/∂embedding; (3) re-embed each chunk with a graph and back-propagate the cached gradient. Tests assert the resulting parameter gradients equal full-batch gradients.
 - LoRA uses `peft`. Checkpoints can be adapter-only (small; `HFEncoder` auto-loads base + adapter) or merged (plain checkpoint).
+
+Label exclusions apply across all GradCache chunks because sampling happens
+before chunking the effective batch. Direct `training_step` calls check labels
+and repeated texts before either gradient path. This is a sampler constraint,
+not a multi-positive loss mask or a guarantee that the supplied labels represent
+semantic truth. It can produce smaller batches, including singleton batches
+with no InfoNCE learning signal when explicit negatives are disabled.
+
+### Hard-negative mining (`data.py`)
+
+`mine_hard_negatives` computes scores in query/corpus blocks, controlled by the
+Python keywords `query_block_size=128` and `corpus_block_size=4096`. Encoder
+batching remains separately controlled by `batch_size=32`. The full corpus
+embedding matrix stays resident; score buffers depend on the configured blocks
+and retained candidate count rather than the full query-by-corpus product.
+This bounds score computation memory, not total model/embedding/process memory.
+
+The miner deduplicates corpus texts, ranks descending scores, and breaks ties by
+first corpus occurrence. It retains a candidate window of
+`skip_top + 3 * num_negatives + 1` before applying positive, existing-negative,
+label and relative-score exclusions; it may therefore underfill the requested
+negative count. Aligned `corpus_labels` are required when mining labelled
+examples. All example/corpus labels must be present, conflicting text labels
+are rejected, and existing negatives need known different-label corpus entries.
+The returned examples preserve their labels but carry no negative-label loss
+mask: safe label-aware training still uses `max_negatives=0`.
 
 ### Agents (`agents/`)
 
