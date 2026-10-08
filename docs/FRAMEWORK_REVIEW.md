@@ -3,6 +3,45 @@
 Review started 7 October 2026 against `19421a5`, after the public alpha and tested
 use-case templates. CLM means contrastive text embeddings in this review.
 
+## Current milestone update — 8 October 2026
+
+The review findings and measurements below retain their original dates and
+revisions. Subsequent source freeze
+`e61cc76d6cf52f25422335d42eaf18dde44e3067` implements Python-only, in-memory
+BM25/dense reciprocal-rank fusion, blockwise mining scores, label-aware effective
+training batches, and stricter CLI/index provenance. Corpus embeddings remain
+resident; hybrid has no persistent or CLI/REST backend; label-aware training
+disables explicit negatives; snapshots remain single-writer and nontransactional.
+
+The [relevance guide](RELEVANCE_EVIDENCE.md) documents these APIs and adoption
+limits; the [implementation review](RELEVANCE_REVIEW.md) records verification.
+The [public study](RELEVANCE_RESULTS.md) now records all 13 held-out comparisons,
+an independent metric recomputation, direct Sentence Transformers parity,
+authenticated HTTP measurements and full-gallery real-model recipes. The new
+alpha includes the audited changes; its release record identifies exact candidate
+checks. Earlier synthetic batching speedups below do not measure these retrieval
+workloads.
+
+In the small executable comparison, clmkit and direct Sentence Transformers plus
+NumPy matched vectors, rankings, filters and reload behavior. Median measured
+workflow time was 0.7183 versus 0.6356 seconds (about 13% higher for clmkit) on
+100 documents/20 development queries with three alternating repetitions. This
+is descriptive overhead, not a productivity or universal speed comparison.
+The value established here is a working integration path with explicit contracts;
+human ease of use still needs a participant study.
+
+The short `/v1/embeddings` HTTP check completed 192 requests without errors. Throughput stayed
+near 68–71 requests/second as concurrency rose from 1 to 16, while p95 latency
+rose from 23 to 269 milliseconds. The serialized forward path remains a relevant
+constraint; dynamic batching needs its own measured implementation. One repeated
+query and subsecond measurement windows per level cannot establish capacity or
+production reliability.
+
+The next priorities are a representative customer pilot, durable storage and
+recovery, hybrid CLI/REST integration, measured serving batching, and a broader
+developer usability study. GPU/large-model and cross-language work remain separate
+validation projects. A larger model does not remove these engineering gaps.
+
 ## Audit plan and acceptance criteria
 
 1. **Establish the baseline.** Run the existing no-download CPU suite, preserve
@@ -113,9 +152,11 @@ header includes the baseline extraction and paired-comparison commands.
 - **Incremental ingestion:** NumPy index additions concatenate the vector matrix.
   Many single-document additions repeatedly copy prior data. Bulk additions are
   the supported mitigation; durable incremental ingestion needs another backend.
-- **Mining:** hard-negative mining retains all embeddings and the full
-  query-by-corpus similarity/sorting arrays. Encoding batch size does not cap those
-  arrays. Corpus-blocked scoring with bounded top-k is the next major optimization.
+- **Mining:** the 7 October review found full query-by-corpus similarity/sorting
+  arrays in addition to resident embeddings. The later relevance source freeze
+  replaces full score arrays with configurable query/corpus blocks and bounded
+  candidate merging. Corpus embeddings, model state and merge/sort buffers still
+  contribute to peak memory; encoding batch size alone does not bound them.
 - **Filtering and serving:** metadata predicates scan documents in Python. FAISS
   filtering uses bounded over-fetch and may return fewer than `k` eligible hits.
   REST serializes model forwards; remote requests are synchronous. High concurrency
@@ -146,17 +187,20 @@ offline examples/templates ran successfully in this review. Their synthetic
 tests establish workflow behavior; real semantic effectiveness remains a property
 of the chosen model, domain data and evaluation protocol.
 
-Remaining integration friction is concrete:
+Integration friction recorded in the 7 October review, with current updates:
 
 - A Python-created snapshot does not automatically contain the reconstructible
   CLI encoder spec. CLI search/serve/MCP needs `--model` and relevant options.
-- Strict fingerprint validation and custom `encoder_identity` are Python API
-  controls; the CLI currently warns on mismatch and has no strict identity flag.
+- The historical CLI only warned on encoder mismatch. The relevance source
+  freeze adds strict loading by default, `--encoder-identity` and an explicit
+  mismatch override for reads. Python callers still need `strict=True`; local
+  weight identities remain caller-supplied. Legacy snapshots require rebuilding
+  before additions or saves.
 - CLI index creation exposes NumPy/FAISS, while custom registry indexes require
   Python integration. Shared `--batch-size` parsing in search/serve/MCP is not a
   runtime service-batching control.
-- There is no PyPI release or generated API-reference site. The GitHub alpha
-  artifact is immutable; fixes documented here are post-alpha repository changes.
+- There is no PyPI release or generated API-reference site. The new GitHub alpha
+  packages the fixes; source-checkout recipes still require their documented setup.
 
 For teams selecting a framework, compare this compact integration layer with the
 requirements of their actual training workflow. Sentence Transformers documents
@@ -165,6 +209,11 @@ arguments, evaluators and a trainer. This review does not benchmark productivity
 or model quality against that library. [Official training overview](https://www.sbert.net/docs/sentence_transformer/training_overview.html).
 
 ## Prioritized remaining work
+
+This list records the original **7 October 2026** review's priorities. Strict CLI provenance,
+blockwise mining and in-memory hybrid retrieval have since been implemented as
+described above; their remaining integration/scale limits still apply. The list
+does not imply completion of a release or the pending comparative measurements.
 
 1. **Before a real pilot:** use held-out domain queries, calibrate routing/no-match
    thresholds, validate access scope and measure latency/RSS on target data. Verify

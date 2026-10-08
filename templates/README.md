@@ -10,9 +10,9 @@ python templates/retail_service_desk.py
 ```
 
 Install clmkit first, using the
-[setup and use-case guide](https://github.com/ZouhairMudakka/clmkit/blob/main/docs/USE_CASES.md).
-These templates were added after v0.1.0a1 and work with that released core.
-They print JSON and need no API credentials or model downloads.
+[setup and use-case guide](../docs/USE_CASES.md).
+Use the `v0.1.0a2` alpha tag for both these files and the installed core.
+The four commands above print JSON and need no API credentials or model downloads.
 
 | Script | Reusable entry points | Demo checks |
 |---|---|---|
@@ -21,7 +21,7 @@ They print JSON and need no API credentials or model downloads.
 | `assistant_memory.py` | `ScopedMemory` | Separate users' facts, required trusted scope, snapshot reload |
 | `support_routing.py` | `build_router`, `select_route` | Billing/account/delivery selection, abstention, no actions executed |
 
-All data is synthetic. Hashing is a lexical test baseline, not a semantic-quality
+Data in these four scripts is synthetic. Hashing is a lexical test baseline, not a semantic-quality
 claim. The builders accept a clmkit `Encoder`; replacing it requires your own
 quality evaluation and threshold calibration. Identity scope must come from an
 authenticated application, not a model or an unverified request.
@@ -38,9 +38,25 @@ python -m pytest -q tests/test_use_case_templates.py tests/test_retail_service_d
 ```
 
 The wheel supplies `clmkit`; these standalone recipes are separate repository
-assets. See the full guide for intended uses, expected results, customization,
+assets included in the `v0.1.0a2` source distribution. The full documentation is
+available in the matching Git checkout. See the full guide for intended uses, expected results, customization,
 and what the tests do not establish.
 
-The [retail business guide](https://github.com/ZouhairMudakka/clmkit/blob/main/docs/BUSINESS_USE_CASE.md)
+The [retail business guide](../docs/BUSINESS_USE_CASE.md)
 also covers the business problem, customer journey, integration points and pilot
 success measures.
+
+## Public-data intent matching
+
+The [intent-matching recipes](intent_matching/README.md) use full prepared
+BANKING77/CLINC150 training galleries and a pinned model. They require HF
+dependencies and the authorized Codespaces data-preparation workflow. BANKING77
+labels are an intent relevance proxy; CLINC rejection uses its own sealed
+development threshold. The recipes support adapted-checkpoint index rebuilding
+and separate-process strict reload, and never execute business actions.
+
+Read the [evidence protocol](../docs/RELEVANCE_EVIDENCE.md) and
+[verification guide](../validation/README.md) before interpreting outputs.
+Offline fixture tests establish mechanics, not semantic quality or business
+accuracy. Supporting evidence scripts ship in the source distribution; datasets,
+model weights and generated indexes do not.

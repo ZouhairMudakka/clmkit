@@ -5,6 +5,15 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.0a2] - 2026-10-08
+
+Adds a reproducible public-data retrieval study and the framework features needed
+to compare keyword, pretrained, adapted, hybrid and reranked retrieval. All 13
+registered held-out comparisons completed; independent formulas verify their
+ranking and rejection metrics. Results include modest adaptation gains below the
+registered practical target and calibration limits, rather than a universal
+quality claim. See [results and costs](docs/RELEVANCE_RESULTS.md).
+
 - Add NumPy-only BM25 and exact dense/BM25 reciprocal rank fusion, shared metadata
   eligibility, deterministic ties, and staged document mutation APIs. Hybrid is
   currently Python-only and in-memory.
@@ -16,12 +25,13 @@ All notable changes to this project are documented here. The format follows
   identities and an explicit mismatch override, and reject incompatible writes.
 - Add pinned public-data preparation, development/test seals, bounded relevance
   runners and a direct Sentence Transformers workflow comparison. Document
-  reproduction and claim limits in `docs/RELEVANCE_EVIDENCE.md`; no new benchmark
-  outcome or productivity improvement is asserted by these additions.
+  reproduction in `docs/RELEVANCE_EVIDENCE.md` and task-specific outcome/claim
+  limits in `docs/RELEVANCE_RESULTS.md` and `docs/CLAIMS_LEDGER.md`.
 - Add strict full-gallery intent-matching recipes for pretrained/adapted BANKING77
   models and separately calibrated CLINC routing, plus a bounded authenticated
-  loopback serving benchmark. Offline fixture tests cover their mechanics;
-  real-model execution and relevance results require the cloud evidence runs.
+  loopback serving benchmark. Real CPU checks passed all three full-gallery
+  build/query recipes, direct Sentence Transformers parity and 192 measured
+  HTTP requests at concurrency 1/4/8/16; these are bounded diagnostics, not an SLA.
 
 - Audit framework correctness, measured overhead and developer workflows; record
   adoption limits and priorities in `docs/FRAMEWORK_REVIEW.md`.

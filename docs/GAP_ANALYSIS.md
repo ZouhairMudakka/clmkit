@@ -9,6 +9,41 @@
 
 *Assessed against v0.1.0 (2026-09-30).* Legend: ✅ done and tested · 🟡 partial / workaround exists · ❌ not implemented.
 
+## Current milestone update — 8 October 2026
+
+The historical matrices and roadmap below retain the 30 September assessment;
+their missing-feature labels are not the current implementation inventory.
+The relevance-study source freeze
+`e61cc76d6cf52f25422335d42eaf18dde44e3067` now implements:
+
+- **BM25 and dense/BM25 reciprocal-rank fusion**, with shared metadata eligibility.
+  These are Python-only, in-memory, single-writer APIs; learned sparse models,
+  hybrid persistence and CLI/REST integration remain gaps.
+- **Blockwise hard-negative scoring**, replacing the full query-by-corpus score
+  matrix. Corpus embeddings and other model/merge buffers still remain resident.
+- **Label-aware effective training batches**, including GradCache chunks, with
+  explicit negatives disabled in this mode; this is not a multi-positive loss.
+- **Stricter index provenance**, including strict CLI loading, declared immutable
+  encoder identities and rejection of incompatible or legacy-index writes.
+  Python loading still requires `strict=True` for strict checks; identities do not
+  automatically detect arbitrary weight changes or make snapshots transactional.
+
+See [APIs and reproduction](RELEVANCE_EVIDENCE.md) and the
+[implementation review](RELEVANCE_REVIEW.md) for tests and remaining limits.
+The [public study and application checks](RELEVANCE_RESULTS.md) now provide
+held-out comparisons, measured costs, full-gallery recipes and a bounded HTTP
+diagnostic. Adaptation improved BANKING77 modestly but missed the registered
+practical target; hybrid/reranking gains depended on the task, and CLINC's 5%
+development false-acceptance target did not transfer to test. These are public
+proxy results, not customer-policy accuracy. The new alpha's exact candidate
+checks are linked from its release record.
+
+Remaining priorities are representative customer evaluation and calibration,
+durable storage/recovery, hybrid CLI/REST integration, measured serving batching,
+API reference documentation and human usability evidence. PyPI, optimizer resume,
+multi-GPU work, Qwen 4B/8B execution and Arabic–English quality remain open.
+Historical counts and scale estimates below do not establish those capabilities.
+
 ## 1. Requirements from the brief
 
 The brief called for a skeleton framework for a **Contrastive Language Model**, open-sourced, usable **in an AI/ML flow, in an AI agent, or elsewhere**, perhaps with a **Qwen 8B** model, **fine-tuned or used raw**.

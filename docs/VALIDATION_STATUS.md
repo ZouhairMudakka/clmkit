@@ -1,4 +1,4 @@
-# Validation status — 7 October 2026
+# Validation status — 8 October 2026
 
 The [framework review](FRAMEWORK_REVIEW.md) records post-alpha correctness and
 efficiency changes, their verification, and developer fit.
@@ -6,17 +6,17 @@ The historical remediation counts below refer only to their named commits.
 
 **The corrected framework meets the documented CPU public-alpha criteria.**
 The two P1 blockers and narrower supported-contract findings are resolved. This
-assessment does not establish production readiness, GPU capacity or quality gains.
-The first GitHub prerelease is `v0.1.0a1`; its release page records the tagged commit
-and release-candidate CI results. That legacy release predates the latest
-security/correctness fixes and templates; use the audited source revision in the
-[install instructions](../README.md#install). No PyPI package is published. The remediation
-evidence below refers to its recorded commits and remains distinct from release
-packaging/quickstart checks.
+assessment does not establish production readiness or GPU capacity. The separate
+[public-data study](RELEVANCE_RESULTS.md) records task-specific relevance results.
+The [v0.1.0a2 release record](https://github.com/ZouhairMudakka/clmkit/releases/tag/v0.1.0a2)
+identifies the exact tagged commit, candidate checks and durable artifacts.
+The legacy `v0.1.0a1` archives remain unchanged and predate later fixes/templates;
+use the current [install instructions](../README.md#install). No PyPI package is
+published. Historical evidence below remains tied to its recorded commits.
 
-## Relevance milestone in progress — 7 October 2026
+## Relevance milestone — 8 October 2026
 
-Draft [PR #4](https://github.com/ZouhairMudakka/clmkit/pull/4) adds hybrid retrieval,
+[PR #4](https://github.com/ZouhairMudakka/clmkit/pull/4) introduces hybrid retrieval,
 label-aware training, blockwise mining and a registered public-data study.
 The independently reviewed source freeze is
 `e61cc76d6cf52f25422335d42eaf18dde44e3067`; all 10
@@ -31,16 +31,36 @@ The additive examples passed a combined local run of 594 tests, with two opt-in
 model tests skipped, plus lint, formatting and type checks. Extending the serving
 benchmark to all four planned concurrency levels passed 17 focused tests.
 The independent review identified and corrected an installed-test packaging
-omission. The next hosted run passed all 10 standard CI jobs but exposed an
-unmocked optional AnyIO import in the new NumPy-only serving test. An isolated
-import guard reproduced that failure and verified its correction (12 passes,
-five expected HTTPX skips); another hosted run must verify clean installation.
+omission. Hosted tests then exposed an unmocked optional AnyIO import in the new
+NumPy-only serving test. After reproducing and fixing it, revision
+`d918b9e8b71dd8faff0a1150ddd114a4bbeb811b` passed all 10
+[standard CI jobs](https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401741)
+and all nine [independent jobs](https://github.com/ZouhairMudakka/clmkit/actions/runs/37678401849),
+including the six installed NumPy-only wheel jobs. The
+[retained receipts](validation-evidence/2026-10-07-relevance/additive-hosted-checks-d918b9e.json)
+record those outcomes. Qwen reference jobs remain tied to e61cc76 above.
 
-The bounded compact-model pilot passed in the personal Codespace. Development
-training/comparisons have started, but no completed held-out result is claimed
-here. See [reproduction instructions](RELEVANCE_EVIDENCE.md) and
-[review findings](RELEVANCE_REVIEW.md). This milestone is not yet a new alpha
-release or evidence of relevance improvement.
+The compact CPU study completed all 13 development comparisons, three training
+seeds and all 13 sealed held-out comparisons. A separate standard-library checker
+recomputed ranking/rejection metrics for all 13 runs. Its first attempt stopped
+on a checker metadata-schema assumption; the correction and both receipts are
+retained. The eight auxiliary checks passed: direct Sentence Transformers parity,
+authenticated HTTP measurements and three full-gallery build/query recipes.
+The [evidence inventory](validation-evidence/2026-10-08-relevance/) preserves
+results, identities and failure history, including the interrupted development
+SciFact attempt. See [results and costs](RELEVANCE_RESULTS.md),
+[reproduction](RELEVANCE_EVIDENCE.md) and [review findings](RELEVANCE_REVIEW.md).
+
+| Model/backend exercised | Actual evidence | Boundary |
+|---|---|---|
+| Pinned MiniLM L6 v2, CPU | Full BANKING77/CLINC/SciFact matrix, three BANKING adaptation seeds, workflow parity, HTTP and full-gallery recipes | Public task proxies; English study; no customer accuracy or production SLA |
+| Pinned MS MARCO MiniLM cross-encoder, CPU | Fixed top-20 reranking on BANKING77 and SciFact | Cannot recover relevant items outside its shortlist; task-dependent gains |
+| Qwen embedding/reranker 0.6B, CPU | Model-card reference checks and bounded LoRA/reload at the recorded CI revisions | Reference parity is not measured business quality |
+| Qwen 4B/8B, CUDA, multilingual relevance, live third-party embedding servers | Not established by this study | Presets and adapter contracts are not execution or quality evidence |
+
+The study's immutable source remains e61cc76. The release version change from
+`0.1.0a1` to `0.1.0a2` is metadata; results are not relabeled as runs of a later
+commit. Auxiliary procedures record their separate source and core-tree identity.
 
 ## Earlier verified framework revision — 7 October 2026
 

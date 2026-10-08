@@ -44,6 +44,45 @@ The source freeze was cleared for the development study. Held-out claims require
 
 The independent reviewer also checked the intent-matching recipe and loopback HTTP benchmark, with all 28 offline fixture tests passing. The recipe checks the complete prepared gallery, encoder identity and configuration before reload; CLINC rejection thresholds cannot transfer to other datasets or models. The serving benchmark uses a loopback listener, an ephemeral bearer token and cleanup of its own server child.
 
-The new serving test helper was initially missing from the explicit source archive and isolated installed-test helper list. That inclusion was corrected. Hosted NumPy-only tests then exposed an optional AnyIO import in the mocked server-constructor test. The test now supplies that mock too; an isolated import guard reproduced the original failure and verified 12 passing tests with five expected HTTPX skips after the fix. Hosted installation verification remains the release gate. The combined local suite passed 594 tests with two opt-in real-model tests skipped; extending the concurrency matrix then passed 17 focused tests. Linting, formatting and type checks also passed.
+The new serving test helper was initially missing from the explicit source archive and isolated installed-test helper list. That inclusion was corrected. Hosted NumPy-only tests then exposed an optional AnyIO import in the mocked server-constructor test. The test now supplies that mock too; an isolated import guard reproduced the original failure and verified 12 passing tests with five expected HTTPX skips after the fix. Revision d918b9e subsequently passed all 19 standard/independent hosted jobs, including six installed-wheel jobs; [receipts](validation-evidence/2026-10-07-relevance/additive-hosted-checks-d918b9e.json) retain the outcomes. The combined local suite passed 594 tests with two opt-in real-model tests skipped; extending the concurrency matrix then passed 17 focused tests. Linting, formatting and type checks also passed.
 
 Serving measurements are closed-loop diagnostics at specified concurrency levels, not capacity or SLA evidence. Passing fixture tests does not establish a successful real-model recipe or measured HTTP performance; those require the separate cloud runs.
+
+## Development artifact review — 8 October 2026
+
+The independent reviewer checked the [retained development evidence](validation-evidence/2026-10-08-relevance/): all 13 comparisons, three non-pilot 200-step training runs, pinned manifests, protocol, seal and interruption history. It independently recomputed the execution-source digest from all 44 relevant Git files and verified consistency of the recorded result, prediction, checkpoint, threshold and training identities. No further development-artifact blocker was found. Raw predictions and checkpoints remain in the Codespace; this review checked their recorded identities and the retained reports, not a second local model run.
+
+Development outcomes are not held-out evidence. CLINC ranking metrics use only its 3,000 in-scope development queries; its 100 unsupported queries enter the separate rejection metrics. The 5% calibration result means five accepted OOS queries out of 100, not a future guarantee. SciFact method ordering is descriptive without a paired uncertainty comparison. Reranker table latency excludes reranking, and the interrupted attempt has an unknown duration, so successful-run timings do not represent complete resource expenditure.
+
+## Final results and application review — 8 October 2026
+
+After all 13 held-out comparisons and eight real-model application jobs completed,
+the Astra Extra High reviewer checked the retained results and public claims.
+An independent standard-library verifier recomputed per-query and aggregate
+Hit@1, nDCG@10, Recall@10 and CLINC rejection metrics for all 13 test runs. Maximum
+numeric discrepancy was 2.22e-16. Query coverage, duplicates, protocol/source/seal
+hashes and recorded checkpoint identities passed. The reviewer reconciled all 69
+verifier inventory entries with the 75-artifact report inventory and checked
+the 77-intent breakdown, overlap counts, DX medians, HTTP arithmetic and recipe
+process/model identities.
+
+The first independent attempt stopped after seven comparisons because it expected
+BM25's calibration file to use the result file's `model=null` convention. Calibration
+records the CLI alias `minilm` even though BM25 has no encoder. The checker now
+requires that exact distinction; the original failed receipt and passing retry
+are both preserved. No predictions, thresholds or model settings were changed.
+
+The archive builder also initially rejected CLINC's intent named `text`, whose
+values are numeric label counts or per-intent scores. Exact schema/path/type
+exceptions now admit those aggregates while rejecting raw text and credentials.
+Focused independent checks verified the exceptions and rejection boundaries.
+This corrected an export-tool assumption, not a relevance result.
+
+No remaining technical or quantitative blocker was found within the documented
+CPU alpha scope. The product diff after the measured source is the release-version
+metadata; dated auxiliary procedures have their own recorded source identities.
+The bootstrap implementation and conditional interpretation were reviewed, but
+its raw draw quantiles were not independently rerun by the standard-library
+verifier. Review is AI-assisted and does not certify annotation truth, customer
+accuracy, human usability or production readiness. Release remains subject to
+the exact candidate's CI, package/quickstart checks and immutable tag record.

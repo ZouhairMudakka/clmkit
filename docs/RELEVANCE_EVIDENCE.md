@@ -1,9 +1,18 @@
 # Retrieval features and reproducible evidence
 
-The features below are **unreleased additions in the current source checkout**.
-They are absent from the older audited install revision linked in the README.
-This page documents APIs and the experiment protocol; it reports no new model
-quality, speed, business savings or developer productivity result.
+The features below are included in **v0.1.0a2**. This page documents APIs and
+the experiment protocol. The separate [results report](RELEVANCE_RESULTS.md)
+records measured outcomes, costs and interpretation limits; the
+[claims ledger](CLAIMS_LEDGER.md) maps those outcomes to permitted claims.
+The recorded experiment uses source `e61cc76`, as identified in its seal.
+
+For an exact source reproduction of that experiment, check out
+`e61cc76d6cf52f25422335d42eaf18dde44e3067` before preparing a fresh protocol and
+running its matrix. A run from the new alpha records a different source hash,
+including its version metadata; preserve that identity as a new run. The dated
+[verification procedures](validation-evidence/2026-10-08-relevance/verification/)
+are archival tools for the recorded Codespaces directory layout, with explicit
+source and artifact guards. They are not general-purpose library commands.
 
 ## Lexical and hybrid retrieval
 

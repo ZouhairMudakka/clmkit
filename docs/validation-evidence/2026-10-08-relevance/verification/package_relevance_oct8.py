@@ -5,7 +5,8 @@ or uploads. Only explicitly selected files enter the ZIP. Run in the authorized
 Linux Codespace after final reporting and independent metrics verification:
 
   python package_relevance_oct8.py --independent-receipt \
-    /workspaces/evidence-results/independent-metrics-oct8.json
+    /workspaces/evidence-results/independent-metrics-oct8-retry1.json \
+    --output-dir /workspaces/evidence-release-oct8-final
 
 The output directory must not exist. Partial output is deliberately preserved on
 failure. A separate human/release task controls review and publication.
@@ -47,6 +48,36 @@ SECRET_KEYS = {"api_key", "authorization", "access_token", "password", "secret",
 def need(condition, message):
     if not condition:
         raise ValueError(message)
+
+
+def output_target(raw):
+    path = PurePosixPath(raw)
+    need(
+        path.parent == PurePosixPath("/workspaces")
+        and re.fullmatch(r"evidence-release-oct8(?:-[a-z0-9-]+)?", path.name)
+        and "\\" not in str(raw),
+        "Output must be a named evidence-release-oct8 directory directly under /workspaces",
+    )
+    target = Path(path)
+    need(not target.exists() and not target.is_symlink(), "Refusing existing output directory")
+    resolved = target.resolve()
+    need(resolved.parent == Path("/workspaces").resolve(strict=True), "Output escaped /workspaces")
+    return resolved
+
+
+def verify_failed_receipt(receipt, independent):
+    need(
+        receipt.get("schema") == "independent-heldout-metrics-v1"
+        and receipt.get("status") == "failed"
+        and receipt.get("completed_comparisons") == 7
+        and len(receipt.get("comparisons", [])) == 7
+        and receipt.get("current_comparison") == "clinc150/bm25"
+        and receipt.get("error_code") == "calibration_provenance_mismatch"
+        and all(
+            receipt.get(key) == independent[key] for key in ("protocol_sha256", "seal_sha256", "suite_sha256", "source")
+        ),
+        "Expected original seven-comparison calibration-checker failure receipt",
+    )
 
 
 def sha(data):
@@ -113,9 +144,7 @@ def privacy_check(value, *, archive_name=""):
     clinc = isinstance(value, dict) and value.get("dataset") == "clinc150"
     manifest = clinc and archive_name == "data/clinc150/manifest.json"
     result = clinc and archive_name in {
-        f"{phase}/clinc150/{method}/result.json"
-        for phase in ("dev", "test")
-        for method in ("bm25", "dense")
+        f"{phase}/clinc150/{method}/result.json" for phase in ("dev", "test") for method in ("bm25", "dense")
     }
 
     def aggregate_label(path, item):
@@ -225,13 +254,16 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo-root", type=Path, default=Path("/workspaces/clmkit-evidence-aux"))
     parser.add_argument("--independent-receipt", type=Path, required=True)
+    parser.add_argument(
+        "--output-dir", default=str(OUTPUT), help="Fresh evidence-release-oct8[-suffix] directory under /workspaces"
+    )
     parser.add_argument("--dev-report", default="report-dev-oct8")
     parser.add_argument("--test-report", default="report-test-oct8")
     args = parser.parse_args()
     need(
         os.name == "posix" and os.environ.get("CODESPACES", "").lower() == "true", "Authorized Linux Codespace required"
     )
-    need(not OUTPUT.exists() and not OUTPUT.is_symlink(), "Refusing existing output directory")
+    output = output_target(args.output_dir)
     for name, phase in ((args.dev_report, "dev"), (args.test_report, "test")):
         need(re.fullmatch(rf"report-{phase}(?:-[A-Za-z0-9_-]+)?", name), "Unexpected aggregate report directory name")
     repo = args.repo_root.resolve(strict=True)
@@ -321,6 +353,8 @@ def main():
         )
     content = add(args.independent_receipt, RESULTS, "verification/independent-metrics-receipt.json")
     need(decode(content) == independent, "Independent receipt changed during packaging")
+    content = add(RESULTS / "independent-metrics-oct8.json", RESULTS, "verification/independent-metrics-oct8.json")
+    verify_failed_receipt(decode(content), independent)
     for name in ("suite-pilot.json", "suite-dev.json", "suite-test.json"):
         path = RESULTS / name
         suite = read(path, RESULTS)
@@ -477,6 +511,13 @@ protocol/seal/suite histories, aggregates, manifests/notices, auxiliary reports
 and the verification scripts matching their execution receipts. Auxiliary status:
 {auxiliary["status"]}. A packaged failure remains a failure, not a passing claim.
 
+verification/independent-metrics-oct8.json preserves the original checker failure
+after seven BANKING comparisons: calibration_provenance_mismatch on CLINC BM25.
+The threshold's registered model was minilm while the BM25 result model was null.
+The retry corrected that schema assumption with an explicit registered-model
+check and passed all 13 comparisons; models, thresholds and predictions were not
+retuned. verification/independent-metrics-receipt.json is the passing retry.
+
 BANKING77 is same-intent matching, not resolution/duplicate truth. CLINC measures
 supported-intent routing and OOS rejection, not authorization. SciFact measures
 retrieval of judged scientific evidence, not scientific/medical correctness.
@@ -533,10 +574,10 @@ the builder hash. Hashes establish artifact identity, not an external timestamp.
     inventory["files"]["README.md"] = metadata(readme)
     inventory_bytes = (json.dumps(inventory, sort_keys=True, indent=2, allow_nan=False) + "\n").encode()
     total = sum(item["bytes"] for item in selected.values())
-    need(shutil.disk_usage(OUTPUT.parent).free > 2 * total + 64 * 1024**2, "Insufficient packaging disk headroom")
-    OUTPUT.mkdir(exist_ok=False)
-    archive = OUTPUT / "clmkit-relevance-2026-10-08.zip"
-    inventory_path = OUTPUT / "PACKAGE_INVENTORY.json"
+    need(shutil.disk_usage(output.parent).free > 2 * total + 64 * 1024**2, "Insufficient packaging disk headroom")
+    output.mkdir(exist_ok=False)
+    archive = output / "clmkit-relevance-2026-10-08.zip"
+    inventory_path = output / "PACKAGE_INVENTORY.json"
     with zipfile.ZipFile(archive, "x", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as bundle:
         for name, item in sorted(selected.items()):
             data = payload(item["path"], item["root"])
@@ -556,7 +597,7 @@ the builder hash. Hashes establish artifact identity, not an external timestamp.
     with archive.open("rb") as handle:
         for block in iter(lambda: handle.read(1024 * 1024), b""):
             checksum.update(block)
-    with (OUTPUT / "SHA256SUMS").open("x", encoding="ascii") as handle:
+    with (output / "SHA256SUMS").open("x", encoding="ascii") as handle:
         handle.write(f"{checksum.hexdigest()}  {archive.name}\n{sha(inventory_bytes)}  {inventory_path.name}\n")
     print(
         json.dumps(

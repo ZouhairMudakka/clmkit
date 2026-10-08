@@ -1,9 +1,14 @@
 # Serving clmkit (REST + MCP)
 
+These examples target the `v0.1.0a2` alpha. Run repository-relative paths from
+the matching source checkout. See the [installation guide](../README.md#install),
+[validation status](../docs/VALIDATION_STATUS.md), and
+[verification guide](../validation/README.md) for tested scope and limitations.
+
 ## REST (OpenAI-compatible)
 
 ```bash
-python -m pip install "clmkit[hf,serve] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
+python -m pip install "clmkit[hf,serve] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a2"
 clmkit index --model Qwen/Qwen3-Embedding-0.6B --input examples/data/docs.jsonl --output my_index
 export CLMKIT_API_KEY=change-me            # optional bearer auth (always set it off-localhost)
 clmkit serve --index my_index --port 8000  # binds 127.0.0.1 by default
@@ -34,7 +39,7 @@ Interactive docs: <http://127.0.0.1:8000/docs>.
 ## MCP (for Claude Desktop / Claude Code / IDE agents)
 
 ```bash
-python -m pip install "clmkit[hf,mcp] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a1"
+python -m pip install "clmkit[hf,mcp] @ git+https://github.com/ZouhairMudakka/clmkit@v0.1.0a2"
 ```
 
 ```json
@@ -61,3 +66,7 @@ vllm serve Qwen/Qwen3-Embedding-8B --task embed --port 8001
 clmkit index --model openai:Qwen/Qwen3-Embedding-8B --model-arg base_url=http://127.0.0.1:8001/v1 \
   --input examples/data/docs.jsonl --output my_index
 ```
+
+Remote endpoint compatibility does not establish local GPU capacity or a
+production service-level agreement. The [bounded serving measurement](../docs/RELEVANCE_EVIDENCE.md#apply-the-workflow-and-measure-http-serving)
+uses a separate CPU loopback workload; interpret its results within that scope.
