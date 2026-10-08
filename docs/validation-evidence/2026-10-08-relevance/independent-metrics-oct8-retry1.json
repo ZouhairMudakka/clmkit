@@ -1,0 +1,644 @@
+{
+  "absolute_tolerance": 1e-12,
+  "artifact_inventory": {
+    "data/banking77/corpus.jsonl": {
+      "bytes": 1995983,
+      "sha256": "a92bb49daf01674a75ec8fd01dc3628595cc9d1b76d44b9b84208e2d054569ce"
+    },
+    "data/banking77/manifest.json": {
+      "bytes": 666473,
+      "sha256": "09df2d8fb6b2b565c9a05d65537dbd5828d0e1abc19353386f1f21f1ccd155aa"
+    },
+    "data/banking77/qrels/test.json": {
+      "bytes": 10346243,
+      "sha256": "c36b5ba5fb26b0c755c06b355ca2bfeb5b8e03c2923b6c53ca505cc582310906"
+    },
+    "data/banking77/queries/test.jsonl": {
+      "bytes": 747390,
+      "sha256": "f11ef7560b108bef06090e6bd2c301cc22cf64963c892d567461543b39efdc4d"
+    },
+    "data/clinc150/corpus.jsonl": {
+      "bytes": 3295484,
+      "sha256": "74132d85082ca45c76bc5f50fc6574240b2a7e05dee200109b0906ff708857cb"
+    },
+    "data/clinc150/manifest.json": {
+      "bytes": 1172873,
+      "sha256": "1c2c62a402365209f236b52da0459381280cfdf6b4a2ab950acef187ba353939"
+    },
+    "data/clinc150/qrels/test.json": {
+      "bytes": 14122503,
+      "sha256": "4d456f99efbc84aaeef3b7a3f9f31d7dba94678870f10fd61a273eccc8418ada"
+    },
+    "data/clinc150/queries/test.jsonl": {
+      "bytes": 1200559,
+      "sha256": "6d727994b8c8800c1f6b6934777d709641732cf8cbd3df27064037af2ed2fd33"
+    },
+    "data/scifact/corpus.jsonl": {
+      "bytes": 8020839,
+      "sha256": "1efa20ec30882f31022f7802ae63a99320a07903b3ec62a669dd49e4e674731d"
+    },
+    "data/scifact/manifest.json": {
+      "bytes": 115644,
+      "sha256": "3957fc151bd67276560501d30772c56dcb744f163cb5271c2703a4621cfdb733"
+    },
+    "data/scifact/qrels/test.json": {
+      "bytes": 10876,
+      "sha256": "8d4bad39e044f5a1b70f5070a1952c3c93d540450f001e5f9b3fcd23624a184c"
+    },
+    "data/scifact/queries/test.jsonl": {
+      "bytes": 63177,
+      "sha256": "0efe8837dd1dc23f19452973cbf61b41958dc0c1224cad190d4910c02234085a"
+    },
+    "sealed/dev/banking77/adapted-1729/predictions.jsonl.gz": {
+      "bytes": 2354975,
+      "sha256": "cac6dcf3e47fcd4bd95bf3701043f88dd47600f0260909a6aad111375f6f65f1"
+    },
+    "sealed/dev/banking77/adapted-1729/result.json": {
+      "bytes": 500744,
+      "sha256": "c3d90fc4ac3dcc3b580ff314c10f13ee2f5477380291f6d41e72e6dc163c5f23"
+    },
+    "sealed/dev/banking77/adapted-2026/predictions.jsonl.gz": {
+      "bytes": 2354113,
+      "sha256": "2129176acfaf1a22f4a9ad2bf2e5e33b1b75dcaca6d9f385e4fbfafaa65f1bb1"
+    },
+    "sealed/dev/banking77/adapted-2026/result.json": {
+      "bytes": 501282,
+      "sha256": "92057a8e5b2e8813139633f5142329e7fd33d05803ad5169b56f41fff71acacf"
+    },
+    "sealed/dev/banking77/adapted-42/predictions.jsonl.gz": {
+      "bytes": 2355157,
+      "sha256": "43b60e3f74d92396d844eea1ea532032d759a9cc67e1b9ae35e18dd7e44223e6"
+    },
+    "sealed/dev/banking77/adapted-42/result.json": {
+      "bytes": 500708,
+      "sha256": "8c3755e7912915f9d206895efbf56a04176ea8067e05499be03182f24b08dbe4"
+    },
+    "sealed/dev/banking77/bm25/predictions.jsonl.gz": {
+      "bytes": 2148293,
+      "sha256": "2960a1e459c31c91cb3f7cb5ddd389e9f677aa20de7305a039513a3530cb932a"
+    },
+    "sealed/dev/banking77/bm25/result.json": {
+      "bytes": 517963,
+      "sha256": "66157d98d571c0444293efcca69da68b9bb4b8a051c70ce40ba6a4ae68ad7d80"
+    },
+    "sealed/dev/banking77/dense/predictions.jsonl.gz": {
+      "bytes": 2382485,
+      "sha256": "7aefd4ce37b46c4720108fad5bf19dffce6c08ad32461783c29528bc6162f408"
+    },
+    "sealed/dev/banking77/dense/result.json": {
+      "bytes": 503195,
+      "sha256": "d8f40be1489b7f86c53ebe93f8040224c08e12fb2b4949dad6e1c4be7d0c51cc"
+    },
+    "sealed/dev/banking77/hybrid/predictions.jsonl.gz": {
+      "bytes": 1441404,
+      "sha256": "0a416d76d2e5aa7c4697eaf50f67458584c98a139dcf391fd455e1d269ac6929"
+    },
+    "sealed/dev/banking77/hybrid/result.json": {
+      "bytes": 507917,
+      "sha256": "3beb1bcf7660f56393fb21127f5a137c6c2fa22a2bdb08c7ea194cc76e220420"
+    },
+    "sealed/dev/banking77/rerank/predictions.jsonl.gz": {
+      "bytes": 2454595,
+      "sha256": "56dc5b32b51772279c3331b9ec422dd447710aed146e1f44d6d769b21efb37d1"
+    },
+    "sealed/dev/banking77/rerank/result.json": {
+      "bytes": 947860,
+      "sha256": "eac856270f6ace2b70ad83b53ac9f2a9c9ed0e97f77efc46bb6a64ce616bcaf3"
+    },
+    "sealed/dev/clinc150/bm25/predictions.jsonl.gz": {
+      "bytes": 2304547,
+      "sha256": "4bdbf9a9348dc973737a108734d8dd2c970cb2b229f79635ef29e37a6e4352b9"
+    },
+    "sealed/dev/clinc150/bm25/result.json": {
+      "bytes": 667085,
+      "sha256": "7053df67e30c241529b00a1f0108d2838d1f41d214dcebc300b46852d73d004e"
+    },
+    "sealed/dev/clinc150/bm25/threshold.json": {
+      "bytes": 757776,
+      "sha256": "df4bfa3125a764e6eb96d16f70099b0e941972f505c6e6b5a54828970d38be25"
+    },
+    "sealed/dev/clinc150/dense/predictions.jsonl.gz": {
+      "bytes": 3689954,
+      "sha256": "fcf6f282fa482d62e564d6b86ec4be244872da43fccb15efd51cf3faccb2cb8c"
+    },
+    "sealed/dev/clinc150/dense/result.json": {
+      "bytes": 655501,
+      "sha256": "daaa64ddb5183aa019a13fe968acb4f46dc68ba8f8c009f8741457c984db273f"
+    },
+    "sealed/dev/clinc150/dense/threshold.json": {
+      "bytes": 858092,
+      "sha256": "f3d8c112938a32e9393ee7803df0918c46d5ec3a9a5a620e0156aad8f9657dff"
+    },
+    "sealed/dev/scifact/bm25/predictions.jsonl.gz": {
+      "bytes": 212766,
+      "sha256": "1c790fc80aabd1ef16b1bd60bb2cc72ab65040c49bc57225ee03a8eb9f211100"
+    },
+    "sealed/dev/scifact/bm25/result.json": {
+      "bytes": 32038,
+      "sha256": "208d8c6b16318d04d54b63ee18cdb9b4b15be8e9fd8fd97128841b234894157f"
+    },
+    "sealed/dev/scifact/dense/predictions.jsonl.gz": {
+      "bytes": 221437,
+      "sha256": "89aba256c57b6ec860d7b0de10b3f8e0e6cfd93d5070c9bd529e1750dfc3c813"
+    },
+    "sealed/dev/scifact/dense/result.json": {
+      "bytes": 32083,
+      "sha256": "a16ad417bc372bc2cea7979e77c9ab61ff76790fb381baab77d55a7ae66730ff"
+    },
+    "sealed/dev/scifact/hybrid/predictions.jsonl.gz": {
+      "bytes": 141310,
+      "sha256": "aaebe93e5112b94ea51bfc32929936245c63c445819393accdc25e3455d2d1a1"
+    },
+    "sealed/dev/scifact/hybrid/result.json": {
+      "bytes": 32158,
+      "sha256": "b38685a38d4c2199cb876b1535db5412929202f5f7e9c8c5c418cbac2a05ddf7"
+    },
+    "sealed/dev/scifact/rerank/predictions.jsonl.gz": {
+      "bytes": 229946,
+      "sha256": "3c897fbbff18be522606c5ed8828dd19fac2ebc04fa1dbe68d096f581127e1c8"
+    },
+    "sealed/dev/scifact/rerank/result.json": {
+      "bytes": 60711,
+      "sha256": "ed630e62c6087172083e608c264964826001e09d98d56f4b15dd0e494c29099b"
+    },
+    "sealed/training/1729/training-result.json": {
+      "bytes": 5074,
+      "sha256": "871a6bb5c63a8b409144c46056eab6644bfa628ac0d180542d2bc89a02c80e47"
+    },
+    "sealed/training/2026/training-result.json": {
+      "bytes": 5074,
+      "sha256": "a95e15047bb97dfaf7d7c3fadb2a4a6df1806bdd66f7893fb1a1397f2f7e800a"
+    },
+    "sealed/training/42/training-result.json": {
+      "bytes": 5072,
+      "sha256": "ee92608a28d7379791398734dd91b5d321e469bbc234e4bedb522178266fa7e8"
+    },
+    "test/banking77/adapted-1729/predictions.jsonl.gz": {
+      "bytes": 3623846,
+      "sha256": "dc869677d81ae292074eab21d3d6b4fdffe7a1f6a06b12e8e1f2233788822370"
+    },
+    "test/banking77/adapted-1729/result.json": {
+      "bytes": 762973,
+      "sha256": "b1476455018414572a35b76d4de8315c9653a41473e2826fc7218598b508aa3a"
+    },
+    "test/banking77/adapted-2026/predictions.jsonl.gz": {
+      "bytes": 3623042,
+      "sha256": "a5ab7038ca449bc8abb1cdeb64b81e200c72929306bb3a56b612b4cbb616d706"
+    },
+    "test/banking77/adapted-2026/result.json": {
+      "bytes": 762861,
+      "sha256": "d6a2312df5c986483050e9be3f39d3469a8e49e7a4433a7857e24b226be9a4aa"
+    },
+    "test/banking77/adapted-42/predictions.jsonl.gz": {
+      "bytes": 3623999,
+      "sha256": "5f8fbf435370b75d8ab50348f27a0c4f6286e7b1eed1fed393d2bd431f98f0d1"
+    },
+    "test/banking77/adapted-42/result.json": {
+      "bytes": 762418,
+      "sha256": "f12633204a910921324dd23d2ce10f8a89c15a62bdcea1da1fb46a56a243894d"
+    },
+    "test/banking77/bm25/predictions.jsonl.gz": {
+      "bytes": 3230023,
+      "sha256": "2b74991585f25aa38be1d9280827b53f485e751d817757e8e83e37c673b7e809"
+    },
+    "test/banking77/bm25/result.json": {
+      "bytes": 787877,
+      "sha256": "057dc17737cf4c5ee9de9cb5e1e29bb741047052f6057b18deda944ed44ef172"
+    },
+    "test/banking77/dense/predictions.jsonl.gz": {
+      "bytes": 3663822,
+      "sha256": "a802d740dd8ec66bbf664994117832cdadf63edb8700700617d523602147e3cb"
+    },
+    "test/banking77/dense/result.json": {
+      "bytes": 767150,
+      "sha256": "b83625849faeb90a16b057788eccef5c8b346f85b1843fb812081fada93dd328"
+    },
+    "test/banking77/hybrid/predictions.jsonl.gz": {
+      "bytes": 2226391,
+      "sha256": "6c8271f3475188743d4b749900cc66bdcaf3b7a3f0d68726c762dda729d7d643"
+    },
+    "test/banking77/hybrid/result.json": {
+      "bytes": 773583,
+      "sha256": "8c738e1593aadbf7ac4a1c43bc23c015155369e90ad6689523a887200aff3597"
+    },
+    "test/banking77/rerank/predictions.jsonl.gz": {
+      "bytes": 3771929,
+      "sha256": "731559ee2e2ff757dc9aa98b4ac66fa442a6eca157ef147812175d47313c321b"
+    },
+    "test/banking77/rerank/result.json": {
+      "bytes": 1447206,
+      "sha256": "b230966f8e513606ccf9bc47ace5d7e3086e59d3132d1c842f1270d41627691e"
+    },
+    "test/clinc150/bm25/predictions.jsonl.gz": {
+      "bytes": 4206535,
+      "sha256": "3986a0963463714e8a7bd0f22ce3b6f1ab0845374e53266d3620693448c00d82"
+    },
+    "test/clinc150/bm25/result.json": {
+      "bytes": 1034278,
+      "sha256": "9fe7450d3a7e9a7613b73424998bcfc474d51c4047169f3f69d66ea45377315c"
+    },
+    "test/clinc150/dense/predictions.jsonl.gz": {
+      "bytes": 6605417,
+      "sha256": "79f147f118e33625253983f1a70d2ace363a4d48fc91ffd75f40481b4bb4ffbb"
+    },
+    "test/clinc150/dense/result.json": {
+      "bytes": 1016405,
+      "sha256": "69f4b087d6614e5f28028636332c35e6972774940f06720fab1a87e62b380c9a"
+    },
+    "test/scifact/bm25/predictions.jsonl.gz": {
+      "bytes": 413130,
+      "sha256": "b0629e816cb9a69e9c7c2b7d36a180ed860fadfbbada2c65582f51bc493961fc"
+    },
+    "test/scifact/bm25/result.json": {
+      "bytes": 57515,
+      "sha256": "c28f55387801373d4b3342fb6e1180c6f59c58b6c7605f5964333cd52679d21e"
+    },
+    "test/scifact/dense/predictions.jsonl.gz": {
+      "bytes": 414973,
+      "sha256": "b6c81f67d0fb7084cce757781fddffb2e2bf518c56dfe0bd600d018bdbd7e7d8"
+    },
+    "test/scifact/dense/result.json": {
+      "bytes": 57598,
+      "sha256": "aa6d9eacdb8781b273128e557d3b038224021a3243e8f5736d8efc536de2ca16"
+    },
+    "test/scifact/hybrid/predictions.jsonl.gz": {
+      "bytes": 257145,
+      "sha256": "6a2bf1504aa451c9bc6e9e4353905b481d4c3aae9938aca7508ffaa79b914f9b"
+    },
+    "test/scifact/hybrid/result.json": {
+      "bytes": 57659,
+      "sha256": "eb63b51325190abb73a2c58873f068b9e844c910532fbb85113e4cb5e463ea09"
+    },
+    "test/scifact/rerank/predictions.jsonl.gz": {
+      "bytes": 431935,
+      "sha256": "6a433efdf072ee6964439d8e2dc0d49d891ee4a4c1904c213ecd30ea8c8bf78b"
+    },
+    "test/scifact/rerank/result.json": {
+      "bytes": 110159,
+      "sha256": "59ca5dbf039ee113995ece8c6cdb089b086f0c114289ee043bbddb466092b287"
+    }
+  },
+  "checkpoint_identities": {
+    "1729": "0e7ecb2df4ca67f7934305813965feb6a260474c31b226e663d66c6856626b17",
+    "2026": "6b695fe9db8257e0f00803b00ac6331fee8d9418439a41e8c0e7a9a4e385fc4b",
+    "42": "899ef9c3813c9a224cd20c51334b2c6d921ac4049ba148216fba4bbd3b341c48"
+  },
+  "comparisons": [
+    {
+      "aggregate_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "dataset": "banking77",
+      "encoder_identity": null,
+      "max_per_query_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "method_name": "bm25",
+      "metrics": {
+        "hit@1": 0.7896103896103897,
+        "ndcg@10": 0.6545532436571823,
+        "recall@10": 0.06375312077820063
+      },
+      "no_positive_queries": 0,
+      "rankable_queries": 3080,
+      "status": "passed",
+      "total_queries": 3080
+    },
+    {
+      "aggregate_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 1.1102230246251565e-16,
+        "recall@10": 0.0
+      },
+      "dataset": "banking77",
+      "encoder_identity": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "max_per_query_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "method_name": "dense",
+      "metrics": {
+        "hit@1": 0.9178571428571428,
+        "ndcg@10": 0.8702731949983614,
+        "recall@10": 0.0903921202063324
+      },
+      "no_positive_queries": 0,
+      "rankable_queries": 3080,
+      "status": "passed",
+      "total_queries": 3080
+    },
+    {
+      "aggregate_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 1.1102230246251565e-16,
+        "recall@10": 2.7755575615628914e-17
+      },
+      "dataset": "banking77",
+      "encoder_identity": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "max_per_query_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "method_name": "hybrid",
+      "metrics": {
+        "hit@1": 0.9116883116883117,
+        "ndcg@10": 0.8355228442802891,
+        "recall@10": 0.08499178462265584
+      },
+      "no_positive_queries": 0,
+      "rankable_queries": 3080,
+      "status": "passed",
+      "total_queries": 3080
+    },
+    {
+      "aggregate_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 1.3877787807814457e-17
+      },
+      "dataset": "banking77",
+      "encoder_identity": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "max_per_query_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "method_name": "rerank",
+      "metrics": {
+        "hit@1": 0.9048701298701298,
+        "ndcg@10": 0.8681605181475638,
+        "recall@10": 0.09030973673969514
+      },
+      "no_positive_queries": 0,
+      "rankable_queries": 3080,
+      "status": "passed",
+      "total_queries": 3080
+    },
+    {
+      "aggregate_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 2.220446049250313e-16,
+        "recall@10": 1.3877787807814457e-17
+      },
+      "dataset": "banking77",
+      "encoder_identity": "sha256:899ef9c3813c9a224cd20c51334b2c6d921ac4049ba148216fba4bbd3b341c48",
+      "max_per_query_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "method_name": "adapted-42",
+      "metrics": {
+        "hit@1": 0.9288961038961039,
+        "ndcg@10": 0.8952995839847796,
+        "recall@10": 0.09401510315661624
+      },
+      "no_positive_queries": 0,
+      "rankable_queries": 3080,
+      "status": "passed",
+      "total_queries": 3080
+    },
+    {
+      "aggregate_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "dataset": "banking77",
+      "encoder_identity": "sha256:0e7ecb2df4ca67f7934305813965feb6a260474c31b226e663d66c6856626b17",
+      "max_per_query_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "method_name": "adapted-1729",
+      "metrics": {
+        "hit@1": 0.925974025974026,
+        "ndcg@10": 0.8941217490120205,
+        "recall@10": 0.09385680017109777
+      },
+      "no_positive_queries": 0,
+      "rankable_queries": 3080,
+      "status": "passed",
+      "total_queries": 3080
+    },
+    {
+      "aggregate_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 2.220446049250313e-16,
+        "recall@10": 1.3877787807814457e-17
+      },
+      "dataset": "banking77",
+      "encoder_identity": "sha256:6b695fe9db8257e0f00803b00ac6331fee8d9418439a41e8c0e7a9a4e385fc4b",
+      "max_per_query_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "method_name": "adapted-2026",
+      "metrics": {
+        "hit@1": 0.9266233766233766,
+        "ndcg@10": 0.8945964093450932,
+        "recall@10": 0.09379719891378224
+      },
+      "no_positive_queries": 0,
+      "rankable_queries": 3080,
+      "status": "passed",
+      "total_queries": 3080
+    },
+    {
+      "aggregate_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 1.1102230246251565e-16,
+        "recall@10": 1.3877787807814457e-17
+      },
+      "dataset": "clinc150",
+      "encoder_identity": null,
+      "max_per_query_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "method_name": "bm25",
+      "metrics": {
+        "hit@1": 0.8317777777777777,
+        "ndcg@10": 0.7599588885091466,
+        "recall@10": 0.07393111111111111
+      },
+      "no_positive_queries": 1000,
+      "rankable_queries": 4500,
+      "rejection": {
+        "accepted_in_scope": 2421,
+        "accepted_in_scope_accuracy": 0.919454770755886,
+        "accepted_out_of_scope": 67,
+        "in_scope_coverage": 0.538,
+        "in_scope_queries": 4500,
+        "out_of_scope_false_acceptance": 0.067,
+        "out_of_scope_queries": 1000,
+        "out_of_scope_rejection_recall": 0.933,
+        "threshold": 18.14321605391373
+      },
+      "status": "passed",
+      "total_queries": 5500
+    },
+    {
+      "aggregate_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 1.3877787807814457e-17
+      },
+      "dataset": "clinc150",
+      "encoder_identity": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "max_per_query_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "method_name": "dense",
+      "metrics": {
+        "hit@1": 0.8802222222222222,
+        "ndcg@10": 0.850863131197731,
+        "recall@10": 0.08427333333333334
+      },
+      "no_positive_queries": 1000,
+      "rankable_queries": 4500,
+      "rejection": {
+        "accepted_in_scope": 3945,
+        "accepted_in_scope_accuracy": 0.9125475285171103,
+        "accepted_out_of_scope": 75,
+        "in_scope_coverage": 0.8766666666666667,
+        "in_scope_queries": 4500,
+        "out_of_scope_false_acceptance": 0.075,
+        "out_of_scope_queries": 1000,
+        "out_of_scope_rejection_recall": 0.925,
+        "threshold": 0.6381174325942994
+      },
+      "status": "passed",
+      "total_queries": 5500
+    },
+    {
+      "aggregate_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "dataset": "scifact",
+      "encoder_identity": null,
+      "max_per_query_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "method_name": "bm25",
+      "metrics": {
+        "hit@1": 0.5433333333333333,
+        "ndcg@10": 0.6646598637127541,
+        "recall@10": 0.7849444444444444
+      },
+      "no_positive_queries": 0,
+      "rankable_queries": 300,
+      "status": "passed",
+      "total_queries": 300
+    },
+    {
+      "aggregate_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 1.1102230246251565e-16,
+        "recall@10": 0.0
+      },
+      "dataset": "scifact",
+      "encoder_identity": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "max_per_query_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "method_name": "dense",
+      "metrics": {
+        "hit@1": 0.5033333333333333,
+        "ndcg@10": 0.6450816521455776,
+        "recall@10": 0.7833333333333333
+      },
+      "no_positive_queries": 0,
+      "rankable_queries": 300,
+      "status": "passed",
+      "total_queries": 300
+    },
+    {
+      "aggregate_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "dataset": "scifact",
+      "encoder_identity": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "max_per_query_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "method_name": "hybrid",
+      "metrics": {
+        "hit@1": 0.5466666666666666,
+        "ndcg@10": 0.6865246195512299,
+        "recall@10": 0.8178888888888889
+      },
+      "no_positive_queries": 0,
+      "rankable_queries": 300,
+      "status": "passed",
+      "total_queries": 300
+    },
+    {
+      "aggregate_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "dataset": "scifact",
+      "encoder_identity": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "max_per_query_absolute_difference": {
+        "hit@1": 0.0,
+        "ndcg@10": 0.0,
+        "recall@10": 0.0
+      },
+      "method_name": "rerank",
+      "metrics": {
+        "hit@1": 0.5666666666666667,
+        "ndcg@10": 0.6803742779395812,
+        "recall@10": 0.8028888888888889
+      },
+      "no_positive_queries": 0,
+      "rankable_queries": 300,
+      "status": "passed",
+      "total_queries": 300
+    }
+  ],
+  "completed_comparisons": 13,
+  "elapsed_seconds": 8.77952285900028,
+  "formula": "Hit@1 and Recall@10 use positive judgments; nDCG@10 uses linear grades and log2 discounts; ranking means exclude no-positive queries; rejection retains every scope-labeled query",
+  "implementation": "Python standard library only; no production/evidence metric imports or model execution",
+  "limitations": [
+    "Verifies recorded held-out rankings and identities, not model inference or annotation truth.",
+    "Does not independently recompute bootstrap intervals, timing, or developer-productivity claims.",
+    "Seal metadata is a local provenance contract, not an externally timestamped attestation."
+  ],
+  "protocol_sha256": "7f5627441e93f71634fc3791f57d1cc4d08bd80a2ee3f2f4ae3c56410e35fe56",
+  "relative_tolerance": 1e-10,
+  "schema": "independent-heldout-metrics-v1",
+  "seal_sha256": "96cf2bb6332dc96458df3e3b170f05030d7e05654afe1039d26f089b9c5c3013",
+  "source": {
+    "commit": "e61cc76d6cf52f25422335d42eaf18dde44e3067",
+    "files": 44,
+    "sha256": "29b9e8b0258b9b47b9fe906006c28ee136be89b3d3b9b59abd36979c2ccafc6c"
+  },
+  "status": "passed",
+  "suite_sha256": "b77925cccd0245607ea3f5feab8e2dec0e6c6a0033a99bb7072bd91f9782f844",
+  "verified_at_utc": "2026-10-08T05:27:07.842565+00:00",
+  "verifier_sha256": "96f848bd378694063864b05d5cd058b9129e2c06310b540dc626d2b2c0fed7d3"
+}
