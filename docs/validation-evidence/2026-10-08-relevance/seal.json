@@ -1,0 +1,56 @@
+{
+  "checkpoint_identities": [
+    "899ef9c3813c9a224cd20c51334b2c6d921ac4049ba148216fba4bbd3b341c48",
+    "0e7ecb2df4ca67f7934305813965feb6a260474c31b226e663d66c6856626b17",
+    "6b695fe9db8257e0f00803b00ac6331fee8d9418439a41e8c0e7a9a4e385fc4b"
+  ],
+  "development_predictions": {
+    "/workspaces/evidence-results/dev/banking77/adapted-1729/predictions.jsonl.gz": "cac6dcf3e47fcd4bd95bf3701043f88dd47600f0260909a6aad111375f6f65f1",
+    "/workspaces/evidence-results/dev/banking77/adapted-2026/predictions.jsonl.gz": "2129176acfaf1a22f4a9ad2bf2e5e33b1b75dcaca6d9f385e4fbfafaa65f1bb1",
+    "/workspaces/evidence-results/dev/banking77/adapted-42/predictions.jsonl.gz": "43b60e3f74d92396d844eea1ea532032d759a9cc67e1b9ae35e18dd7e44223e6",
+    "/workspaces/evidence-results/dev/banking77/bm25/predictions.jsonl.gz": "2960a1e459c31c91cb3f7cb5ddd389e9f677aa20de7305a039513a3530cb932a",
+    "/workspaces/evidence-results/dev/banking77/dense/predictions.jsonl.gz": "7aefd4ce37b46c4720108fad5bf19dffce6c08ad32461783c29528bc6162f408",
+    "/workspaces/evidence-results/dev/banking77/hybrid/predictions.jsonl.gz": "0a416d76d2e5aa7c4697eaf50f67458584c98a139dcf391fd455e1d269ac6929",
+    "/workspaces/evidence-results/dev/banking77/rerank/predictions.jsonl.gz": "56dc5b32b51772279c3331b9ec422dd447710aed146e1f44d6d769b21efb37d1",
+    "/workspaces/evidence-results/dev/clinc150/bm25/predictions.jsonl.gz": "4bdbf9a9348dc973737a108734d8dd2c970cb2b229f79635ef29e37a6e4352b9",
+    "/workspaces/evidence-results/dev/clinc150/dense/predictions.jsonl.gz": "fcf6f282fa482d62e564d6b86ec4be244872da43fccb15efd51cf3faccb2cb8c",
+    "/workspaces/evidence-results/dev/scifact/bm25/predictions.jsonl.gz": "1c790fc80aabd1ef16b1bd60bb2cc72ab65040c49bc57225ee03a8eb9f211100",
+    "/workspaces/evidence-results/dev/scifact/dense/predictions.jsonl.gz": "89aba256c57b6ec860d7b0de10b3f8e0e6cfd93d5070c9bd529e1750dfc3c813",
+    "/workspaces/evidence-results/dev/scifact/hybrid/predictions.jsonl.gz": "aaebe93e5112b94ea51bfc32929936245c63c445819393accdc25e3455d2d1a1",
+    "/workspaces/evidence-results/dev/scifact/rerank/predictions.jsonl.gz": "3c897fbbff18be522606c5ed8828dd19fac2ebc04fa1dbe68d096f581127e1c8"
+  },
+  "development_results": {
+    "/workspaces/evidence-results/dev/banking77/adapted-1729/result.json": "c3d90fc4ac3dcc3b580ff314c10f13ee2f5477380291f6d41e72e6dc163c5f23",
+    "/workspaces/evidence-results/dev/banking77/adapted-2026/result.json": "92057a8e5b2e8813139633f5142329e7fd33d05803ad5169b56f41fff71acacf",
+    "/workspaces/evidence-results/dev/banking77/adapted-42/result.json": "8c3755e7912915f9d206895efbf56a04176ea8067e05499be03182f24b08dbe4",
+    "/workspaces/evidence-results/dev/banking77/bm25/result.json": "66157d98d571c0444293efcca69da68b9bb4b8a051c70ce40ba6a4ae68ad7d80",
+    "/workspaces/evidence-results/dev/banking77/dense/result.json": "d8f40be1489b7f86c53ebe93f8040224c08e12fb2b4949dad6e1c4be7d0c51cc",
+    "/workspaces/evidence-results/dev/banking77/hybrid/result.json": "3beb1bcf7660f56393fb21127f5a137c6c2fa22a2bdb08c7ea194cc76e220420",
+    "/workspaces/evidence-results/dev/banking77/rerank/result.json": "eac856270f6ace2b70ad83b53ac9f2a9c9ed0e97f77efc46bb6a64ce616bcaf3",
+    "/workspaces/evidence-results/dev/clinc150/bm25/result.json": "7053df67e30c241529b00a1f0108d2838d1f41d214dcebc300b46852d73d004e",
+    "/workspaces/evidence-results/dev/clinc150/dense/result.json": "daaa64ddb5183aa019a13fe968acb4f46dc68ba8f8c009f8741457c984db273f",
+    "/workspaces/evidence-results/dev/scifact/bm25/result.json": "208d8c6b16318d04d54b63ee18cdb9b4b15be8e9fd8fd97128841b234894157f",
+    "/workspaces/evidence-results/dev/scifact/dense/result.json": "a16ad417bc372bc2cea7979e77c9ab61ff76790fb381baab77d55a7ae66730ff",
+    "/workspaces/evidence-results/dev/scifact/hybrid/result.json": "b38685a38d4c2199cb876b1535db5412929202f5f7e9c8c5c418cbac2a05ddf7",
+    "/workspaces/evidence-results/dev/scifact/rerank/result.json": "ed630e62c6087172083e608c264964826001e09d98d56f4b15dd0e494c29099b"
+  },
+  "frozen_before_test": true,
+  "protocol_sha256": "7f5627441e93f71634fc3791f57d1cc4d08bd80a2ee3f2f4ae3c56410e35fe56",
+  "schema": 2,
+  "sealed_checkpoints": {
+    "/workspaces/evidence-results/training/1729/final": "0e7ecb2df4ca67f7934305813965feb6a260474c31b226e663d66c6856626b17",
+    "/workspaces/evidence-results/training/2026/final": "6b695fe9db8257e0f00803b00ac6331fee8d9418439a41e8c0e7a9a4e385fc4b",
+    "/workspaces/evidence-results/training/42/final": "899ef9c3813c9a224cd20c51334b2c6d921ac4049ba148216fba4bbd3b341c48"
+  },
+  "source_commit": "e61cc76d6cf52f25422335d42eaf18dde44e3067",
+  "source_sha256": "29b9e8b0258b9b47b9fe906006c28ee136be89b3d3b9b59abd36979c2ccafc6c",
+  "threshold_files": {
+    "/workspaces/evidence-results/dev/clinc150/bm25/threshold.json": "df4bfa3125a764e6eb96d16f70099b0e941972f505c6e6b5a54828970d38be25",
+    "/workspaces/evidence-results/dev/clinc150/dense/threshold.json": "f3d8c112938a32e9393ee7803df0918c46d5ec3a9a5a620e0156aad8f9657dff"
+  },
+  "training_reports": {
+    "/workspaces/evidence-results/training/1729/training-result.json": "871a6bb5c63a8b409144c46056eab6644bfa628ac0d180542d2bc89a02c80e47",
+    "/workspaces/evidence-results/training/2026/training-result.json": "a95e15047bb97dfaf7d7c3fadb2a4a6df1806bdd66f7893fb1a1397f2f7e800a",
+    "/workspaces/evidence-results/training/42/training-result.json": "ee92608a28d7379791398734dd91b5d321e469bbc234e4bedb522178266fa7e8"
+  }
+}
