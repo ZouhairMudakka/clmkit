@@ -104,31 +104,58 @@ def verify_entry(data, entry):
     )
 
 
-def privacy_check(value):
+def privacy_check(value, *, archive_name=""):
     """Reject credential fields and raw dataset text in structured reports.
 
     Environment *files* are never eligible. Existing reports contain deliberately
     limited thread/runtime metadata; they are not dumps of the process environment.
     """
-    if isinstance(value, dict):
-        for key, item in value.items():
-            normalized = key.casefold().replace("-", "_")
-            need(normalized not in SECRET_KEYS, "Unexpected credential field in public report")
-            need(
-                normalized not in {"text", "query_text", "document_text", "raw_text"},
-                "Unexpected raw text field in public report",
-            )
-            privacy_check(item)
-    elif isinstance(value, list):
-        for item in value:
-            privacy_check(item)
-    elif isinstance(value, str):
-        need(
-            not re.search(
-                r"(?:Bearer\s+[A-Za-z0-9_.-]{12,}|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]+)", value
-            ),
-            "Possible credential value in public report",
+    clinc = isinstance(value, dict) and value.get("dataset") == "clinc150"
+    manifest = clinc and archive_name == "data/clinc150/manifest.json"
+    result = clinc and archive_name in {
+        f"{phase}/clinc150/{method}/result.json"
+        for phase in ("dev", "test")
+        for method in ("bm25", "dense")
+    }
+
+    def aggregate_label(path, item):
+        # CLINC has an intent literally named "text". Only these exact numeric
+        # aggregate locations are exceptions; text-bearing values still fail.
+        counts = {"dev": 20, "test": 30, "train": 100}
+        if manifest and len(path) == 3 and path[0] == "label_counts" and path[2] == "text":
+            return type(item) is int and path[1] in counts and item == counts[path[1]]
+        return (
+            result
+            and path == ("evaluation", "per_intent_hit@1", "text")
+            and type(item) in (int, float)
+            and math.isfinite(item)
+            and 0 <= item <= 1
         )
+
+    def visit(node, path=()):
+        if isinstance(node, dict):
+            for key, item in node.items():
+                child = (*path, key)
+                normalized = key.casefold().replace("-", "_")
+                need(normalized not in SECRET_KEYS, "Unexpected credential field in public report")
+                need(
+                    normalized not in {"text", "query_text", "document_text", "raw_text"}
+                    or aggregate_label(child, item),
+                    "Unexpected raw text field in public report",
+                )
+                visit(item, child)
+        elif isinstance(node, list):
+            for index, item in enumerate(node):
+                visit(item, (*path, index))
+        elif isinstance(node, str):
+            need(
+                not re.search(
+                    r"(?:Bearer\s+[A-Za-z0-9_.-]{12,}|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]+)", node
+                ),
+                "Possible credential value in public report",
+            )
+
+    visit(value)
 
 
 def inspect_predictions(path, manifest, phase, result):
@@ -221,7 +248,7 @@ def main():
         if expected is not None:
             verify_entry(data, expected)
         if path.suffix == ".json":
-            privacy_check(decode(data))
+            privacy_check(decode(data), archive_name=archive_name)
         selected[archive_name] = {"path": path, "root": root, **metadata(data)}
         need(sum(item["bytes"] for item in selected.values()) <= MAX_TOTAL, "256 MiB package input budget exceeded")
         return data
